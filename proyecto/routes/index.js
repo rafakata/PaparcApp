@@ -8,7 +8,17 @@ router.get('/', function(req, res, next) {
 
 /* GET register page */
 router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'Registro' });
+  res.render('register', { title: 'Register' });
+});
+
+/* GET privacy page */
+router.get('/privacy', function(req, res, next) {
+  res.render('privacy', { title: 'Privacy' });
+});
+
+/* GET Services page */
+router.get('/service', function(req, res, next) {
+  res.render('service', { title: 'Services' });
 });
 
 
