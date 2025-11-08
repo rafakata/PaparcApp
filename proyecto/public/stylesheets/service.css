@@ -163,7 +163,7 @@ a {
 
 /*-----------CONTENEDOR H1 -----------*/
 .contenedor_h1{
-    background: linear-gradient(0deg,rgb(0,0,0,0.5),rgb(0,0,0,0.5)),url("https://help.iubenda.com/wp-content/uploads/2024/11/help_hero_img.png");
+    background: linear-gradient(0deg,rgb(0,0,0,0.5),rgb(0,0,0,0.5)),url("https://zonetransfers.com/images/alquiler-coches-con-conductor-bilbao-chofer");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -181,33 +181,104 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #0f172a;
+    background-color: #ffffff;
+    padding: 2rem 0;
 }
 .contenedor{
-    width: 70%;
+    width: 90%;
+    max-width: 1200px;
     padding: 2rem;
-    background-color: #ffffff;
     border-radius: var(--border-radius);
     margin: 2rem;
-    position: relative;
     h2{
-        margin: 1.3rem;
+        margin: 1.3rem 0 2rem 0;
         color: var(--color-primary);
-    }
-
-    p{
-        margin: 1.3rem;
-    }
-    ul li{
-        margin: 0 1.3rem;
+        text-align: center;
+        font-size: 2rem;
     }
 }
-img{
+
+/* ============= SERVICIOS LISTA ============= */
+.servicios_lista {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.servicio_fila {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: visible;
+}
+
+.servicio_fila:nth-child(2) .servicio_imagen {
+    order: 2;
+}
+
+.servicio_fila:nth-child(2) .servicio_descripcion {
+    order: 1;
+}
+
+.servicio_imagen {
+    flex-shrink: 0;
+    position: relative;
+    width: 500px;
+    height: 400px;
+    overflow: visible;
+}
+
+.servicio_imagen::before {
+    content: "";
+    width: 500px;
+    height: 400px;
     position: absolute;
-    width: 10rem;
-    height: 10rem;
-    right: 0;
-    top: -2rem;
+    top: 25px;
+    left: 25px;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+    border-radius: var(--border-radius);
+    transform: rotate(-5deg);
+    z-index: 0;
+    box-shadow: 0 10px 30px rgba(9, 104, 239, 0.3);
+}
+.servicio_fila:nth-child(2) .servicio_imagen::before {
+  transform: rotate(5deg);
+}
+
+
+.servicio_imagen img {
+    width: 500px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    position: relative;
+    z-index: 2;
+    display: block;
+}
+
+.servicio_descripcion {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.servicio_descripcion h3 {
+    color: var(--color-primary);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.servicio_descripcion p {
+    color: var(--color-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* ================== FOOTER ================== */
