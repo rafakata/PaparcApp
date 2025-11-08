@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bienvenido a AparcApp</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <script src="/javascripts/index.js"></script>
+  </head>
+  <body>
+    <header class="header">
+      <!-- NAVBAR -->
+      <nav class="nav">
+        <div class="logo">
+          <a href="">PaparcApp</a>
+        </div>
+        <div class="lista">
+          <ul>
+            <li><a href="">Location</a></li>
+            <li><a href="">Price</a></li>
+            <li><a href="">920 452 748</a></li>
+          </ul>
+        </div>
+        <div class="acceso">
+          <ul>
+            <li class="sign_up">
+              <a href=""><i class="fas fa-user-plus"></i> Sign up</a>
+            </li>
+            <li class="login">
+              <a href=""><i class="fas fa-sign-in-alt"></i> Login</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <div class="hero">
+        <h1>Tu parking de confianza en <span>AparcApp</span></h1>
+        <p class="sub_titulo">
+          Máxima comodidad y seguridad para cuidar de tu vehículo
+        </p>
+        <div class="contenedor_reserva">
+          <div class="reserva">
+            <!-- Entrada -->
+            <label for="entrada"> <i class="fas fa-car"></i> Entrance </label>
+            <input type="datetime-local" id="entrada" />
+
+            <!-- Salida -->
+            <label for="salida"> <i class="fas fa-car-side"></i> Exit </label>
+            <input type="datetime-local" id="salida" />
+
+            <button id="reserva_boton">Search</button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="contenedor_redes">
+      <ul class="enlaces_redes">
+        <li class="whatsapp">
+          <a href="https://wa.me/34123456789" target="_blank">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>WhatsApp</span>
+          </a>
+        </li>
+        <li class="instagram">
+          <a href="https://www.instagram.com/usuario" target="_blank">
+            <i class="fa-brands fa-instagram"></i>
+            <span>Instagram</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <main id="contenedor_principal">
+      <section id="contenedor1">
+        <!-- INSETS -->
+        <div class="insets">
+          <div class="inset">
+            <div class="circulo">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <h2>Servicio las 24h</h2>
+            <p>
+              Atendemos a nuestros Clientes, brindando atención antes, durante y
+              después de la reserva.
+            </p>
+          </div>
+          <div class="inset">
+            <div class="circulo"><i class="fa-solid fa-phone"></i></div>
+            <h2>Servicio las 24h</h2>
+            <p>
+              Atendemos a nuestros Clientes, brindando atención antes, durante y
+              después de la reserva.
+            </p>
+          </div>
+          <div class="inset">
+            <div class="circulo"><i class="fa-solid fa-user-tie"></i></div>
+            <h2>Servicio las 24h</h2>
+            <p>
+              Atendemos a nuestros Clientes, brindando atención antes, durante y
+              después de la reserva.
+            </p>
+          </div>
+        </div>
+        <div class="camino">
+          <div class="coche_contenedor">
+            <img
+              src="/images/vecteezy_modern-car-on-transparent-background_42730731.png"
+              alt="Coche"
+              class="coche"
+            />
+          </div>
+        </div>
+      </section>
+      <section id="contenedor2">
+        <!-- PRECIOS -->
+        <h2>Pricing Table</h2>
+        <div class="tarifas">
+          <div class="tarifa">
+            <h3>MEDIUM</h3>
+            <p class="precio">49€</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit.</li>
+              <li>Lorem ipsum dolor sit, amet consectetur adipisicing.</li>
+              <li>Lorem, ipsum.</li>
+            </ul>
+            <button>Order Now ></button>
+          </div>
+          <div class="tarifa_grande">
+            <h3>PREMIUM</h3>
+            <p class="precio">49€</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit.</li>
+              <li>Lorem ipsum dolor sit, amet consectetur adipisicing.</li>
+              <li>Lorem, ipsum.</li>
+            </ul>
+            <button>Order Now ></button>
+          </div>
+          <div class="tarifa">
+            <h3>STANDART</h3>
+            <p class="precio">49€</p>
+            <ul>
+              <li>Lorem ipsum dolor sit amet.</li>
+              <li>Lorem ipsum dolor sit.</li>
+              <li>Lorem ipsum dolor sit, amet consectetur adipisicing.</li>
+              <li>Lorem, ipsum.</li>
+            </ul>
+            <button>Order Now ></button>
+          </div>
+        </div>
+      </section>
+      <section id="contenedor3">
+        <!-- OPINIONES -->
+        <h2>Opiniones</h2>
+        <div class="opiniones">
+          <div class="opinion">
+            <div class="dialogo">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. In
+                quod doloremque quo reiciendis ex adipisci saepe officia
+                incidunt deleniti eum.
+              </p>
+            </div>
+            <div class="foto"></div>
+          </div>
+          <div class="opinion">
+            <div class="dialogo">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. In
+                quod doloremque quo reiciendis ex adipisci saepe officia
+                incidunt deleniti eum.
+              </p>
+            </div>
+            <div class="foto"></div>
+          </div>
+          <div class="opinion">
+            <div class="dialogo">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. In
+                quod doloremque quo reiciendis ex adipisci saepe officia
+                incidunt deleniti eum.
+              </p>
+            </div>
+            <div class="foto"></div>
+          </div>
+          <div class="opinion">
+            <div class="dialogo">
+              <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. In
+                quod doloremque quo reiciendis ex adipisci saepe officia
+                incidunt deleniti eum.
+              </p>
+            </div>
+            <div class="foto"></div>
+          </div>
+        </div>
+      </section>
+      <section id="contenedor4">
+        <!-- SOBRE NOSOTROS -->
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          src="/images/the-sports-car-rushes-along-the-night-road-rear-view-infinitely-looped-animation-video.mp4"
+        ></video>
+
+        <div class="ubicacion">
+          <div class="info_ubicacion">
+            <h2>¡Dónde nos encontramos!</h2>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ea eum iste tempore atque laboriosam suscipit similique
+              in quae voluptas eius modi architecto dolor quidem natus nulla
+              totam, delectus ducimus officia aliquid harum.
+              <br /><br />Voluptatum nisi ducimus porro consequatur quisquam
+              placeat hic cumque. Tempore, quas quis tempora pariatur eligendi
+              repellat consectetur.<br />
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Recusandae ea eum iste tempore atque laboriosam suscipit similique
+              in quae voluptas eius modi architecto dolor quidem natus nulla
+              totam, delectus ducimus officia aliquid harum. Voluptatum nisi
+              ducimus porro consequatur quisquam placeat hic cumque. Tempore,
+              quas quis tempora pariatur eligendi repellat consectetur.<br /><br />
+              totam, delectus ducimus officia aliquid harum. Voluptatum nisi
+              ducimus porro consequatur quisquam placeat hic cumque. Tempore,
+              quas quis tempora pariatur eligendi repellat consectetur.
+            </p>
+          </div>
+          <div class="mapa">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.118028463392!2d-4.365635300000001!3d36.7197265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7259120bfc4db3%3A0xec0ecedd8dc61902!2sCESUR%20Málaga%20Este%20Formación%20Profesional!5e0!3m2!1ses!2ses!4v1761817166459!5m2!1ses!2ses"
+              width="100%"
+              height="100%"
+              style="border: 0; border-radius: 1rem"
+              allowfullscreen=""
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+        <div class="persona"></div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer_contenido">
+        <hr />
+        <div class="contenedor_footer">
+          <div class="footer_enlaces">
+            <div class="footer_enlace">
+              <p>Account</p>
+              <ul>
+                <li>Profile</li>
+                <li>Settings</li>
+                <li>Billing</li>
+              </ul>
+            </div>
+            <div class="footer_enlace">
+              <p>About</p>
+              <ul>
+                <li>Services</li>
+                <li>Pricing</li>
+                <li>Contact</li>
+              </ul>
+            </div>
+            <div class="footer_enlace">
+              <p>Company</p>
+              <ul>
+                <li>Community</li>
+                <li>Help center</li>
+                <li>Support</li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer_logo">
+            <div class="footer_logo_inner">
+              <p>PaparcApp</p>
+              <ul>
+                <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
+                <li><a href="">920 452 748</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="derechos">
+          <p>
+            @ 2026 All Right Reserved by <span>Rafael Medina</span> - <span>Hamza Satori</span> - <span>Javier Cabrera</span>
+          </p>
+          <ul>
+            <li>Terms</li>
+            <li>Privacy Policy</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
