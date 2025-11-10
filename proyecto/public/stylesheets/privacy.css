@@ -193,6 +193,14 @@ a {
     h2{
         margin: 1.3rem;
         color: var(--color-primary);
+        position: relative;
+        &::before{
+          content: "";
+          position: absolute;
+          border-right: 5px solid var(--color-secondary);
+          height: 100%;
+          margin-left: -0.7rem;
+        }
     }
 
     p{
