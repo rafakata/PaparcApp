@@ -264,7 +264,7 @@ h1 {
   width: 100px;
   height: 50px;
   right: -2rem;
-  bottom: 8rem;
+  bottom: 10rem;
   transform: rotate(-90deg) skewX(-15deg);
   font-weight: bold;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -378,6 +378,7 @@ h1 {
   border-radius: var(--border-radius);
   position: relative;
   background-color: #0969ef48;
+  box-shadow: 8px 8px 0 var(--color-accent);
 
   .circulo {
   width: 100px;
@@ -418,14 +419,13 @@ h2 {
 .camino {
   position: relative;
   width: 100%;
-  height: 20vh;
+  height: 10rem;
   overflow: hidden;
 }
 .coche_contenedor {
   position: absolute;
-  bottom: 10vh;
   left: -10rem;
-  width: 550px;
+  width: 580px;
   z-index: 1;
   top: -12rem;
 }
@@ -446,13 +446,12 @@ h2 {
   z-index: -1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-direction: column;
   gap: 1rem;
 
   h2 {
     font-size: 2.5rem;
-    margin-bottom: 1.7rem;
     color: white;
   }
 }
