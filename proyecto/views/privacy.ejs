@@ -21,28 +21,7 @@
   <body>
     <header class="header">
       <!-- NAVBAR -->
-      <nav class="nav">
-        <div class="logo">
-          <a href="/">PaparcApp</a>
-        </div>
-        <div class="lista">
-          <ul>
-            <li><a href="/service">Service</a></li>
-            <li><a href="">Price</a></li>
-            <li><a href="">920 452 748</a></li>
-          </ul>
-        </div>
-        <div class="acceso">
-          <ul>
-            <li class="sign_up">
-              <a href="/register"><i class="fas fa-user-plus"></i> Sign up</a>
-            </li>
-            <li class="login">
-              <a href=""><i class="fas fa-sign-in-alt"></i> Login</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <%- include("partials/nav") %>
     </header>
     <main>
       <div class="contenedor_h1">
@@ -240,63 +219,6 @@
         </div>
       </div>
     </main>
-    <footer>
-      <div class="footer_contenido">
-        <hr />
-        <div class="contenedor_footer">
-          <div class="footer_enlaces">
-            <div class="footer_enlace">
-              <p>Account</p>
-              <ul>
-                <li>Profile</li>
-                <li>Settings</li>
-                <li>Billing</li>
-              </ul>
-            </div>
-            <div class="footer_enlace">
-              <p>About</p>
-              <ul>
-                <li>Services</li>
-                <li>Pricing</li>
-                <li>Contact</li>
-              </ul>
-            </div>
-            <div class="footer_enlace">
-              <p>Company</p>
-              <ul>
-                <li>Community</li>
-                <li>Help center</li>
-                <li>Support</li>
-              </ul>
-            </div>
-          </div>
-          <div class="footer_logo">
-            <div class="footer_logo_inner">
-              <p>PaparcApp</p>
-              <ul>
-                <li>
-                  <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                </li>
-                <li><a href="">920 452 748</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div class="derechos">
-          <p>
-            @ 2026 All Right Reserved by <span>Rafael Medina</span> -
-            <span>Hamza Satori</span> - <span>Javier Cabrera</span>
-          </p>
-          <ul>
-            <li>Terms</li>
-            <li><a href="/privacy">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+      <%- include("partials/footer") %>
   </body>
 </html>
