@@ -513,6 +513,9 @@ h2 {
   }
   .precio {
     font-size: 4rem;
+    sup{
+      font-size: 2rem;
+    }
   }
   ul {
     border: 1px solid;
@@ -604,6 +607,9 @@ h2 {
   }
   .precio {
     font-size: 6rem;
+    sup{
+      font-size: 3rem;
+    }
   }
   ul {
     border: 1px solid;
