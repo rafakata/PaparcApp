@@ -12,62 +12,103 @@
       <div class="contenedor_principal">
         <h1>PaparcaApp</h1>
         <p>Member Login</p>
+        <!-- Formulario para trabajadores -->
         <div class="contenedor_usuarioTrabajador">
           <div class="usuarioTrabajador">
             <button class="usuario">User</button>
             <button class="trabajador">Worker</button>
           </div>
         </div>
-        <form action="/register" method="POST">
+        <form action="/loginWorker" method="POST" class="formWorker">
           <div class="secciones">
-            <label for="name">User</label>
+            <label for="worker">Worker</label>
             <input
               type="text"
-              name="user"
-              id="user"
+              name="worker"
+              id="worker"
               required
               minlength="3"
               maxlength="50"
             />
           </div>
           <div class="seccion">
-            <label for="password">Password</label>
+            <label for="worker_password">Password</label>
             <input
               type="password"
               name="password"
-              id="password"
+              id="worker_password"
               required
               minlength="8"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
               title="Must contain at least one number, one uppercase, one lowercase, and one special character"
             />
           </div>
-          <button type="submit">Login</button>
+          <div class="seccion">
+            <label for="employee_id">Employee ID</label>
+            <input
+              type="text"
+              name="employee_id"
+              id="employee_id"
+              required
+              minlength="3"
+              maxlength="20"
+            />
+          </div>
+          <button type="submit">Login Worker</button>
         </form>
-        <hr />
-        <div class="botones">
-          <button>
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="Google logo"
-            />
-            Continue with Google
-          </button>
-          <button>
-            <img
-              src="https://www.svgrepo.com/show/475647/facebook-color.svg"
-              alt="Facebook logo"
-            />
-            Continue with Facebook
-          </button>
+        <div class="containerUserContent">
+          <form action="/loginUser" method="POST" class="formUser">
+            <div class="secciones">
+              <label for="name">User</label>
+              <input
+                type="text"
+                name="user"
+                id="user"
+                required
+                minlength="3"
+                maxlength="50"
+              />
+            </div>
+            <div class="seccion">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                required
+                minlength="8"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+                title="Must contain at least one number, one uppercase, one lowercase, and one special character"
+              />
+            </div>
+            <button type="submit">Login</button>
+          </form>
+          <hr />
+          <div class="botones">
+            <button>
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google logo"
+              />
+              Continue with Google
+            </button>
+            <button>
+              <img
+                src="https://www.svgrepo.com/show/475647/facebook-color.svg"
+                alt="Facebook logo"
+              />
+              Continue with Facebook
+            </button>
+          </div>
         </div>
       </div>
       <div class="imagen">
         <img
-          src="https://img.freepik.com/vector-premium/sunset-over-serene-lake-and-mountains-with-wooden-dock_828584-3288.jpg?semt=ais_hybrid&w=740&q=80"
+          src="/images/cceac833.jpg"
           alt="Portal de Acceso"
         />
       </div>
     </div>
+    <script src="/javascripts/login.js"></script>
   </body>
 </html>

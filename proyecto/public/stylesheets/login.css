@@ -152,6 +152,7 @@ body {
   align-items: center;
   margin-bottom: 1rem;
   gap: 1rem;
+  
 
   .usuarioTrabajador {
     display: flex;
@@ -201,4 +202,48 @@ body {
    background:var(--color-accent);
    color: var(--background-color-primary);
   }
+}
+
+/* Transiciones para alternar formularios (fade + slide) */
+.containerUserContent {
+  transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease;
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 1000px;
+  visibility: visible;
+  overflow: visible;
+}
+
+.containerUserContent.hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  max-height: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.formWorker {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+.formWorker.visible {
+  transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease;
+  transform: translateY(10px);
+  opacity: 1;
+  max-height: 1000px;
+  visibility: visible;
+}
+
+/* Estilos para botón activo */
+button.usuario.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+button.trabajador.active {
+  background: var(--color-secondary);
+  color: white;
 }
