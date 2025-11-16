@@ -62,6 +62,7 @@ body {
         text-align: center;
         margin-bottom: 1rem;
       }
+
       form {
         display: flex;
         gap: 1rem;
@@ -72,8 +73,8 @@ body {
           width: 100%;
           height: 1.5rem;
         }
-        
-        input{
+
+        input {
           padding: 1rem;
           border: 1px solid rgb(200, 200, 200);
           font-size: 1rem;
@@ -142,5 +143,62 @@ body {
         margin-right: 0.5rem;
       }
     }
+  }
+}
+
+.contenedor_usuarioTrabajador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+
+  .usuarioTrabajador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 14rem;
+    height: 2.5rem;
+    background-color: var(--color-secondary);
+    border-radius: 12px;
+  }
+
+  button.usuario {
+    width: 7rem;
+    height: 2rem;
+    border: 1px solid var(--color-accent);
+    background: var(--background-color-secondary);
+    color: var(--color-primary);
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 12px 0 0 12px;
+    transition: background-color 0.3s ease;
+    margin-left: 0.3rem;
+  }
+
+  button.trabajador {
+    width: 7rem;
+    height: 2rem;
+    border: 1px solid var(--color-accent);
+    background: var(--background-color-secondary);
+    color: var(--color-secondary);
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 12px 12px 0;
+    transition: background-color 0.3s ease;
+    margin-right: 0.3rem;
+  }
+
+  button.usuario:hover {
+    background:var(--color-accent);
+   color: var(--background-color-primary);  
+  }
+
+  button.trabajador:hover {
+   background:var(--color-accent);
+   color: var(--background-color-primary);
   }
 }

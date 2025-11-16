@@ -11,24 +11,26 @@
     <div class="contenedor_general">
       <div class="contenedor_principal">
         <h1>PaparcaApp</h1>
-        <p>Register on our website</p>
+        <p>Member Login</p>
+        <div class="contenedor_usuarioTrabajador">
+          <div class="usuarioTrabajador">
+            <button class="usuario">User</button>
+            <button class="trabajador">Worker</button>
+          </div>
+        </div>
         <form action="/register" method="POST">
           <div class="secciones">
-            <label for="name">Name and Surname</label>
+            <label for="name">User</label>
             <input
               type="text"
-              name="name"
-              id="name"
+              name="user"
+              id="user"
               required
               minlength="3"
               maxlength="50"
             />
           </div>
-          <div class="secciones">
-            <label for="mail">Email</label>
-            <input type="email" name="mail" id="mail" required />
-          </div>
-          <div class="secciones">
+          <div class="seccion">
             <label for="password">Password</label>
             <input
               type="password"
@@ -40,17 +42,7 @@
               title="Must contain at least one number, one uppercase, one lowercase, and one special character"
             />
           </div>
-          <div class="secciones">
-            <label for="confirm_password">Confirm Password</label>
-            <input
-              type="password"
-              name="confirm_password"
-              id="confirm_password"
-              required
-              minlength="8"
-            />
-          </div>
-          <button type="submit">Register</button>
+          <button type="submit">Login</button>
         </form>
         <hr />
         <div class="botones">
