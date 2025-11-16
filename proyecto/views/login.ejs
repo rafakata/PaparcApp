@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página de Acceso</title>
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <link rel="stylesheet" href="/stylesheets/login.css" />
+  </head>
+  <body>
+    <div class="contenedor_general">
+      <div class="contenedor_principal">
+        <h1>PaparcaApp</h1>
+        <p>Register on our website</p>
+        <form action="/register" method="POST">
+          <div class="secciones">
+            <label for="name">Name and Surname</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              minlength="3"
+              maxlength="50"
+            />
+          </div>
+          <div class="secciones">
+            <label for="mail">Email</label>
+            <input type="email" name="mail" id="mail" required />
+          </div>
+          <div class="secciones">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              required
+              minlength="8"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+              title="Must contain at least one number, one uppercase, one lowercase, and one special character"
+            />
+          </div>
+          <div class="secciones">
+            <label for="confirm_password">Confirm Password</label>
+            <input
+              type="password"
+              name="confirm_password"
+              id="confirm_password"
+              required
+              minlength="8"
+            />
+          </div>
+          <button type="submit">Register</button>
+        </form>
+        <hr />
+        <div class="botones">
+          <button>
+            <img
+              src="https://www.svgrepo.com/show/475656/google-color.svg"
+              alt="Google logo"
+            />
+            Continue with Google
+          </button>
+          <button>
+            <img
+              src="https://www.svgrepo.com/show/475647/facebook-color.svg"
+              alt="Facebook logo"
+            />
+            Continue with Facebook
+          </button>
+        </div>
+      </div>
+      <div class="imagen">
+        <img
+          src="https://img.freepik.com/vector-premium/sunset-over-serene-lake-and-mountains-with-wooden-dock_828584-3288.jpg?semt=ais_hybrid&w=740&q=80"
+          alt="Portal de Acceso"
+        />
+      </div>
+    </div>
+  </body>
+</html>
