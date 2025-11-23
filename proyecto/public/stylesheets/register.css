@@ -15,6 +15,7 @@
 
   /* Tipografía */
   --font-primary: "Poppins", sans-serif;
+  --font-h1: "Zen Dots";
 
   /* Bordes y sombras */
   --border-radius: 1.5rem;
@@ -45,18 +46,21 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 10px 10px 0px greenyellow;
+    box-shadow: 10px 10px 0px var(--color-secondary);
+    background: var(--background-color-primary);
 
     .contenedor_principal {
       width: 70%;
       height: 90%;
       padding: 2rem;
       margin: 2rem;
+      margin-top: -1rem;
+      
 
       h1 {
         text-align: center;
         font-size: 3rem;
-        font-family: var(--font-primary);
+        font-family: var(--font-h1);
       }
       p {
         text-align: center;
@@ -106,6 +110,8 @@ body {
     img {
       height: 100%;
       width: 100%;
+      object-fit: cover;
+      object-position: center;
     }
   }
   hr {
@@ -123,7 +129,7 @@ body {
       justify-content: center;
       padding: 0.5rem;
       border-radius: 0.6rem;
-      width: 13rem;
+      width: 14rem;
       background-color: black;
       color: white;
       height: 2.5rem;
