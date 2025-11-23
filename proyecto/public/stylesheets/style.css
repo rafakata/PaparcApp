@@ -90,6 +90,7 @@
   background: var(--color-gradient);
   background-size: 200% 200%;
   animation: animacion-logo 4s ease infinite;
+  font-family: "Zen Dots";
 
   /* para aplicar el gradiente al texto */
   -webkit-background-clip: text;
@@ -881,16 +882,19 @@ footer {
         gap: 0.8rem;
 
         p {
-          font-size: 3rem;
+          font-size: 2.6rem;
           color: white;
+          font-family: "Zen Dots";
         }
         ul {
           display: flex;
           align-items: flex-start;
           gap: 1.5rem;
+          margin-left: 0.2rem;
           li a {
             font-size: 1.2rem;
             color: var(--color-secondary);
+
           }
         }
       }
