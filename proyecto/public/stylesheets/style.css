@@ -438,7 +438,7 @@ h2 {
 
 /* ================== CONTENEDOR2 ================== */
 #contenedor2 {
-  height: 100vh;
+  height: 110vh;
   width: 100%;
   border-top: 4px solid white;
   background: #100d52;
@@ -453,8 +453,8 @@ h2 {
   gap: 1rem;
 
   marquee {
-    font-size: 1.5rem;
-    color: yellow;
+    font-size: 1.4rem;
+    color: rgb(255, 237, 36);
     font-weight: bold;
   }
   h2 {
@@ -651,6 +651,10 @@ h2 {
   to {
     --angulo_grande: 360deg;
   }
+}
+marquee span {
+  margin: 0 2rem;
+  
 }
 
 /* ================== CONTENEDOR 3 ================== */
