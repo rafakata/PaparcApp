@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
+</head>
+<body>
+    <nav class="dashboard-nav">
+        <div class="contenedor_logo">
+            <p>PaparcaApp</p>
+            <ul class="enlaces">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Reservation</a></li>
+                <li><a href="/history">Reservation History</a></li>
+            </ul>
+            </div>
+        </div>
+        <div class="contenedor_usuario">
+            <ul class="enlaces_usuario">
+                <li>User name</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+            <ul>
+                <li><a href="/profile"><img src="/images/user_icon.png" alt="User Icon" /></a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="lista_reservas">
+            <h2>Your Upcoming Reservations</h2>
+            <div class="reservas_items">
+                <!-- Reservation items will be dynamically inserted here -->
+            </div>
+        </div>
+        <div class="calendario">
+            <h2>Reservation Calendar</h2>
+            <div class="calendario_widget">
+                <!-- Calendar widget will be dynamically inserted here -->
+            </div>
+        </div>
+        <div class="reservas_completadas">
+            <h2>Completed Reservations</h2>
+            <div class="completadas_items">
+                <!-- Completed reservation items will be dynamically inserted here -->
+            </div>
+        </div>
+        <div class="parking_info">
+            <h2>Parking Lot Information</h2>
+            <div class="info_items">
+                <!-- Parking lot information will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+</body>
+</html>
