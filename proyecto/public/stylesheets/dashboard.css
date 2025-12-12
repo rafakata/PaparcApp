@@ -11,12 +11,7 @@ body {
   grid-template-columns: auto 15rem;
   grid-template-areas: "logo usuario";
   align-items: start;
-  gap: 1rem;
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
-  padding: 1rem 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .contenedor_logo {
@@ -39,17 +34,30 @@ body {
   }
   .enlaces {
     display: flex;
-    gap: 6rem;
+    gap: 3rem;
 
     li {
       font-size: 1.1rem;
       cursor: pointer;
       border-radius: 12px;
-      background: var(--color-primary);
       padding: 0.2rem 1rem;
+      color: var(--color-primary);
+
+      &:hover {
+        color: var(--background-color-secondary);
+        background: var(--color-primary);
+      }
 
       a {
-        color: var(--background-color-secondary);
+        color: var(--color-primary);
+        font-weight: 600;
+
+        .enlaces li:hover & {
+          color: var(--background-color-secondary);
+        }
+        &:hover {
+          color: var(--background-color-secondary);
+        }
       }
     }
   }
@@ -99,22 +107,75 @@ main {
   grid-template-areas:
     "reservas calendario"
     "completada info";
-  .reservas {
+  .lista_reservas {
     grid-area: reservas;
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: center;
+      margin-top: 1rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    table th {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 0.5rem;
+    }
+    table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
   }
   .calendario {
     grid-area: calendario;
   }
-  .completada {
+  .reservas_completadas {
     grid-area: completada;
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: center;
+      margin-top: 1rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    table th {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 0.5rem;
+    }
+    table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
   }
   .info {
     grid-area: info;
   }
-    .lista_reservas, .calendario, .reservas_completadas, .parking_info {
-      background: var(--background-color-primary);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 1rem;
-    }
+  .calendario_widget{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .lista_reservas,
+  .calendario,
+  .reservas_completadas,
+  .parking_info {
+    background: var(--background-color-primary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1rem;
+    border: 2px solid var(--color-muted);
+  }
+  .parking_info h3,
+  .calendario h3 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
 }
+
