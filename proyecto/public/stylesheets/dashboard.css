@@ -1,41 +1,82 @@
-@import url('/stylesheets/root.css');
+@import url("/stylesheets/root.css");
 
 body {
-  padding: 2rem;
-  display: grid;
+  padding: 2rem 4rem;
   min-height: 100vh;
   background: #f9fafb;
 }
 
 .dashboard-nav {
   display: grid;
-  grid-template-columns: 3fr 1fr;
-  grid-template-rows: repeat(2, auto);
-  grid-template-areas:
-    "logo logo logo usuario"
-    "logo logo logo usuario";
-  align-items: center;
+  grid-template-columns: auto 15rem;
+  grid-template-areas: "logo usuario";
+  align-items: start;
   gap: 1rem;
   background: #fff;
   border-radius: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   padding: 1rem 2rem;
   margin-bottom: 2rem;
 }
 
 .contenedor_logo {
   grid-area: logo;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #0968ef;
-  p{
+  display: grid;
+  gap: 2rem;
+  p {
     font-family: var(--font-h1);
+    font-size: 3rem;
+    background:linear-gradient(to right,var(--color-primary),var(--color-secondary),var(--color-accent),var(--color-primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
+  .enlaces {
+    display: flex;
+    gap: 6rem;
 
+    li {
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 12px;
+      background: var(--color-primary);
+      padding: 0.2rem 1rem;
+
+      a {
+        color: var(--background-color-secondary);
+      }
+    }
+  }
 }
 
 .contenedor_usuario {
   grid-area: usuario;
   justify-self: end;
   font-size: 1.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+  align-items: center;
+  height: 100%;
+
+  .enlaces_usuario {
+    display: flex;
+    flex-direction: column;
+
+    .logout {
+    align-self: flex-end;
+  }
+  }
+  .imagen {
+    li {
+      img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid var(--color-accent);
+      }
+    }
+  }
 }
