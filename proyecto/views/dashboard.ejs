@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
     <link rel="stylesheet" href="/stylesheets/dashboard.css">
+    <link rel="stylesheet" 
+      href="https://code.jquery.com/ui/1.13.2/themes/Trontastic/jquery-ui.css">
 </head>
 <body>
     <nav class="dashboard-nav">
@@ -40,9 +42,7 @@
         </div>
         <div class="calendario">
             <h2>Reservation Calendar</h2>
-            <div class="calendario_widget">
-                <!-- Calendar widget will be dynamically inserted here -->
-            </div>
+            <div class="calendario_widget"></div>
         </div>
         <div class="reservas_completadas">
             <h2>Completed Reservations</h2>
@@ -51,11 +51,26 @@
             </div>
         </div>
         <div class="parking_info">
-            <h2>Parking Lot Information</h2>
+            <h2>Parking Information</h2>
             <div class="info_items">
                 <!-- Parking lot information will be dynamically inserted here -->
             </div>
         </div>
     </main>
 </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( ".calendario_widget" ).datepicker({
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                             'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                firstDay: 1,
+                changeMonth: true,
+                changeYear: true
+            });
+        } );
+    </script>
 </html>

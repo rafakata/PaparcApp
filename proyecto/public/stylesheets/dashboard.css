@@ -26,7 +26,13 @@ body {
   p {
     font-family: var(--font-h1);
     font-size: 3rem;
-    background:linear-gradient(to right,var(--color-primary),var(--color-secondary),var(--color-accent),var(--color-primary));
+    background: linear-gradient(
+      to right,
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-accent),
+      var(--color-primary)
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -64,8 +70,8 @@ body {
     flex-direction: column;
 
     .logout {
-    align-self: flex-end;
-  }
+      align-self: flex-end;
+    }
   }
   .imagen {
     li {
@@ -79,4 +85,36 @@ body {
       }
     }
   }
+}
+
+main {
+  background: var(--background-color-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: auto 20rem;
+  grid-row: repeat(2, auto);
+  grid-template-areas:
+    "reservas calendario"
+    "completada info";
+  .reservas {
+    grid-area: reservas;
+  }
+  .calendario {
+    grid-area: calendario;
+  }
+  .completada {
+    grid-area: completada;
+  }
+  .info {
+    grid-area: info;
+  }
+    .lista_reservas, .calendario, .reservas_completadas, .parking_info {
+      background: var(--background-color-primary);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1rem;
+    }
 }
