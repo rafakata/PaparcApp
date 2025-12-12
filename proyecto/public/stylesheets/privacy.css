@@ -1,35 +1,5 @@
-/* ============= ROOT =============*/
-:root {
-  /* Colores base */
-  --background-color-primary: #f9fafb;
-  --background-color-secondary: #ffffff;
+@import url('/stylesheets/root.css');
 
-  --color-primary: #0968ef;
-  --color-secondary: #7ddf8b;
-  --color-accent: #0f172a;
-  --color-muted: #6b7280;
-
-  /* Botones */
-  --color-gradient: linear-gradient(135deg, #0968ef, #7ddf8b);
-  --button-color-secondary: #e5e7eb;
-
-  /* Tipografía */
-  --font-primary: "Poppins", sans-serif;
-
-  /* Bordes y sombras */
-  --border-radius: 1.5rem;
-  --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* ================== TODO ================== */
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  font-family: var(--font-primary);
-}
 body{
     background: var(--color-accent);
 }
@@ -64,6 +34,7 @@ body{
   background: var(--color-gradient);
   background-size: 200% 200%;
   animation: gradientMove 4s ease infinite;
+  font-family: var(--font-h1);
 
   /* para aplicar el gradiente al texto */
   -webkit-background-clip: text;
@@ -281,8 +252,9 @@ footer {
         gap: 0.8rem;
 
         p {
-          font-size: 3rem;
+          font-size: 2.6rem;
           color: white;
+          font-family: var(--font-h1);
         }
         ul {
           display: flex;

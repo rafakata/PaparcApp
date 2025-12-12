@@ -26,5 +26,9 @@ router.get('/service', function(req, res, next) {
   res.render('service', { title: 'Services' });
 });
 
+/* GET dashboard page */
+router.get('/dashboard', function(req, res, next) {
+  res.render('dashboard', { title: 'Dashboard' });
+});
 
 module.exports = router;

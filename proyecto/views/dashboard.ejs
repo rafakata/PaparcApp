@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
+    <link rel="stylesheet" 
+      href="https://code.jquery.com/ui/1.13.2/themes/Trontastic/jquery-ui.css">
+</head>
+<body>
+    <nav class="dashboard-nav">
+        <div class="contenedor_logo">
+            <p>PaparcaApp</p>
+            <ul class="enlaces">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Reservation</a></li>
+                <li><a href="/history">Reservation History</a></li>
+            </ul>
+            </div>
+        </div>
+        <div class="contenedor_usuario">
+            <ul class="enlaces_usuario">
+                <li>User name</a></li>
+                <li class="logout"><a href="/logout">Logout</a></li>
+            </ul>
+            <ul class="imagen">
+                <li><a href="/profile"><img src="/images/3c63af1d-c905-4c85-a68b-a20096b81ab1.png" alt="User Icon" /></a></li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="lista_reservas">
+            <h3>Your Upcoming Reservations</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Number Plate</th>
+                            <th>Time</th>
+                            <th>Services</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Reservation items will be dynamically inserted here -->
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="calendario">
+            <h3>Reservation Calendar</h3>
+            <div class="calendario_widget"></div>
+        </div>
+        <div class="reservas_completadas">
+            <h3>Completed Reservations</h3>
+                            <table>
+                    <thead>
+                        <tr>
+                            <th>Number Plate</th>
+                            <th>Time</th>
+                            <th>Services</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Reservation items will be dynamically inserted here -->
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                         <tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr><tr>
+                        <td>1234ABC</td>
+                        <td>10:00 AM - 11:00 AM</td>
+                        <td>Car Wash, Oil Change</td>
+                        <td><button class="cancelar_btn">Cancel</button></td>
+
+                         </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="parking_info">
+            <h3>Parking Information</h3>
+            <div class="info_items">
+                <!-- Parking lot information will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+</body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $( function() {
+            $( ".calendario_widget" ).datepicker({
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                             'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                firstDay: 1,
+                changeMonth: true,
+                changeYear: true
+            });
+        } );
+    </script>
+</html>

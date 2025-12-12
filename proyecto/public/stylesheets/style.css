@@ -1,35 +1,4 @@
-/* ============= ROOT =============*/
-:root {
-  /* Colores base */
-  --background-color-primary: #f9fafb;
-  --background-color-secondary: #ffffff;
-
-  --color-primary: #0968ef;
-  --color-secondary: #7ddf8b;
-  --color-accent: #0f172a;
-  --color-muted: #6b7280;
-
-  /* Botones */
-  --color-gradient: linear-gradient(135deg, #0968ef, #7ddf8b);
-  --button-color-secondary: #e5e7eb;
-
-  /* Tipografía */
-  --font-primary: "Poppins", sans-serif;
-
-  /* Bordes y sombras */
-  --border-radius: 1.5rem;
-  --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* ================== TODO ================== */
-* {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-decoration: none;
-  box-sizing: border-box;
-  font-family: var(--font-primary);
-}
+@import url('/stylesheets/root.css');
 
 /* ================== HEADER ================== */
 .header {
@@ -90,7 +59,7 @@
   background: var(--color-gradient);
   background-size: 200% 200%;
   animation: animacion-logo 4s ease infinite;
-  font-family: "Zen Dots";
+  font-family: var(--font-h1);
 
   /* para aplicar el gradiente al texto */
   -webkit-background-clip: text;
@@ -709,7 +678,8 @@ marquee span {
   }
 
   &:hover img {
-    transform: scale(1.1);
+    transform: scale(1.7);
+    transition: 1s ease;
   }
 
   .opinion_info {
@@ -718,7 +688,7 @@ marquee span {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(6, 48, 131, 0.622);
+    background: rgba(0, 0, 0, 0.644);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -888,7 +858,7 @@ footer {
         p {
           font-size: 2.6rem;
           color: white;
-          font-family: "Zen Dots";
+          font-family: var(--font-h1);
         }
         ul {
           display: flex;

@@ -1,0 +1,181 @@
+@import url("/stylesheets/root.css");
+
+body {
+  padding: 2rem 4rem;
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+.dashboard-nav {
+  display: grid;
+  grid-template-columns: auto 15rem;
+  grid-template-areas: "logo usuario";
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.contenedor_logo {
+  grid-area: logo;
+  display: grid;
+  gap: 2rem;
+  p {
+    font-family: var(--font-h1);
+    font-size: 3rem;
+    background: linear-gradient(
+      to right,
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-accent),
+      var(--color-primary)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .enlaces {
+    display: flex;
+    gap: 3rem;
+
+    li {
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 0.2rem 1rem;
+      color: var(--color-primary);
+
+      &:hover {
+        color: var(--background-color-secondary);
+        background: var(--color-primary);
+      }
+
+      a {
+        color: var(--color-primary);
+        font-weight: 600;
+
+        .enlaces li:hover & {
+          color: var(--background-color-secondary);
+        }
+        &:hover {
+          color: var(--background-color-secondary);
+        }
+      }
+    }
+  }
+}
+
+.contenedor_usuario {
+  grid-area: usuario;
+  justify-self: end;
+  font-size: 1.1rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem;
+  align-items: center;
+  height: 100%;
+
+  .enlaces_usuario {
+    display: flex;
+    flex-direction: column;
+
+    .logout {
+      align-self: flex-end;
+    }
+  }
+  .imagen {
+    li {
+      img {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        object-fit: cover;
+        cursor: pointer;
+        border: 1px solid var(--color-accent);
+      }
+    }
+  }
+}
+
+main {
+  background: var(--background-color-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: auto 20rem;
+  grid-row: repeat(2, auto);
+  grid-template-areas:
+    "reservas calendario"
+    "completada info";
+  .lista_reservas {
+    grid-area: reservas;
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: center;
+      margin-top: 1rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    table th {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 0.5rem;
+    }
+    table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  .calendario {
+    grid-area: calendario;
+  }
+  .reservas_completadas {
+    grid-area: completada;
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      text-align: center;
+      margin-top: 1rem;
+      background: #fff;
+      overflow: hidden;
+    }
+    table th {
+      background-color: var(--color-primary);
+      color: white;
+      padding: 0.5rem;
+    }
+    table td {
+      padding: 0.5rem;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+  .info {
+    grid-area: info;
+  }
+  .calendario_widget{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .lista_reservas,
+  .calendario,
+  .reservas_completadas,
+  .parking_info {
+    background: var(--background-color-primary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 1rem;
+    border: 2px solid var(--color-muted);
+  }
+  .parking_info h3,
+  .calendario h3 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+}
+
