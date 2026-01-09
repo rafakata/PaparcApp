@@ -6,7 +6,7 @@
   flex-direction: column;
   height: 100vh;
   background: linear-gradient(0deg, rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.7)),
-    url("https://s1.1zoom.me/big0/26/Audi_2016_Q2Two_Metallic_494054.jpg");
+    url("images/fondoPrincipal.jpg");
   /* 
   background: linear-gradient(178deg, rgba(16, 13, 82, 1) 0%, rgba(38, 54, 139, 1) 54%, rgba(102, 196, 141, 1) 95%);
   
