@@ -19,6 +19,10 @@ router.get('/privacy', function(req, res, next) {
   res.render('privacy', { title: 'Política de Privacidad' });
 });
 
+/* !! Comentario de Satori: !!
+He ayadido nuevas rutas para las páginas de dashboard, register y login que se se habían borrado
+*/
+
 /* GET dashboard page */
 router.get('/dashboard', function(req, res, next) {
   res.render('dashboard', { title: 'Dashboard' });
