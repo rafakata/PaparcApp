@@ -20,7 +20,7 @@ router.get('/privacy', function(req, res, next) {
 });
 
 /* !! Comentario de Satori: !!
-He ayadido nuevas rutas para las páginas de dashboard, register y login que se se habían borrado
+He añadido nuevas rutas para las páginas de dashboard, register y login que se se habían borrado
 */
 
 /* GET dashboard page */
