@@ -1,0 +1,1 @@
+-- define la base de datos y esquemas donde residirán todas las tablas y objetos

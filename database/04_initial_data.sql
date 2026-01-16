@@ -1,0 +1,1 @@
+-- Inserta datos iniciales para la pruebas del MVP y como archivo de pruebas de inserciones

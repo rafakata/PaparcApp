@@ -15,14 +15,14 @@
       <div class="contenedor_principal">
         <h1>PaparcaApp</h1>
         <p>Member Login</p>
-        <!-- Formulario para trabajadores -->
         <div class="contenedor_usuarioTrabajador">
           <div class="usuarioTrabajador">
             <button class="usuario">User</button>
             <button class="trabajador">Worker</button>
           </div>
         </div>
-        <form action="/loginWorker" method="POST" class="formWorker">
+        <!-- Formulario para trabajadores -->
+        <form action="/users/login" method="POST" class="formWorker">
           <div class="secciones">
             <label for="worker">Worker</label>
             <input
@@ -60,7 +60,8 @@
           <button type="submit">Login Worker</button>
         </form>
         <div class="containerUserContent">
-          <form action="/loginUser" method="POST" class="formUser">
+          <!-- Formulario para usuarios -->
+          <form action="/users/login" method="POST" class="formUser">
             <div class="secciones">
               <label for="name">User</label>
               <input
