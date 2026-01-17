@@ -1,54 +1,104 @@
-🚗 PaparcApp es la aplicación web para gestionar reservas y la operativa diaria de empresas de aparcacoches, actualmente en versión beta con foco en la parte visual y de acceso de usuarios. 📱✨ En esta fase no hay todavía lógica de negocio completa ni base de datos operativa.
-​
+\# 🚗 PaparcApp (Beta)
 
-📋 Descripción del proyecto
-Aplicación web para empresas de parking valet (recogida del coche en terminal o punto de encuentro y traslado a las instalaciones de la empresa). 🏢🚙
-​
 
-Objetivo: integrar reservas, comunicación con el cliente y panel de trabajo para empleados en una única herramienta. 📧📊
-​
 
-Estado actual: prototipo navegable con páginas principales y estructura preparada para conectar con el backend y la base de datos. ✅
-​
+\*\*PaparcApp\*\* es una aplicación web diseñada para la gestión integral de reservas y la operativa diaria de empresas de \*\*aparcacoches (Valet Parking)\*\*. 
 
-🎯 Funcionalidades beta disponibles
-Página inicial con explicación del servicio, acceso a login/registro y navegación básica hacia el área de clientes y trabajadores. 🏠
-​
 
-Dashboard inicial de trabajador con estructura para mostrar entradas, salidas y métricas del día (aún con datos simulados/no persistentes). 📈
-​
 
-Páginas de autenticación: login y registro de usuario, con formularios y validaciones básicas en el frontal. 🔐
-​
+Actualmente, el proyecto se encuentra en \*\*fase beta\*\*, con un enfoque principal en la arquitectura visual, la navegación y el acceso de usuarios.
 
-Página de privacidad y aviso legal para informar del tratamiento de datos de clientes y reservas. 🛡️
-​
 
-🚀 Funcionalidades planificadas (no implementadas aún)
-Motor de reservas completo: creación, modificación y cancelación de reservas desde web y por parte del trabajador, con cálculo automático de precio según días, tipo de servicio y vehículo. 💰
-​
 
-Gestión operativa: confirmación de entrada y salida de vehículos, toma de fotografías obligatorias, impresión de tickets y generación de resguardos. 📸🖨️
-​
+---
 
-Notificaciones y recordatorios: emails y mensajes automáticos (y futuro chatbot) para confirmaciones, recordatorios 24h antes y resúmenes del servicio. ⏰
-​
 
-🗄️ Estado de la base de datos y backend
-Modelo de datos definido (clientes, vehículos, tarifas, reservas, fotos, eventos de reserva, etc.), pendiente de conexión real con la interfaz.
-​
 
-Endpoints y lógica de negocio en diseño: cálculo de precios, control de estados de reserva, reglas de modificación/cancelación y tareas programadas para recordatorios. 🔧
-​
+\## 📋 Descripción del Proyecto
 
-En esta beta no se almacena información real; los formularios y vistas funcionan a nivel de interfaz sin persistencia definitiva. ⚠️
-​
+La aplicación está orientada a optimizar el flujo de trabajo de empresas de parking valet (recogida del coche en terminal o punto de encuentro y traslado a las instalaciones).
 
-⚙️ Tecnologías y enfoque de desarrollo
-Arquitectura pensada en separación frontend–backend, con API REST para comunicación con la base de datos y servicios futuros (chatbot, exportaciones, etc.). 🌐
-​
 
-Desarrollo orientado a un MVP incremental: primero flujo web y panel de trabajo básicos, después integración con base de datos, precios, fotos y automatizaciones. 📱➡️☁️
-​
 
-Documentación funcional basada en casos de uso e historias de usuario (clientes y trabajadores) para guiar la implementación técnica. 📚
+\* \*\*Objetivo:\*\* Integrar reservas, comunicación con el cliente y panel de trabajo para empleados en una única herramienta centralizada. 📧📊
+
+\* \*\*Estado actual:\*\* Prototipo navegable con las páginas principales y estructura preparada para conectar con el backend y la base de datos. ✅
+
+
+
+---
+
+
+
+\## 🎯 Funcionalidades Beta Disponibles
+
+\* 🏠 \*\*Página Inicial:\*\* Explicación del servicio y navegación hacia las áreas de clientes y trabajadores.
+
+\* 📈 \*\*Dashboard del Trabajador:\*\* Estructura para mostrar entradas, salidas y métricas del día (con datos simulados/no persistentes).
+
+\* 🔐 \*\*Autenticación:\*\* Páginas de login y registro con formularios y validaciones básicas en el frontend.
+
+\* 🛡️ \*\*Legal:\*\* Páginas de privacidad y aviso legal para el tratamiento de datos.
+
+
+
+---
+
+
+
+\## 🚀 Funcionalidades Planificadas (Roadmap)
+
+\* \*\*Motor de reservas completo:\*\* Creación, modificación y cancelación con cálculo automático de precios según días y tipo de vehículo. 💰
+
+\* \*\*Gestión operativa:\*\* Confirmación de entrada/salida, toma de fotografías obligatorias e impresión de tickets. 📸🖨️
+
+\* \*\*Notificaciones:\*\* Emails automáticos y recordatorios 24h antes del servicio. ⏰
+
+
+
+---
+
+
+
+\## 🗄️ Estado del Backend y Base de Datos
+
+> \[!WARNING]
+
+> \*\*Nota importante:\*\* En esta fase beta no se almacena información real. Los formularios funcionan a nivel de interfaz sin persistencia definitiva. ⚠️
+
+
+
+\* \*\*Modelo de datos definido:\*\* Clientes, vehículos, tarifas, reservas, fotos y eventos de reserva.
+
+\* \*\*Lógica en diseño:\*\* Pendiente la conexión real con la interfaz para el cálculo de precios y control de estados de reserva. 🔧
+
+
+
+---
+
+
+
+\## ⚙️ Tecnologías y Enfoque
+
+\* \*\*Arquitectura:\*\* Separación Frontend–Backend mediante \*\*API REST\*\*. 🌐
+
+\* \*\*Estrategia:\*\* Desarrollo orientado a un \*\*MVP incremental\*\* (primero flujo visual, luego integración de datos y automatizaciones).
+
+\* \*\*Documentación:\*\* Basada en casos de uso e historias de usuario para guiar la implementación técnica. 📚
+
+
+
+---
+
+
+
+\## 🛠️ Próximos Pasos
+
+\- \[ ] Implementación de base de datos operativa.
+
+\- \[ ] Conexión de endpoints para persistencia de usuarios.
+
+\- \[ ] Desarrollo del motor de cálculo de tarifas.
+
+\- \[ ] Integración de sistema de carga de imágenes.
+
