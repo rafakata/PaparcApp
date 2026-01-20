@@ -19,6 +19,11 @@ router.get('/privacy', function(req, res, next) {
   res.render('privacy', { title: 'Política de Privacidad' });
 });
 
+// Página de reserva (frontend)
+router.get('/reserva', function(req, res, next) {
+  res.render('reserva', { title: 'Reserva de Parking' });
+});
+
 
 
 module.exports = router;
