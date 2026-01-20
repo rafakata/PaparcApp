@@ -66,8 +66,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Función para generar QR usando una API pública
   function generarQR(texto) {
-    // Usamos api.qrserver.com para generar el QR
-    return `<img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(texto)}' alt='QR Reserva'/>`;
+    // Color principal del proyecto (hex): #0968ef
+    // API permite color en formato R,G,B o HEX sin #
+    const colorHex = '0968ef'; // var(--color-primary)
+    // Fondo blanco
+    return `<img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(texto)}&color=${colorHex}&bgcolor=ffffff' alt='QR Reserva'/>`;
   }
 
   // Manejar el envío del formulario
