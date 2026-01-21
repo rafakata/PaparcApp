@@ -4,12 +4,12 @@
 var express = require('express');
 var router = express.Router(); 
 var { isLoggedIn } = require('../middlewares/auth'); // importar el middleware para verificar si el usuario está autenticado
-const Database = require('../database/database');
+/*const Database = require('../database/database');
 const UserDAO = require('../database/users-dao');
 const WorkerDAO = require('../database/workers-dao');
 
 const userDAO = new UserDAO(Database.getInstance());
-const workerDAO = new WorkerDAO(Database.getInstance());
+const workerDAO = new WorkerDAO(Database.getInstance());*/
 
 /* GET register page */
 router.get('/register', function(req, res, next) {
