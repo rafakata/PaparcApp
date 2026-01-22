@@ -122,13 +122,14 @@ a {
   }
 }
 
-/* ================== ================== */
+/* ================== CONTENEDOR RESERVA ================== */
 .main-reserva {
   min-height: 80vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   background: var(--background-color-primary);
+  padding-bottom: 30px;
 }
 
 .reserva-form-container {
@@ -139,7 +140,7 @@ a {
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
   padding: 2rem 3rem;
-  margin: 2rem 0;
+  margin: 2rem 0 0 0;
   justify-content: center;
   align-items: flex-start;
 }
@@ -158,6 +159,8 @@ a {
   justify-content: flex-start;
 }
  .columna-derecha {
+  position: sticky;
+  top: 2rem;
   flex: 1 1 220px;
   min-width: 220px;
   max-width: 260px;
@@ -170,7 +173,7 @@ a {
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 1.5rem 2rem;
   margin-left: 1rem;
-  height: fit-content;
+  height: auto;
   align-self: flex-start;
   margin-top: 2rem;
 }
