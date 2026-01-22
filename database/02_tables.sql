@@ -1,96 +1,97 @@
 --Contiene la creacion de todas la tablas del proyecto PaparCapp
 
-
--- TABLA CUSTOMER -- Clientes de la aplicacion
-create table customer (
-    id_customer serial primary key,
-    full_name varchar(100) not null,
-    mail varchar(150) not null unique,
-    phone varchar(20),
-    password_hash varchar(255) not null,
-    registration_date timestamp not null default current_timestamp,
-    customer_type varchar(30),
-    is_active boolean not null default true
+-- TABLA CUSTOMER: Clientes de la aplicación
+CREATE TABLE customer (
+    id_customer       SERIAL PRIMARY KEY,
+    full_name         VARCHAR(100) NOT NULL,
+    email             VARCHAR(150) NOT NULL UNIQUE,
+    phone             VARCHAR(20),
+    password_hash     VARCHAR(255) NOT NULL,
+    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    type              VARCHAR(30), 
+    is_active         BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 
--- TABLA VEHICLE -- Vehiculos registrados en la aplicacion que ya han realizado alguna reserva
-create table vehicle (
-    license_plate varchar(15) primary key,
-    brand varchar(50) not null,
-    model varchar(50) not null,
-    colour varchar(30),
-    type_vehicle varchar(30) not null,
-    registration_date timestamp not null default current_timestamp,
-    id_customer int not null  --FK
+-- TABLA VEHICLE: Vehículos registrados
+CREATE TABLE vehicle (
+    license_plate     VARCHAR(15) PRIMARY KEY,
+    brand             VARCHAR(50) NOT NULL,
+    model             VARCHAR(50) NOT NULL,
+    color             VARCHAR(30), 
+    type              VARCHAR(30) NOT NULL, 
+    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_customer       INT NOT NULL -- FK
 );
 
 
--- TABLA RESERVATION -- Reservas realizadas por los clientes
-create table reservation (
-    id_reservation serial primary key,
-    reservation_date timestamp not null default current_timestamp,
-    entry_date timestamp not null,
-    exit_date timestamp,
-    status varchar(30) not null default 'PENDIENTE',
-    total_price numeric(10,2) not null,
-    payment_method varchar(30),
-    notes text,
-    license_plate varchar(15) not null, --FK
-    id_main_service int not null, --FK
-    cod_parking_spot varchar(20) not null --FK
+-- TABLA PARKING_SPOT: Plazas de aparcamiento
+CREATE TABLE parking_spot (
+    cod_parking_spot  VARCHAR(20) PRIMARY KEY,
+    is_available      BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 
--- TABLA MAIN_SERVICE -- Servicios principales de la aplicación
-create table main_service (
-    id_main_service serial primary key,
-    name varchar(100) not null unique,
-    description varchar(250),
-    is_active boolean not null default true
-);
-
--- TABLA ADDITIONAL_SERVICE -- servicios adicionales que se pueden agregar a una reserva
-create table additional_service (
-    id_additional_service serial primary key,
-    name varchar(100) not null unique,
-    price numeric(8,2) not null,
-    description varchar(250),
-    is_active boolean not null default true
+-- TABLA MAIN_SERVICE: Servicios principales
+CREATE TABLE main_service (
+    id_main_service   SERIAL PRIMARY KEY,
+    name              VARCHAR(100) NOT NULL UNIQUE, 
+    description       VARCHAR(250),                 
+    is_active         BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 
--- TABLA PHOTO_EVIDENCE -- Fotos de evidencia de la entrada de vehículos
-create table photo_evidence(
-    id_photo serial primary key,
-    file_path varchar(255) not null,
-    description varchar(200),
-    taken_at timestamp not null default current_timestamp,
-    id_reservation int not null --FK
+-- TABLA ADDITIONAL_SERVICE: Servicios adicionales
+CREATE TABLE additional_service (
+    id_additional_service SERIAL PRIMARY KEY,
+    name                  VARCHAR(100) NOT NULL UNIQUE,
+    price                 NUMERIC(8,2) NOT NULL,
+    description           VARCHAR(250),                 
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 
--- TABLA NOTIFICATION -- notificaciones enviadas a los clientes
-create table notification(
-    id_notification serial primary key,
-    subject varchar(150) not null,
-    message text not null,
-    type varchar(50) not null,
-    sent_at timestamp not null default current_timestamp,
-    id_reservation int not null --FK
+-- TABLA RESERVATION: Reservas realizadas
+CREATE TABLE reservation (
+    id_reservation    SERIAL PRIMARY KEY,
+    reservation_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    entry_date        TIMESTAMP NOT NULL,
+    exit_date         TIMESTAMP,
+    status            VARCHAR(30) NOT NULL DEFAULT 'PENDIENTE', -- Simplificado
+    total_price       NUMERIC(10,2) NOT NULL,
+    is_paid          BOOLEAN NOT NULL DEFAULT FALSE,
+    payment_method    VARCHAR(30),
+    notes             TEXT,
+    license_plate     VARCHAR(15) NOT NULL, -- FK
+    id_main_service   INT NOT NULL, -- FK
+    cod_parking_spot  VARCHAR(20)  -- FK
 );
 
 
--- TABLA PARKING_SPOT -- Plazas de aparcamiento disponibles en el parking
-create table parking_spot (
-    cod_parking_spot varchar(20) primary key,
-    is_available boolean not null default true
+-- TABLA PHOTO_EVIDENCE: Evidencia visual de la entrada
+CREATE TABLE photo_evidence (
+    id_photo          SERIAL PRIMARY KEY,
+    file_path         VARCHAR(255) NOT NULL,
+    description       VARCHAR(200),
+    taken_at          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_reservation    INT NOT NULL --FK
 );
 
 
--- TABLA RESERVATION_ADDITIONAL_SERVICE -- Tabla intermedia para la relación muchos a muchos entre reservas y servicios adicionales
-create table reservation_additional_service (
-    id_reservation int not null, --FK
-    id_additional_service int not null, --FK
-    primary key (id_reservation, id_additional_service)
+-- TABLA NOTIFICATION: Registro de comunicaciones
+CREATE TABLE notification (
+    id_notification   SERIAL PRIMARY KEY,
+    subject           VARCHAR(150) NOT NULL, -- Simplificado
+    message           TEXT NOT NULL,          -- Simplificado
+    type              VARCHAR(50) NOT NULL,  -- Simplificado
+    sent_at           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_reservation    INT NOT NULL --FK
+);
+
+
+-- TABLA INTERMEDIA: Relación Muchos a Muchos (Reservas <-> Servicios Adicionales)
+CREATE TABLE reservation_additional_service (
+    id_reservation        INT NOT NULL,
+    id_additional_service INT NOT NULL,
+    PRIMARY KEY (id_reservation, id_additional_service)
 );
