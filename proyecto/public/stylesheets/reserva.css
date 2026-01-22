@@ -1,0 +1,393 @@
+@import url('/stylesheets/root.css');
+
+body{
+    background: var(--color-accent);
+}
+
+/* ================== NAV ================== */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 80px;
+  position: relative;
+  background-color: #0f172a;
+}
+
+.logo a {
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 2.3rem;
+  color: white;
+  background: var(--color-gradient);
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
+  font-family: var(--font-h1);
+
+  /* para aplicar el gradiente al texto */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.lista ul,
+.acceso ul {
+  display: flex;
+  gap: 20px;
+  color: white;
+}
+
+.lista ul li,
+.acceso ul li {
+  padding: 10px 15px;
+  border-radius: 8px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign_up,
+.login {
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: var(--color-gradient);
+}
+
+.acceso,
+.lista,
+.logo {
+  padding: 20px;
+  font-weight: bold;
+}
+a {
+  color: white;
+}
+.acceso ul li a i {
+  margin-right: 8px;
+}
+
+.sign_up:hover,
+.login:hover {
+  background-color: var(--color-secondary);
+  transition: 0.3s;
+  box-shadow: 5px 5px 0px var(--color-primary);
+  border: none;
+}
+
+.lista ul li a {
+  color: rgb(255, 255, 255);
+  position: relative;
+}
+
+.lista ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 4px;
+  background: var(--color-primary);
+}
+
+.lista ul li a:hover {
+  color: var(--color-primary);
+}
+
+.lista ul li a:hover::after {
+  animation: linea 0.5s forwards;
+}
+
+@keyframes linea {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* ================== CONTENEDOR RESERVA ================== */
+.main-reserva {
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--background-color-primary);
+  padding-bottom: 30px;
+}
+
+.reserva-form-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  background: var(--background-color-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 2rem 3rem;
+  margin: 2rem 0 0 0;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.columna-izquierda {
+  flex: 1 1 260px;
+  min-width: 260px;
+  max-width: 320px;
+}
+.columna-central {
+  flex: 1 1 320px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+ .columna-derecha {
+  position: sticky;
+  top: 2rem;
+  flex: 1 1 220px;
+  min-width: 220px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem 2rem;
+  margin-left: 1rem;
+  height: auto;
+  align-self: flex-start;
+  margin-top: 2rem;
+}
+.datos-fechas h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+.datos-fechas p {
+  font-size: 1rem;
+  margin-bottom: 0.7rem;
+}
+.datos-fechas span {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.contenedor-imagen-precio{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.imagen-coche{
+  width: 400px;
+  height: auto;
+
+  img{
+    width: 100%;
+    height: auto;
+  }
+}
+
+.car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  min-width: 260px;
+}
+
+.car-form h2 {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.car-form input[type="text"] {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.car-form button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 0.6rem;
+  border: none;
+  background: var(--color-gradient);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.car-form button:hover {
+  opacity: 0.9;
+}
+
+.precio-estancia {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: var(--color-secondary);
+  border-radius: 0.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1rem 2rem;
+  height: fit-content;
+}
+.precio-estancia h2 {
+  color: white;
+}
+.precio-estancia #precio {
+  font-size: 2rem;
+  font-weight: bold;
+  align-self: self-end;
+}
+h6{
+  align-self: flex-end;
+  color: rgb(0, 0, 0);
+}
+nav{
+  background-color: #0f172a;
+}
+
+/*Cononfirmacion de la reserva*/
+#confirmacion-reserva{
+
+  h3{
+    font-size: 1.5rem;
+  }
+
+  h2{
+    color: var(--color-secondary);
+  }
+  #qr-reserva{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+#codigo-reserva{
+  font-weight: bold;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+}
+/* ================== FOOTER ================== */
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-accent);
+  border-top: 2px solid white;
+  box-shadow: 0 0 10px;
+}
+
+.footer_contenido {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 24rem;
+  padding: 3rem 0;
+  gap: 2rem;
+
+  .contenedor_footer {
+    display: flex;
+    gap: 5rem;
+    width: 100%;
+    height: 100%;
+
+    .footer_enlaces {
+      display: flex;
+      gap: 2rem;
+      width: 60%;
+
+      .footer_enlace {
+        width: 33%;
+        height: 100%;
+
+        p {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: var(--color-secondary);
+        }
+        ul {
+          margin: 1.5rem 0;
+
+          li {
+            margin: 0.8rem 0;
+            color: white;
+          }
+        }
+      }
+    }
+    .footer_logo {
+      width: 40%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      .footer_logo_inner {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+
+        p {
+          font-size: 2.6rem;
+          color: white;
+          font-family: var(--font-h1);
+        }
+        ul {
+          display: flex;
+          align-items: flex-start;
+          gap: 1.5rem;
+          li a {
+            font-size: 1.2rem;
+            color: var(--color-secondary);
+          }
+        }
+      }
+    }
+  }
+  .derechos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 1.1rem;
+
+    ul {
+      display: flex;
+      gap: 3rem;
+    }
+    span {
+      color: var(--color-primary);
+    }
+  }
+}
+
