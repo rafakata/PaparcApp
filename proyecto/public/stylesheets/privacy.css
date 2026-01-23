@@ -134,7 +134,7 @@ a {
 
 /*-----------CONTENEDOR H1 -----------*/
 .contenedor_h1{
-    background: linear-gradient(0deg,rgb(0,0,0,0.5),rgb(0,0,0,0.5)),url("https://help.iubenda.com/wp-content/uploads/2024/11/help_hero_img.png");
+    background: linear-gradient(0deg,rgb(0,0,0,0.5),rgb(0,0,0,0.5)),url("/images/help_hero_img.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
