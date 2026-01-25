@@ -1,106 +1,52 @@
 /**
- * RUTEADOR PARA AUTENTICACIÓN Y PANEL DEL CLIENTE. (login, registro, perfil del cliente)
+ * RUTEADOR DE USUARIOS
+ * Su funcion es conectar direcciones URL con las funciones correspondientes en los controladores
 */
-var express = require('express');
-var router = express.Router(); 
-var { isLoggedIn } = require('../middlewares/auth'); // importar el middleware para verificar si el usuario está autenticado
-/*const Database = require('../database/database');
-const UserDAO = require('../database/users-dao');
-const WorkerDAO = require('../database/workers-dao');
 
-const userDAO = new UserDAO(Database.getInstance());
-const workerDAO = new WorkerDAO(Database.getInstance());*/
+var express = require('express')
+var router = express.Router()
 
-/* GET register page */
+//1. Importamos el middleware de seguridad.
+// Lo usamos para proteger la ruta /profile (solo usuarios logueados)
+let { isLoggedIn } = require('../middlewares/auth')
+
+//2. Importamos el controlador de usuarios
+// Lo usamos para manejar la lógica de la ruta /profile
+const authController = require('../controllers/authController')
+
+
+/* -- RUTAS PUBLICAS (cualquiera puede entrar) -- */
+
+/*GET  register page: muestra el formulario de registro */
 router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'Registro de usuario' });
+  res.render('register', { title: 'Registro de Usuario' })
 });
 
-/* GET login page */
+/*GET  login page: muestra el formulario de login */
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'Login' });
-});
-
-/* POST login */
-router.post('/login', function(req, res, next) {
-  const { worker,user, password, employee_id} = req.body;
-  console.log(`Datos recibidos en /login: worker=${worker}, user=${user},employee_id=${employee_id}`);
-
-  try {
-
-    // login trabajador
-    if (worker) {
-
-      const workerData = workerDAO.getWorkerByEmployee_id(employee_id);
-      console.log('Datos del trabajador obtenidos de la base de datos:', workerData);
-
-      if (workerData && workerData.password === password) {
-
-        console.log('Autenticación de trabajador exitosa');
-
-        req.session.user = {
-          id : workerData.id,
-          nombre: workerData.workername,
-          role: workerData.role
-        }
-
-        return res.redirect('/admin/dashboard');
-
-      }else {
-        console.log('Error de autenticación de trabajador: credenciales incorrectas');
-        return res.render('login', { title: 'Login', error: 'Credenciales incorrectas para trabajador' });
-      }
-    }
-
-    // login usuario normal
-    if (user) {
-
-      const userData = userDAO.getUserByUsername(user);
-      console.log('Datos del usuario obtenidos de la base de datos:', userData);
-
-      if (userData && userData.password === password) {
-
-        console.log('Autenticación de usuario exitosa');
-
-        req.session.user = {
-          id : userData.id,
-          nombre: userData.username,
-          role: 'user'
-        };
-
-        return  res.redirect('/users/profile');
-
-      } else {
-        console.log('Error de autenticación de usuario: credenciales incorrectas');
-        return res.render('login', { title: 'Login', error: 'Credenciales incorrectas para usuario' });
-      }
-    }
-
-  } catch (error) {
-    console.error('Error durante el proceso de login:', error);
-    return res.render('login', { title: 'Login', error: 'Error interno del servidor' });
-  }
-
-  // Si no se proporcionaron datos de login
-  res.render('login', { title: 'Login', error: 'Introduce tus datos' });
-
+  //pasamos error=null para que no muestre error al cargar la página
+  res.render('login', { title: 'Login de Usuario', error: null })
 });
 
 
-/* GET profile page */
-router.get('/profile',isLoggedIn, function(req, res, next) {
-  res.send(`
-    <h1>Bienvenido al perfil de ${req.session.user.nombre}</h1>
-    <p>Esta es tu área personal.</p>
-    <p>Tu rol es: <strong>${req.session.user.role}</strong></p>
-    <a href="/users/logout">Cerrar sesión</a>
-  `);
+/*POST login: procesa el formulario de login */
+router.post('/login', authController.login); //el enrutador recibe los datos del formulario y los pasa al controlador
+
+/*POST register: procesa el formulario de registro */
+router.post('/register', authController.register);
+
+/** GET logout: cerramos sesión */
+router.get('/logout', authController.logout);
+
+
+
+/* -- RUTAS PRIVADAS (solo usuarios logueados) -- */
+
+/*GET profile page: muestra el perfil del usuario logueado */
+// usamos getLoggedIn. Si no está logueado, redirige a login
+router.get('/profile', isLoggedIn, function(req, res, next) {
+  res.render('profile', { title: 'Perfil de Usuario'})
 });
 
-/* GET logout */
-router.get('/logout', function(req, res, next) {
-  req.session.destroy();
-  res.redirect(`/`);
-});
 
 module.exports = router;

@@ -16,7 +16,12 @@ const db = require('../config/database');
 
 class CustomerDAO {
 
-
+    /**
+     * Obtiene un cliente por su email.
+     * @param {string} email - Email del cliente a buscar.
+     * @return {Object|null} - Objeto del cliente o null si no se encuentra.
+     * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
+    */
     async getCustomerByEmail(email) {
 
         const sql = 'SELECT * FROM customer WHERE email = $1'; //$1 es un placeholder para evitar inyeccion SQL (similar a ? en otros motores)
@@ -38,7 +43,13 @@ class CustomerDAO {
         }
     }
 
-    async getUserById(id) {
+    /**
+     * Obtiene un cliente por su ID.
+     * @param {number} id - ID del cliente a buscar.
+     * @returns {Object|null} - Objeto del cliente o null si no se encuentra.
+     * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
+    */
+    async getCustomerById(id) {
 
         const sql = 'SELECT * FROM customer WHERE id_customer = $1';
 
@@ -53,6 +64,45 @@ class CustomerDAO {
 
             console.error('Error al obtener el usuario por ID:', error);
             throw new Error('Error al obtener el usuario por ID', { cause: error });      
+
+        }
+    }
+
+    /**
+     * Registra un nuevo cliente estándar.
+     * @param {Object} userData - Debe contener { nombre, email, passwordHash }
+     * @return {number} - ID del nuevo cliente creado.
+     * @throws {Error} - Si ocurre un error durante la inserción en la base de datos.
+     * NOTA SEGURIDAD: Forzamos el type a 'REGULAR' para evitar que alguien se registre como ADMIN.
+    */
+    async createCustomer(userData) {
+
+        const sql = `
+            INSERT INTO customer (full_name,email,password_hash,type)
+            VALUES ($1, $2, $3, 'REGISTRADO')
+            RETURNING id_customer 
+        `; // devolvemos el id del nuevo usuario creado, util para futuras referencias, ahorra una consulta extra
+        // introducimo el type como 'REGISTRADO' por defecto para evitar que un usuario se cree a si mismo como ADMIN
+
+        try {
+
+            const values = [
+                userData.nombre,
+                userData.email,
+                userData.passwordHash
+            ]
+
+            const result = await db.query(sql, values);
+
+            return result.rows[0].id_customer; //devolvemos el id del nuevo usuario creado
+
+        } catch (error) {
+
+            if (error.code === '23505') { //23505 es el codigo de error de violacion de restriccion UNIQUE en Postgres
+                throw new Error('El email ya está registrado.');
+            }
+            console.error('Error al crear el nuevo usuario:', error);
+            throw new Error('Error al crear el nuevo usuario', { cause: error });
 
         }
     }

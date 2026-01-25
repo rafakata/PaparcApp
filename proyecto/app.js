@@ -11,12 +11,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session'); // importar el módulo express-session
 
-/*
- * var Database = require('./database/database'); CAMBIAR LUEGO!!!!!!!!!!!!!
- * const dbPath = path.join(__dirname, 'database', 'paparcapp.db'); CAMBIAR LUEGO!!!!!!!!!!!!!
- * Database.getInstance(dbPath); CAMBIAR LUEGO!!!!!!!!!!!!!
-*/
-
 // 2. Importamos las rutas existentes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

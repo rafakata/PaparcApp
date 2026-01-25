@@ -23,12 +23,13 @@
         </div>
         <!-- Formulario para trabajadores -->
         <form action="/users/login" method="POST" class="formWorker">
+          <input type="hidden" name="loginType" value="worker" /> <!-- campo oculto para indicar tipo de login, simulamos diferentes tipos de usuarios -->
           <div class="secciones">
-            <label for="worker">Worker</label>
+            <label for="worker_email">Worker Email</label>
             <input
               type="text"
-              name="worker"
-              id="worker"
+              name="email"
+              id="worker_email"
               required
               minlength="3"
               maxlength="50"
@@ -52,7 +53,7 @@
               type="text"
               name="employee_id"
               id="employee_id"
-              required
+              placeholder="Simulación (no requerido para MVP)"
               minlength="3"
               maxlength="20"
             />
@@ -62,23 +63,24 @@
         <div class="containerUserContent">
           <!-- Formulario para usuarios -->
           <form action="/users/login" method="POST" class="formUser">
+            <input type="hidden" name="loginType" value="user"> <!-- campo oculto para indicar tipo de login, simulamos diferentes tipos de usuarios -->
             <div class="secciones">
-              <label for="name">User</label>
+              <label for="user_email">User Email</label>
               <input
                 type="text"
-                name="user"
-                id="user"
+                name="email"
+                id="user_email"
                 required
                 minlength="3"
                 maxlength="50"
               />
             </div>
             <div class="seccion">
-              <label for="password">Password</label>
+              <label for="user_password">Password</label>
               <input
                 type="password"
                 name="password"
-                id="password"
+                id="user_password"
                 required
                 minlength="8"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"

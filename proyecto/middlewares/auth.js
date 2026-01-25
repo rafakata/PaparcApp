@@ -11,7 +11,7 @@ const authLocalsMiddleware = (req, res, next) => {
         // Si el usuario está autenticado, establecemos las variables en res.locals
         res.locals.isLoggedIn = true;
         res.locals.user = req.session.user;
-        res.locals.isAdmin = req.session.user.role === 'admin'; // Ejemplo adicional: verificar si el usuario es admin
+        res.locals.isAdmin = req.session.user.role === 'ADMIN'; // Ejemplo adicional: verificar si el usuario es admin
 
     } else {
         // Si no está autenticado, establecemos las variables en consecuencia
@@ -35,7 +35,7 @@ const isLoggedIn = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
 
-    if (req.session.user && req.session.user.role === 'admin') {
+    if (req.session.user && req.session.user.role === 'ADMIN') {
         next(); // El usuario es admin, continuar
     } else {
         res.redirect('/'); // Redirigir a la página principal si no es admin
