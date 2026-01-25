@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Perfil Básico</title>
+</head>
+<body>
+
+    <h1>Perfil de Usuario</h1>
+    <hr>
+
+    <p><strong>ID:</strong> <%= user.id %></p>
+    <p><strong>Nombre:</strong> <%= user.nombre %></p>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>Rol:</strong> <%= user.role %></p>
+
+    <hr>
+    
+    <a href="/users/logout">Cerrar Sesión</a>
+
+    <br><br>
+
+    <h3>HAMZA ESTE SERIA EL OBJETO QUE LLEGA AL PERFIL</h3>
+    <pre><%= JSON.stringify(user, null, 2) %></pre>
+
+</body>
+</html>

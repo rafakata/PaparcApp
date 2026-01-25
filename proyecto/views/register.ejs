@@ -15,21 +15,29 @@
       <div class="contenedor_principal">
         <h1>PaparcaApp</h1>
         <p>Register on our website</p>
-        <form action="/register" method="POST">
+
+        <!-- Modificar para que muestre errores de registro, puede ser un alert, ventana modal o un div. (lo que mas coraje te de)-->
+        <% if (locals.error) { %>
+            <div style="background-color: #ffcccc; color: #cc0000; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-weight: bold;">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/users/register" method="POST">
           <div class="secciones">
-            <label for="name">Name and Surname</label>
+            <label for="username">Name and Surname</label>
             <input
               type="text"
-              name="name"
-              id="name"
+              name="username"
+              id="username"
               required
               minlength="3"
               maxlength="50"
             />
           </div>
           <div class="secciones">
-            <label for="mail">Email</label>
-            <input type="email" name="mail" id="mail" required />
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required />
           </div>
           <div class="secciones">
             <label for="password">Password</label>
