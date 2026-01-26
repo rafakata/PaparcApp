@@ -9,7 +9,12 @@
       <li><a href="tel:+34920452748">920 452 748</a></li>
     </ul>
   </div>
+
+  
   <div class="acceso">
+      <% if (isLoggedIn) { %>
+    <p style="color: white;"><strong>ID:</strong> <%= user.numero %></p>
+   <% } %>
     <ul>
       <li class="sign_up">
         <a href="/users/register"><i class="fas fa-user-plus"></i> Sign up</a>
