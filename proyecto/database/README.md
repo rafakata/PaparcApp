@@ -17,7 +17,7 @@ Los archivos deben ejecutarse en el orden numérico indicado para evitar errores
 
 ## 🚀 Guía de Instalación (pgAdmin 4)
 
-1. **Preparación:** Asegúrese de haber creado una base de datos vacía llamada `paparcapp` en su servidor PostgreSQL.
+1. **Preparación:** Asegúrese de haber creado una base de datos vacía llamada `paparcapp_db` en su servidor PostgreSQL.
 2. **Estructura Base:** Abra la herramienta de consulta (**Query Tool**) sobre esa base de datos y ejecute el contenido de `01_tables.sql`.
 3. **Reglas de Negocio:** Ejecute `02_constraints.sql` para aplicar las relaciones y restricciones de seguridad.
 4. **Optimización:** Ejecute `03_indexes.sql` para generar los índices de rendimiento.
