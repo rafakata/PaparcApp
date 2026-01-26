@@ -46,6 +46,7 @@ const authController = {
                 id: user.id_customer,
                 nombre: user.full_name,
                 email: user.email,
+                numero: user.phone,
                 role: user.type
             }
 
