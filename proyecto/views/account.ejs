@@ -1,0 +1,103 @@
+<% 
+  // Forzar usuario demo y sesión activa para pruebas visuales del nav
+  isLoggedIn = true;
+  user = user || { nombre: 'Usuario Demo', email: 'demo@example.com' };
+%>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Cuenta | PaparcApp</title>
+    <link rel="stylesheet" href="/stylesheets/reserva.css" />
+    <link rel="stylesheet" href="/stylesheets/account.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+  </head>
+  <body>
+    <header>
+        <%- include("partials/nav") %>
+    </header>
+    <main class="account-main">
+      <div class="account-container">
+        <!-- Panel izquierdo: Info del usuario y reserva actual -->
+        <section class="account-panel user-reserva-panel">
+          <div class="panel-header">
+            <i class="fas fa-user-circle"></i>
+            <h2>Mi Cuenta</h2>
+          </div>
+          <div class="user-info">
+            <p><strong>Nombre:</strong> <%= user ? user.nombre : 'Usuario' %></p>
+            <p><strong>Email:</strong> <%= user ? user.email : '' %></p>
+          </div>
+
+          <div class="reserva-actual">
+            <h3><i class="fas fa-calendar-check"></i> Reserva Actual</h3>
+            <% if (reservaActual) { %>
+              <div class="reserva-card">
+                <p><i class="fas fa-calendar-day"></i> <strong>Fecha:</strong> <%= reservaActual.fecha %></p>
+                <p><i class="fas fa-clock"></i> <strong>Hora:</strong> <%= reservaActual.hora %></p>
+                <p><i class="fas fa-concierge-bell"></i> <strong>Servicio:</strong> <%= reservaActual.servicio %></p>
+                <div class="reserva-actions">
+                  <button class="btn btn-primary"><i class="fas fa-edit"></i> Modificar Reserva</button>
+                  <button class="btn btn-secondary"><i class="fas fa-plus"></i> Nueva Reserva</button>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="no-reserva">
+                <i class="fas fa-info-circle"></i>
+                <p>No tienes ninguna reserva activa.</p>
+                <button class="btn btn-primary"><i class="fas fa-plus"></i> Hacer una Reserva</button>
+              </div>
+            <% } %>
+          </div>
+        </section>
+
+        <!-- Panel derecho: Imagen del coche e Historial de reservas -->
+        <section class="account-panel historial-panel">
+          <!-- Contenedor de imagen del coche -->
+          <div class="car-image-container">
+            <img src="/images/photo-1492144534655-ae79c964c9d7.avif" alt="Tu vehículo" class="car-image" />
+          </div>
+
+          <div class="panel-header">
+            <i class="fas fa-history"></i>
+            <h2>Historial de Reservas</h2>
+          </div>
+          <div class="historial-lista">
+            <% if (historial && historial.length > 0) { %>
+              <% historial.forEach(function(item) { %>
+                <div class="historial-item">
+                  <div class="historial-fecha">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><%= item.fecha %></span>
+                  </div>
+                  <div class="historial-servicio">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span><%= item.servicio %></span>
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="no-historial">
+                <i class="fas fa-folder-open"></i>
+                <p>No hay reservas anteriores.</p>
+              </div>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <%- include("partials/footer") %>
+  </body>
+</html>
