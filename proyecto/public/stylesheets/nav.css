@@ -1,0 +1,128 @@
+/* ================== NAV ================== */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 80px;
+  position: relative;
+  background-color: #0f172a;
+}
+
+@keyframes animation-nav {
+  0% {
+    top: -100px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+.logo a {
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 2.3rem;
+  color: white;
+  background: var(--color-gradient);
+  background-size: 200% 200%;
+  animation: gradientMove 4s ease infinite;
+  font-family: var(--font-h1);
+
+  /* para aplicar el gradiente al texto */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.lista ul,
+.acceso ul {
+  display: flex;
+  gap: 20px;
+  color: white;
+}
+
+.lista ul li,
+.acceso ul li {
+  padding: 10px 15px;
+  border-radius: 8px;
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign_up,
+.login {
+  border-radius: 8px;
+  padding: 5px 10px;
+  background: var(--color-gradient);
+}
+
+.acceso,
+.lista,
+.logo {
+  padding: 20px;
+  font-weight: bold;
+}
+
+a {
+  color: white;
+}
+
+.acceso ul li a i {
+  margin-right: 8px;
+}
+
+.sign_up:hover,
+.login:hover {
+  background-color: var(--color-secondary);
+  transition: 0.3s;
+  box-shadow: 5px 5px 0px var(--color-primary);
+  border: none;
+}
+
+.lista ul li a {
+  color: rgb(255, 255, 255);
+  position: relative;
+}
+
+.lista ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 4px;
+  background: var(--color-primary);
+}
+
+.lista ul li a:hover {
+  color: var(--color-primary);
+}
+
+.lista ul li a:hover::after {
+  animation: linea 0.5s forwards;
+}
+
+@keyframes linea {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

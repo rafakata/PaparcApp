@@ -1,0 +1,104 @@
+/* ================== RESPONSIVE NAV ================== */
+
+/* Botón hamburguesa: oculto en pantallas grandes */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* En pantallas pequeñas (móviles y tablets) */
+@media (max-width: 900px) {
+  .nav {
+    flex-wrap: wrap;
+    padding: 0 20px !important;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav--open {
+    background: #0f172a;
+  }
+
+  .nav-toggle {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #0f172a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    padding-top: 100px;
+    box-shadow: none;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .nav-menu--open {
+    display: flex;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .nav-toggle {
+    z-index: 1001;
+  }
+
+  .logo {
+    z-index: 1001;
+  }
+
+  .lista ul,
+  .acceso ul {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .lista,
+  .acceso {
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .lista ul li,
+  .acceso ul li {
+    width: 90%;
+    justify-content: center;
+  }
+
+  .nav-toggle--open i::before {
+    content: "\f00d";
+  }
+}
+
+/* En pantallas grandes, mostrar el menú normalmente */
+@media (min-width: 901px) {
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: static;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    width: auto;
+  }
+}

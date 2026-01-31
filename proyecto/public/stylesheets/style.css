@@ -1046,15 +1046,360 @@ footer {
     gap: 15px;
   }
 
-  .reserva label,
-  .reserva input,
-  .reserva button {
+  .reserva label {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .reserva input {
     width: 100%;
     box-sizing: border-box;
   }
 
+  .reserva button {
+    width: auto;
+    box-sizing: border-box;
+    align-self: flex-end;
+  }
+
   #reserva_boton {
+    width: auto;
+    padding: 0.5rem 1.5rem;
+  }
+
+  /* Redes sociales redondas en móvil */
+  .contenedor_redes {
+    width: auto;
+    height: auto;
+    right: 0.5rem;
+    top: 5rem;
+    bottom: auto;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .contenedor_redes .enlaces_redes {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contenedor_redes .enlaces_redes li {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .contenedor_redes .enlaces_redes li a {
     width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contenedor_redes .enlaces_redes li a span {
+    display: none;
+  }
+
+  .contenedor_redes i {
+    font-size: 1.5rem;
+  }
+
+  /* ================== RESPONSIVE CONTENEDOR 1 ================== */
+  #contenedor1::before {
+    height: 5rem;
+  }
+
+  .insets {
+    flex-direction: column;
+    gap: 3rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .inset {
+    min-width: 100%;
+    max-width: 100%;
+    padding: 2rem 1rem 1.5rem 1rem;
+  }
+
+  .inset .circulo {
+    width: 4rem;
+    height: 4rem;
+    left: 50%;
+    top: -2rem;
+    transform: translateX(-50%);
+  }
+
+  .inset .circulo i {
+    font-size: 2rem;
+  }
+
+  .inset p {
+    margin: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .camino {
+    height: 5rem;
+  }
+
+  .coche_contenedor {
+    width: 280px;
+    top: -6rem;
+  }
+
+  /* ================== RESPONSIVE CONTENEDOR 2 ================== */
+  #contenedor2 {
+    height: auto;
+    padding: 2rem 0.5rem;
+  }
+
+  #contenedor2 h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  #contenedor2 marquee {
+    font-size: 1rem;
+  }
+
+  .tarifas {
+    flex-direction: column;
+    margin: 0;
+    gap: 2rem;
+    height: auto;
+    width: 80%;
+  }
+
+  .tarifa {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    min-height: 28rem;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .tarifa h3 {
+    font-size: 1.6rem;
+  }
+
+  .tarifa .precio {
+    font-size: 3.5rem;
+  }
+
+  .tarifa .precio sup {
+    font-size: 1.6rem;
+  }
+
+  .tarifa ul {
+    width: 100%;
+    padding: 1.2rem;
+  }
+
+  .tarifa ul li {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .tarifa button {
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  .tarifa_grande {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 32rem;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .tarifa_grande h3 {
+    font-size: 1.8rem;
+  }
+
+  .tarifa_grande .precio {
+    font-size: 4.5rem;
+  }
+
+  .tarifa_grande .precio sup {
+    font-size: 2rem;
+  }
+
+  .tarifa_grande ul {
+    width: 100%;
+    padding: 1.2rem;
+  }
+
+  .tarifa_grande ul li {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .tarifa_grande button {
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  .tarifa_grande ul li {
+    font-size: 0.9rem;
+  }
+
+  /* ================== RESPONSIVE CONTENEDOR 3 ================== */
+  #contenedor3 {
+    height: auto;
+    padding: 2rem 1rem;
+  }
+
+  #contenedor3 h2 {
+    font-size: 1.8rem;
+  }
+
+  #contenedor3 > p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .contenedor_opiniones {
+    width: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+    height: auto;
+  }
+
+  .opinion_card {
+    height: 10rem;
+  }
+
+  .opinion_card .opinion_info {
+    opacity: 1;
+    padding: 1rem;
+  }
+
+  .opinion_card .opinion_info h3 {
+    font-size: 1.1rem;
+  }
+
+  .opinion_card .opinion_info p {
+    font-size: 0.85rem;
+  }
+
+  /* ================== RESPONSIVE CONTENEDOR 4 ================== */
+  #contenedor4 {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  #contenedor4 .ubicacion {
+    flex-direction: column;
+    width: 95%;
+    height: auto;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  #contenedor4 .info_ubicacion {
+    width: 100%;
+    gap: 1rem;
+  }
+
+  #contenedor4 .info_ubicacion h2 {
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+
+  #contenedor4 .info_ubicacion p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  #contenedor4 .mapa {
+    width: 100%;
+    height: 15rem;
+  }
+
+  .persona {
+    display: none;
+  }
+
+  /* ================== RESPONSIVE FOOTER ================== */
+  footer {
+    padding: 1rem 0;
+  }
+
+  .footer_contenido {
+    width: 95%;
+    height: auto;
+    padding: 1.5rem 0;
+    gap: 1.5rem;
+  }
+
+  .footer_contenido .contenedor_footer {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer_contenido .footer_enlaces {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .footer_contenido .footer_enlace {
+    width: 33%;
+    flex: 1;
+    text-align: center;
+  }
+
+  .footer_contenido .footer_enlace p {
+    font-size: 1.2rem;
+  }
+
+  .footer_contenido .footer_enlace ul {
+    margin: 0.8rem 0;
+  }
+
+  .footer_contenido .footer_enlace ul li {
+    margin: 0.5rem 0;
+  }
+
+  .footer_contenido .footer_logo {
+    width: 100%;
+  }
+
+  .footer_contenido .footer_logo_inner {
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer_contenido .footer_logo_inner p {
+    font-size: 2rem;
+  }
+
+  .footer_contenido .footer_logo_inner ul {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .footer_contenido .derechos {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .footer_contenido .derechos ul {
+    gap: 1.5rem;
+    justify-content: center;
   }
 }
 
