@@ -2,26 +2,49 @@
   <div class="logo">
     <a href="/">PaparcApp</a>
   </div>
-  <div class="lista">
-    <ul>
-      <li><a href="/service">Service</a></li>
-      <li><a href="#">Price</a></li>
-      <li><a href="tel:+34920452748">920 452 748</a></li>
-    </ul>
-  </div>
 
-  
-  <div class="acceso">
-      <% if (isLoggedIn) { %>
-    <p style="color: white;"><strong>ID:</strong> <%= user.numero %></p>
-   <% } %>
-    <ul>
-      <li class="sign_up">
-        <a href="/users/register"><i class="fas fa-user-plus"></i> Sign up</a>
-      </li>
-      <li class="login">
-        <a href="/users/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-      </li>
-    </ul>
+  <!-- Botón hamburguesa para móviles -->
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="nav-menu" id="navMenu">
+    <div class="lista">
+      <ul>
+        <li><a href="/service">Service</a></li>
+        <li><a href="#">Price</a></li>
+        <li><a href="tel:+34920452748">920 452 748</a></li>
+      </ul>
+    </div>
+
+    <div class="acceso">
+        <% if (isLoggedIn) { %>
+      <p style="color: white;"><strong>ID:</strong> <%= user.numero %></p>
+     <% } %>
+      <ul>
+        <li class="sign_up">
+          <a href="/users/register"><i class="fas fa-user-plus"></i> Sign up</a>
+        </li>
+        <li class="login">
+          <a href="/users/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    const nav = document.querySelector('.nav');
+    if (navToggle && navMenu && nav) {
+      navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('nav-menu--open');
+        navToggle.classList.toggle('nav-toggle--open');
+        nav.classList.toggle('nav--open');
+        document.body.classList.toggle('menu-open');
+      });
+    }
+  });
+</script>
