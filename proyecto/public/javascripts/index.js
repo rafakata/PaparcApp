@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         alert('Por favor, selecciona fecha y hora de entrada y salida.');
         return;
       }
-      window.location.href = `/reserva?entrada=${encodeURIComponent(entrada)}&salida=${encodeURIComponent(salida)}`;
+      window.location.href = `/booking?entrada=${encodeURIComponent(entrada)}&salida=${encodeURIComponent(salida)}`;
     });
   }
 });
