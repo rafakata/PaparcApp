@@ -6,22 +6,22 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Valet Parking - Inicio' });
+  res.render('index', { title: 'Valet Parking - Index' });
 });
 
 /* GET Services page */
 router.get('/service', function(req, res, next) {
-  res.render('service', { title: 'Nuestros Servicios' });
+  res.render('service', { title: 'Our Services' });
 });
 
 /* GET privacy page */
 router.get('/privacy', function(req, res, next) {
-  res.render('privacy', { title: 'Política de Privacidad' });
+  res.render('privacy', { title: 'Privacy Policy' });
 });
 
 // Página de reserva (frontend)
-router.get('/reserva', function(req, res, next) {
-  res.render('reserva', { title: 'Reserva de Parking' });
+router.get('/booking', function(req, res, next) {
+  res.render('booking', { title: 'Parking reservation' });
 });
 
 
