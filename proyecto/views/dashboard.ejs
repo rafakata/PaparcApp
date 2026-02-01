@@ -3,161 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard - PaparcApp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/stylesheets/dashboard.css">
-    <link rel="stylesheet" 
-      href="https://code.jquery.com/ui/1.13.2/themes/Trontastic/jquery-ui.css">
 </head>
 <body>
-    <nav class="dashboard-nav">
-        <div class="contenedor_logo">
-            <p>PaparcaApp</p>
-            <ul class="enlaces">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/profile">Reservation</a></li>
-                <li><a href="/history">Reservation History</a></li>
-            </ul>
+    <!-- Modern Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary sticky-top shadow-lg">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="/dashboard">
+                <i class="bi bi-p-circle-fill fs-3 me-2"></i>
+                <span class="brand-text">PaparcApp</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active px-3" href="/dashboard">
+                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/profile">
+                            <i class="bi bi-calendar-plus me-1"></i> Nueva Reserva
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="/history">
+                            <i class="bi bi-clock-history me-1"></i> Historial
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            <div class="avatar-circle me-2">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <span class="d-none d-md-inline"><%= user.nombre %></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/account"><i class="bi bi-gear me-2"></i>Configuración</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="/users/logout"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="contenedor_usuario">
-            <ul class="enlaces_usuario">
-                <li><%= user.nombre %></li> <!-- cambie esto para que se pueda usar el nombre del parking -->
-                <li class="logout"><a href="/users/logout">Logout</a></li>
-            </ul>
-            <ul class="imagen">
-                <li><a href="/profile"><img src="/images/3c63af1d-c905-4c85-a68b-a20096b81ab1.png" alt="User Icon" /></a></li>
-            </ul>
-        </div>
     </nav>
-    <main>
-        <div class="lista_reservas">
-            <h3>Your Upcoming Reservations</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Number Plate</th>
-                            <th>Time</th>
-                            <th>Services</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Reservation items will be dynamically inserted here -->
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
 
-                         </tr>
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr>
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr>
-                    </tbody>
-                </table>
+    <!-- Welcome Header -->
+    <div class="welcome-header py-4 mb-4">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-6 fw-bold text-dark mb-1">
+                        <i class="bi bi-hand-wave text-warning me-2"></i>¡Hola, <%= user.nombre %>!
+                    </h1>
+                    <p class="text-muted mb-0">Bienvenido al panel de control de tu parking</p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <span class="badge bg-light text-dark fs-6 px-3 py-2">
+                        <i class="bi bi-calendar3 me-2"></i><%= new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="calendario">
-            <h3>Reservation Calendar</h3>
-            <div class="calendario_widget"></div>
+    </div>
+    <!-- Main Content -->
+    <main class="container-fluid px-4 pb-5">
+        <!-- Stats Cards Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-6 col-md-3">
+                <div class="stat-card stat-card-success">
+                    <div class="stat-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number"><%= parkingStats.available %></h3>
+                        <p class="stat-label">Disponibles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card stat-card-danger">
+                    <div class="stat-icon">
+                        <i class="bi bi-car-front-fill"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number"><%= parkingStats.occupied %></h3>
+                        <p class="stat-label">Ocupadas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card stat-card-warning">
+                    <div class="stat-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number"><%= parkingStats.reserved %></h3>
+                        <p class="stat-label">Reservadas</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card stat-card-primary">
+                    <div class="stat-icon">
+                        <i class="bi bi-building-fill"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number"><%= parkingStats.total %></h3>
+                        <p class="stat-label">Total Plazas</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="reservas_completadas">
-            <h3>Completed Reservations</h3>
-                            <table>
-                    <thead>
-                        <tr>
-                            <th>Number Plate</th>
-                            <th>Time</th>
-                            <th>Services</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Reservation items will be dynamically inserted here -->
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
 
-                         </tr>
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
+        <div class="row g-4">
+            <!-- Left Column: Reservations (70%) -->
+            <div class="col-12 col-xl-8">
+                <!-- Upcoming Reservations -->
+                <div class="card border-0 shadow-sm mb-4 card-hover">
+                    <div class="card-header bg-gradient-primary text-white border-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-semibold">
+                                <i class="bi bi-calendar-event me-2"></i>Reservas Activas
+                            </h5>
+                            <span class="badge bg-white text-primary fs-6 px-3"><%= upcomingReservations.length %></span>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-4 py-3"><i class="bi bi-hash me-1 text-muted"></i>Matrícula</th>
+                                        <th class="py-3"><i class="bi bi-calendar-check me-1 text-muted"></i>Entrada</th>
+                                        <th class="py-3"><i class="bi bi-calendar-x me-1 text-muted"></i>Salida</th>
+                                        <th class="py-3 d-none d-lg-table-cell"><i class="bi bi-wrench me-1 text-muted"></i>Servicio</th>
+                                        <th class="py-3 d-none d-md-table-cell"><i class="bi bi-geo-alt me-1 text-muted"></i>Plaza</th>
+                                        <th class="py-3 text-end pe-4">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (upcomingReservations.length === 0) { %>
+                                        <tr>
+                                            <td colspan="6" class="text-center py-5">
+                                                <div class="empty-state">
+                                                    <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                                    <p class="text-muted mt-3 mb-0">No hay reservas activas</p>
+                                                    <a href="/profile" class="btn btn-primary btn-sm mt-3">
+                                                        <i class="bi bi-plus-lg me-1"></i>Crear Reserva
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% } else { %>
+                                        <% upcomingReservations.forEach(function(reservation) { %>
+                                            <tr class="reservation-row">
+                                                <td class="ps-4">
+                                                    <span class="license-plate">
+                                                        <i class="bi bi-car-front me-2"></i><%= reservation.license_plate %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="date-info">
+                                                        <span class="date-day"><%= new Date(reservation.entry_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) %></span>
+                                                        <span class="date-time text-muted"><%= new Date(reservation.entry_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) %></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="date-info">
+                                                        <span class="date-day"><%= new Date(reservation.exit_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) %></span>
+                                                        <span class="date-time text-muted"><%= new Date(reservation.exit_date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) %></span>
+                                                    </div>
+                                                </td>
+                                                <td class="d-none d-lg-table-cell">
+                                                    <span class="badge bg-light text-dark"><%= reservation.service_name %></span>
+                                                </td>
+                                                <td class="d-none d-md-table-cell">
+                                                    <span class="parking-spot <%= reservation.cod_parking_spot ? 'active' : 'pending' %>">
+                                                        <%= reservation.cod_parking_spot || 'Pendiente' %>
+                                                    </span>
+                                                </td>
+                                                <td class="text-end pe-4">
+                                                    <form action="/admin/cancel-reservation/<%= reservation.id_reservation %>" method="POST" class="d-inline">
+                                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill" onclick="return confirm('¿Estás seguro de cancelar esta reserva?')">
+                                                            <i class="bi bi-x-lg me-1"></i><span class="d-none d-md-inline">Cancelar</span>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
-                         </tr>
-                         <tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
+                <!-- Completed Reservations -->
+                <div class="card border-0 shadow-sm card-hover">
+                    <div class="card-header bg-gradient-secondary text-white border-0 py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-semibold">
+                                <i class="bi bi-check-all me-2"></i>Reservas Completadas
+                            </h5>
+                            <span class="badge bg-white text-secondary fs-6 px-3"><%= completedReservations.length %></span>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-4 py-3"><i class="bi bi-hash me-1 text-muted"></i>Matrícula</th>
+                                        <th class="py-3"><i class="bi bi-calendar me-1 text-muted"></i>Fecha</th>
+                                        <th class="py-3 d-none d-md-table-cell"><i class="bi bi-wrench me-1 text-muted"></i>Servicio</th>
+                                        <th class="py-3 text-end pe-4">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (completedReservations.length === 0) { %>
+                                        <tr>
+                                            <td colspan="4" class="text-center py-5">
+                                                <div class="empty-state">
+                                                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                                                    <p class="text-muted mt-3 mb-0">Aún no hay reservas completadas</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% } else { %>
+                                        <% completedReservations.forEach(function(reservation) { %>
+                                            <tr>
+                                                <td class="ps-4">
+                                                    <span class="license-plate license-plate-completed">
+                                                        <i class="bi bi-car-front me-2"></i><%= reservation.license_plate %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <small class="text-muted">
+                                                        <%= new Date(reservation.exit_date || reservation.entry_date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) %>
+                                                    </small>
+                                                </td>
+                                                <td class="d-none d-md-table-cell">
+                                                    <span class="badge bg-light text-dark"><%= reservation.service_name %></span>
+                                                </td>
+                                                <td class="text-end pe-4">
+                                                    <span class="badge bg-success-subtle text-success px-3 py-2">
+                                                        <i class="bi bi-check-circle-fill me-1"></i>Completada
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
+            <!-- Right Column: Calendar & Quick Actions -->
+            <div class="col-12 col-xl-4">
+                <!-- Calendar -->
+                <div class="card border-0 shadow-sm mb-4 card-hover">
+                    <div class="card-header bg-gradient-success text-white border-0 py-3">
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="bi bi-calendar3 me-2"></i>Calendario
+                        </h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-center py-4">
+                        <div class="calendario_widget"></div>
+                    </div>
+                </div>
 
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr><tr>
-                        <td>1234ABC</td>
-                        <td>10:00 AM - 11:00 AM</td>
-                        <td>Car Wash, Oil Change</td>
-                        <td><button class="cancelar_btn">Cancel</button></td>
-
-                         </tr>
-                    </tbody>
-                </table>
-        </div>
-        <div class="parking_info">
-            <h3>Parking Information</h3>
-            <div class="info_items">
-                <!-- Parking lot information will be dynamically inserted here -->
+                <!-- Quick Actions -->
+                <div class="card border-0 shadow-sm mb-4 card-hover">
+                    <div class="card-header bg-gradient-info text-white border-0 py-3">
+                        <h5 class="mb-0 fw-semibold">
+                            <i class="bi bi-lightning-charge me-2"></i>Acciones Rápidas
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-3">
+                            <a href="/profile" class="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-center">
+                                <i class="bi bi-plus-circle fs-5 me-2"></i>Nueva Reserva
+                            </a>
+                            <a href="/history" class="btn btn-outline-secondary btn-lg d-flex align-items-center justify-content-center">
+                                <i class="bi bi-list-ul fs-5 me-2"></i>Ver Historial
+                            </a>
+                            <a href="/account" class="btn btn-outline-dark btn-lg d-flex align-items-center justify-content-center">
+                                <i class="bi bi-gear fs-5 me-2"></i>Configuración
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 </body>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script>
         $( function() {
