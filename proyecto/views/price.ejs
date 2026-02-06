@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %> - PaparcApp</title>
+    <link rel="stylesheet" href="/stylesheets/price.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+  </head>
+  <body>
+    <%- include("partials/nav") %>
+
+    <!-- TABLA COMPARATIVA -->
+    <section class="comparison-section">
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="feature-col">Features</th>
+              <th class="plan-col">
+                <i class="fas fa-car"></i>
+                <span>Basic</span>
+                <small>€4/hour</small>
+              </th>
+              <th class="plan-col plan-popular">
+                <div class="popular-tag">Most Popular</div>
+                <i class="fas fa-car-side"></i>
+                <span>Standard</span>
+                <small>€15/day</small>
+              </th>
+              <th class="plan-col plan-premium">
+                <i class="fas fa-gem"></i>
+                <span>Premium</span>
+                <small>€25/day</small>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Parking -->
+            <tr class="category-row"><td colspan="4"><i class="fas fa-warehouse"></i> Parking</td></tr>
+            <tr>
+              <td>Parking type</td>
+              <td>Outdoor covered</td>
+              <td>Indoor secured</td>
+              <td>VIP indoor garage</td>
+            </tr>
+            <tr>
+              <td>24/7 CCTV surveillance</td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Dedicated parking spot</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Climate-controlled area</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+
+            <!-- Booking -->
+            <tr class="category-row"><td colspan="4"><i class="fas fa-calendar-check"></i> Booking</td></tr>
+            <tr>
+              <td>Digital booking confirmation</td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Free cancellation</td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Flexible date changes</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+
+            <!-- Services -->
+            <tr class="category-row"><td colspan="4"><i class="fas fa-concierge-bell"></i> Services</td></tr>
+            <tr>
+              <td>Basic car wash</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Full detailing</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Valet parking</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>EV Charging</td>
+              <td>€6/h add-on</td>
+              <td>€4/h add-on</td>
+              <td><i class="fas fa-check tick"></i> Included</td>
+            </tr>
+
+            <!-- Support -->
+            <tr class="category-row"><td colspan="4"><i class="fas fa-headset"></i> Support</td></tr>
+            <tr>
+              <td>Email support</td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Phone support</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Priority 24/7 support</td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-times cross"></i></td>
+              <td><i class="fas fa-check tick"></i></td>
+            </tr>
+            <tr>
+              <td>Extra insurance available</td>
+              <td>€5/day add-on</td>
+              <td>€3/day add-on</td>
+              <td><i class="fas fa-check tick"></i> Included</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td><a href="/booking" class="table-btn">Book Basic</a></td>
+              <td><a href="/booking" class="table-btn table-btn-popular">Book Standard</a></td>
+              <td><a href="/booking" class="table-btn table-btn-premium">Book Premium</a></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="price-cta">
+      <h2>Ready to park with us?</h2>
+      <p>Book your spot now and enjoy a hassle-free parking experience</p>
+      <a href="/booking" class="cta-btn"><i class="fas fa-calendar-check"></i> Reserve Now</a>
+    </section>
+
+    <%- include("partials/footer") %>
+  </body>
+</html>

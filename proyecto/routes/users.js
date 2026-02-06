@@ -45,7 +45,13 @@ router.get('/logout', authController.logout);
 /*GET profile page: muestra el perfil del usuario logueado */
 // usamos getLoggedIn. Si no está logueado, redirige a login
 router.get('/profile', isLoggedIn, function(req, res, next) {
-  res.render('profile', { title: 'Perfil de Usuario'})
+  // Aquí deberías obtener la reserva actual y el historial del usuario desde la base de datos
+  // Por ahora, enviamos valores por defecto para evitar el error en la vista
+  res.render('profile', {
+    title: 'Perfil de Usuario',
+    reservaActual: null,
+    historial: []
+  });
 });
 
 
