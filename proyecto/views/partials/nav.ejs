@@ -12,15 +12,18 @@
     <div class="lista">
       <ul>
         <li><a href="/service">Service</a></li>
-        <li><a href="#">Price</a></li>
+        <li><a href="/price">Price</a></li>
         <li><a href="tel:+34920452748">920 452 748</a></li>
       </ul>
     </div>
 
     <div class="acceso">
         <% if (isLoggedIn) { %>
-      <p style="color: white;"><strong>ID:</strong> <%= user.numero %></p>
-     <% } %>
+        <a href="/users/profile" class="nav-user-badge">
+          <div class="nav-avatar"><%= user.nombre ? user.nombre.charAt(0).toUpperCase() : 'U' %></div>
+          <span class="nav-username"><%= user.nombre %></span>
+        </a>
+        <% } else { %>
       <ul>
         <li class="sign_up">
           <a href="/users/register"><i class="fas fa-user-plus"></i> Sign up</a>
@@ -29,6 +32,7 @@
           <a href="/users/login"><i class="fas fa-sign-in-alt"></i> Login</a>
         </li>
       </ul>
+        <% } %>
     </div>
   </div>
 </nav>

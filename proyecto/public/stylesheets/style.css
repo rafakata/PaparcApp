@@ -117,6 +117,49 @@ a {
   margin-right: 8px;
 }
 
+/* ============= NAV USER BADGE (logged in) ============= */
+.nav-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-user-badge:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(9, 104, 239, 0.5);
+  transform: translateY(-1px);
+}
+
+.nav-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0968ef, #0550c8);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 6px rgba(9, 104, 239, 0.4);
+}
+
+.nav-username {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
+
 .sign_up:hover,
 .login:hover {
   background-color: var(--color-secondary);
@@ -194,40 +237,80 @@ h1 {
 }
 
 .contenedor_reserva {
-  padding: 20px;
-  /*border-radius: 12px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    */
-  box-shadow: 5px 5px 0px var(--color-accent);
-  background-color: var(--background-color-secondary);
+  padding: 1.25rem 1.5rem;
+  border-radius: 1rem;
+  background: rgba(78, 71, 71, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .reserva {
   display: flex;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10px;
-}
-#reserva_boton {
-  padding: 8px;
-  width: 70px;
-  background-color: var(--color-secondary);
-  color: var(--color-accent);
-  border: none;
-}
-#reserva_boton:hover {
-  opacity: 0.9;
-  transform: scale(1.1);
-  transition: 1s;
 }
 
-.reserva label,
-.reserva input,
-.reserva button {
-  padding: 5px 10px;
-  color: var(--color-accent);
+.reserva-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.reserva-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.reserva-group label i {
+  font-size: 0.9rem;
+}
+
+.reserva-group input {
+  padding: 0.65rem 1rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0.6rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.reserva-group input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+#reserva_boton {
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  border: none;
+  border-radius: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+}
+
+#reserva_boton:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
 }
 /*================== REDES SOCIALES ==================*/
 .contenedor_redes {

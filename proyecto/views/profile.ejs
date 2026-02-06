@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Perfil Básico</title>
@@ -24,4 +24,377 @@
     <a href="/">volver a inicio</a>
 
 </body>
+</html> -->
+<% 
+  // Forzar usuario demo y sesión activa para pruebas visuales del nav
+  isLoggedIn = true;
+  user = user || { nombre: 'Usuario Demo', email: 'demo@example.com' };
+%>
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Cuenta | PaparcApp</title>
+    <link rel="stylesheet" href="/stylesheets/reserva.css" />
+    <link rel="stylesheet" href="/stylesheets/profile.css" />
+    <link rel="stylesheet" href="/stylesheets/nav-responsive.css" />
+    <link rel="stylesheet" href="/stylesheets/booking.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+  </head>
+  <body>
+    <header>
+        <%- include("partials/nav") %>
+    </header>
+    <main class="profile-main">
+      <div class="profile-container">
+        <!-- Panel izquierdo: Info del usuario y reserva actual -->
+        <section class="profile-panel user-reserva-panel">
+          <div class="panel-header">
+            <i class="fas fa-user-circle"></i>
+            <h2>Mi Cuenta</h2>
+          </div>
+          <div class="user-info">
+            <p><strong>Nombre:</strong> <%= user ? user.nombre : 'Usuario' %></p>
+            <p><strong>Email:</strong> <%= user ? user.email : '' %></p>
+            <button class="btn btn-edit-profile" onclick="openEditModal()">
+              <i class="fas fa-pen"></i> Editar Datos
+            </button>
+          </div>
+
+          <div class="reserva-actual">
+            <h3><i class="fas fa-calendar-check"></i> Reserva Actual</h3>
+            <% if (reservaActual) { %>
+              <div class="reserva-card">
+                <p><i class="fas fa-calendar-day"></i> <strong>Fecha:</strong> <%= reservaActual.fecha %></p>
+                <p><i class="fas fa-clock"></i> <strong>Hora:</strong> <%= reservaActual.hora %></p>
+                <p><i class="fas fa-concierge-bell"></i> <strong>Servicio:</strong> <%= reservaActual.servicio %></p>
+                <div class="reserva-actions">
+                  <button class="btn btn-primary" onclick="openBookingModal()"><i class="fas fa-edit"></i> Modificar Reserva</button>
+                  <button class="btn btn-secondary" onclick="openBookingModal()"><i class="fas fa-plus"></i> Nueva Reserva</button>
+                </div>
+              </div>
+            <% } else { %>
+              <div class="no-reserva">
+                <i class="fas fa-info-circle"></i>
+                <p>No tienes ninguna reserva activa.</p>
+                <button class="btn btn-primary" onclick="openBookingModal()">Hacer una Reserva</button>
+              </div>
+            <% } %>
+          </div>
+        </section>
+
+        <!-- Panel derecho: Imagen del coche e Historial de reservas -->
+        <section class="profile-panel historial-panel">
+          <!-- Contenedor de imagen del coche -->
+          <div class="car-image-container">
+            <img src="/images/photo-1492144534655-ae79c964c9d7.avif" alt="Tu vehículo" class="car-image" />
+          </div>
+
+          <div class="panel-header">
+            <i class="fas fa-history"></i>
+            <h2>Historial de Reservas</h2>
+          </div>
+          <div class="historial-lista">
+            <% if (historial && historial.length > 0) { %>
+              <% historial.forEach(function(item) { %>
+                <div class="historial-item">
+                  <div class="historial-fecha">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span><%= item.fecha %></span>
+                  </div>
+                  <div class="historial-servicio">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span><%= item.servicio %></span>
+                  </div>
+                </div>
+              <% }) %>
+            <% } else { %>
+              <div class="no-historial">
+                <i class="fas fa-folder-open"></i>
+                <p>No hay reservas anteriores.</p>
+              </div>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <%- include("partials/footer") %>
+
+    <!-- Modal Reserva -->
+    <div class="modal-overlay" id="bookingModal">
+      <div class="modal-container modal-booking">
+        <div class="modal-header">
+          <h2><i class="fas fa-car"></i> Nueva Reserva</h2>
+          <button class="modal-close" onclick="closeBookingModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Steps indicator -->
+        <div class="booking-steps">
+          <div class="step active" id="step-ind-1"><span>1</span> Fechas</div>
+          <div class="step-line"></div>
+          <div class="step" id="step-ind-2"><span>2</span> Vehículo</div>
+          <div class="step-line"></div>
+          <div class="step" id="step-ind-3"><span>3</span> Confirmar</div>
+        </div>
+
+        <!-- Step 1: Fechas -->
+        <form class="modal-body" id="booking-step-1">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="book-entrada"><i class="fas fa-plane-departure"></i> Fecha de Entrada</label>
+              <input type="datetime-local" id="book-entrada" name="entrada" required />
+            </div>
+            <div class="form-group">
+              <label for="book-salida"><i class="fas fa-plane-arrival"></i> Fecha de Salida</label>
+              <input type="datetime-local" id="book-salida" name="salida" required />
+            </div>
+          </div>
+          <div class="booking-price-preview" id="booking-price-preview">
+            <i class="fas fa-tag"></i> <span>Selecciona las fechas para ver el precio</span>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="closeBookingModal()">Cancelar</button>
+            <button type="button" class="btn btn-save" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+          </div>
+        </form>
+
+        <!-- Step 2: Vehículo -->
+        <div class="modal-body" id="booking-step-2" style="display: none;">
+          <div class="form-group">
+            <label for="book-matricula"><i class="fas fa-id-badge"></i> Matrícula</label>
+            <input type="text" id="book-matricula" name="matricula" placeholder="0000-XXX" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="book-marca"><i class="fas fa-car"></i> Marca</label>
+              <input type="text" id="book-marca" name="marca" placeholder="Marca del coche" required />
+            </div>
+            <div class="form-group">
+              <label for="book-modelo"><i class="fas fa-car-side"></i> Modelo</label>
+              <input type="text" id="book-modelo" name="modelo" placeholder="Modelo del coche" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="book-color"><i class="fas fa-palette"></i> Color</label>
+            <input type="text" id="book-color" name="color" placeholder="Color del vehículo" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
+            <button type="button" class="btn btn-save" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Confirmación -->
+        <div class="modal-body" id="booking-step-3" style="display: none;">
+          <div class="booking-summary">
+            <h3><i class="fas fa-clipboard-check"></i> Resumen de tu Reserva</h3>
+            <div class="summary-grid">
+              <div class="summary-item">
+                <i class="fas fa-plane-departure"></i>
+                <div><strong>Entrada</strong><span id="sum-entrada">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-plane-arrival"></i>
+                <div><strong>Salida</strong><span id="sum-salida">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-id-badge"></i>
+                <div><strong>Matrícula</strong><span id="sum-matricula">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-car"></i>
+                <div><strong>Vehículo</strong><span id="sum-vehiculo">-</span></div>
+              </div>
+            </div>
+            <div class="summary-price">
+              <i class="fas fa-euro-sign"></i>
+              <span id="sum-precio">0.00 €</span>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
+            <button type="button" class="btn btn-save btn-confirm-booking" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirmar Reserva</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Editar Datos -->
+    <div class="modal-overlay" id="editModal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2><i class="fas fa-user-edit"></i> Editar Perfil</h2>
+          <button class="modal-close" onclick="closeEditModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="modal-tabs">
+          <button class="modal-tab active" onclick="switchTab('datos')" id="tab-datos">
+            <i class="fas fa-id-card"></i> Datos Personales
+          </button>
+          <button class="modal-tab" onclick="switchTab('password')" id="tab-password">
+            <i class="fas fa-lock"></i> Cambiar Contraseña
+          </button>
+        </div>
+
+        <!-- Tab Datos Personales -->
+        <form class="modal-body" id="form-datos">
+          <div class="form-group">
+            <label for="edit-nombre"><i class="fas fa-user"></i> Nombre</label>
+            <input type="text" id="edit-nombre" name="nombre" value="<%= user ? user.nombre : '' %>" placeholder="Tu nombre" />
+          </div>
+          <div class="form-group">
+            <label for="edit-email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="edit-email" name="email" value="<%= user ? user.email : '' %>" placeholder="tu@email.com" />
+          </div>
+          <div class="form-group">
+            <label for="edit-telefono"><i class="fas fa-phone"></i> Teléfono</label>
+            <input type="tel" id="edit-telefono" name="telefono" value="<%= user ? user.telefono || '' : '' %>" placeholder="600 123 456" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancelar</button>
+            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Guardar Cambios</button>
+          </div>
+        </form>
+
+        <!-- Tab Cambiar Contraseña -->
+        <form class="modal-body" id="form-password" style="display: none;">
+          <div class="form-group">
+            <label for="current-password"><i class="fas fa-key"></i> Contraseña Actual</label>
+            <input type="password" id="current-password" name="currentPassword" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label for="new-password"><i class="fas fa-lock"></i> Nueva Contraseña</label>
+            <input type="password" id="new-password" name="newPassword" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label for="confirm-password"><i class="fas fa-check-circle"></i> Confirmar Contraseña</label>
+            <input type="password" id="confirm-password" name="confirmPassword" placeholder="••••••••" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancelar</button>
+            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Cambiar Contraseña</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function openEditModal() {
+        document.getElementById('editModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeEditModal() {
+        document.getElementById('editModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function switchTab(tab) {
+        document.getElementById('form-datos').style.display = tab === 'datos' ? 'flex' : 'none';
+        document.getElementById('form-password').style.display = tab === 'password' ? 'flex' : 'none';
+        document.getElementById('tab-datos').classList.toggle('active', tab === 'datos');
+        document.getElementById('tab-password').classList.toggle('active', tab === 'password');
+      }
+
+      // Cerrar modal al hacer clic fuera
+      document.getElementById('editModal').addEventListener('click', function(e) {
+        if (e.target === this) closeEditModal();
+      });
+
+      // Cerrar modal con tecla Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeEditModal();
+          closeBookingModal();
+        }
+      });
+
+      /* ========== MODAL RESERVA ========== */
+      function openBookingModal() {
+        document.getElementById('bookingModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        goToStep(1);
+      }
+
+      function closeBookingModal() {
+        document.getElementById('bookingModal').classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      document.getElementById('bookingModal').addEventListener('click', function(e) {
+        if (e.target === this) closeBookingModal();
+      });
+
+      function goToStep(step) {
+        document.getElementById('booking-step-1').style.display = step === 1 ? 'flex' : 'none';
+        document.getElementById('booking-step-2').style.display = step === 2 ? 'flex' : 'none';
+        document.getElementById('booking-step-3').style.display = step === 3 ? 'flex' : 'none';
+        for (let i = 1; i <= 3; i++) {
+          document.getElementById('step-ind-' + i).classList.toggle('active', i <= step);
+        }
+        if (step === 3) updateSummary();
+      }
+
+      // Calcular precio al cambiar fechas
+      document.getElementById('book-entrada').addEventListener('change', calcPrice);
+      document.getElementById('book-salida').addEventListener('change', calcPrice);
+
+      function calcPrice() {
+        const entrada = new Date(document.getElementById('book-entrada').value);
+        const salida = new Date(document.getElementById('book-salida').value);
+        const preview = document.getElementById('booking-price-preview');
+        if (entrada && salida && salida > entrada) {
+          const dias = Math.ceil((salida - entrada) / (1000 * 60 * 60 * 24));
+          const precio = (dias * 8.50).toFixed(2);
+          preview.innerHTML = '<i class="fas fa-tag"></i> <span>' + dias + ' día(s) — <strong>' + precio + ' €</strong> (IVA incl.)</span>';
+          preview.classList.add('has-price');
+        } else {
+          preview.innerHTML = '<i class="fas fa-tag"></i> <span>Selecciona las fechas para ver el precio</span>';
+          preview.classList.remove('has-price');
+        }
+      }
+
+      function updateSummary() {
+        const entrada = document.getElementById('book-entrada').value;
+        const salida = document.getElementById('book-salida').value;
+        const matricula = document.getElementById('book-matricula').value;
+        const marca = document.getElementById('book-marca').value;
+        const modelo = document.getElementById('book-modelo').value;
+
+        document.getElementById('sum-entrada').textContent = entrada ? new Date(entrada).toLocaleString('es-ES') : '-';
+        document.getElementById('sum-salida').textContent = salida ? new Date(salida).toLocaleString('es-ES') : '-';
+        document.getElementById('sum-matricula').textContent = matricula || '-';
+        document.getElementById('sum-vehiculo').textContent = (marca + ' ' + modelo).trim() || '-';
+
+        const e = new Date(entrada), s = new Date(salida);
+        if (e && s && s > e) {
+          const dias = Math.ceil((s - e) / (1000 * 60 * 60 * 24));
+          document.getElementById('sum-precio').textContent = (dias * 8.50).toFixed(2) + ' €';
+        }
+      }
+
+      function confirmBooking() {
+        alert('¡Reserva confirmada! Te enviaremos un email con los detalles.');
+        closeBookingModal();
+      }
+    </script>
+  </body>
 </html>

@@ -30,15 +30,15 @@
         </p>
         <div class="contenedor_reserva">
           <div class="reserva">
-            <!-- Entrada -->
-            <label for="entrada"> <i class="fas fa-car"></i> Entrance </label>
-            <input type="datetime-local" id="entrada" />
-
-            <!-- Salida -->
-            <label for="salida"> <i class="fas fa-car-side"></i> Exit </label>
-            <input type="datetime-local" id="salida" />
-
-            <button id="reserva_boton">Search</button>
+            <div class="reserva-group">
+              <label for="entrada"><i class="fas fa-calendar-check"></i> Entrance</label>
+              <input type="datetime-local" id="entrada" />
+            </div>
+            <div class="reserva-group">
+              <label for="salida"><i class="fas fa-calendar-times"></i> Exit</label>
+              <input type="datetime-local" id="salida" />
+            </div>
+            <button id="reserva_boton"><i class="fas fa-search"></i> Search</button>
           </div>
         </div>
       </div>

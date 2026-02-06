@@ -126,3 +126,46 @@ a {
     width: 100%;
   }
 }
+
+/* ============= NAV USER BADGE (logged in) ============= */
+.nav-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-user-badge:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(9, 104, 239, 0.5);
+  transform: translateY(-1px);
+}
+
+.nav-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0968ef, #0550c8);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 2px 6px rgba(9, 104, 239, 0.4);
+}
+
+.nav-username {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+}
