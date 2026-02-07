@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --azul-corp: #0968EF;
+            --verde-corp: #7DDF8B;
+            --negro: #000000;
+            --gris: #D9D9D9;
+            --blanco: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--negro);
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid var(--azul-corp);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-family: 'Zen Dots', cursive;
+            font-size: 32px;
+            color: var(--azul-corp);
+            margin: 0;
+        }
+
+        .empresa-info {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        .invoice-title {
+            color: var(--azul-corp);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        .section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .col {
+            width: 48%;
+        }
+
+        h3 {
+            border-left: 4px solid var(--verde-corp);
+            padding-left: 10px;
+            font-size: 1.1em;
+            color: var(--azul-corp);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th {
+            background-color: var(--azul-corp);
+            color: var(--blanco);
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gris);
+        }
+
+        .total-box {
+            background-color: #f4f7ff;
+            padding: 20px;
+            text-align: right;
+            border-radius: 8px;
+        }
+
+        .total-amount {
+            font-size: 24px;
+            color: var(--azul-corp);
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid var(--gris);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1 class="logo">PaparcApp</h1>
+            <p>Gestión Profesional de Parking</p>
+        </div>
+        <div class="empresa-info">
+            <h2 class="invoice-title">Resguardo de Reserva</h2>
+            <p><strong>Nº Factura:</strong> {d.id_reservation}</p>
+            <p><strong>Fecha:</strong> {d.reservation_date}</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="col">
+            <h3>Información del Cliente</h3>
+            <p><strong>Nombre:</strong> {d.customer.full_name}</p>
+            <p><strong>Email:</strong> {d.customer.email}</p>
+            <p><strong>Teléfono:</strong> {d.customer.phone}</p>
+        </div>
+        <div class="col">
+            <h3>Detalles del Vehículo</h3>
+            <p><strong>Matrícula:</strong> {d.license_plate}</p>
+            <p><strong>Modelo:</strong> {d.vehicle_brand} {d.vehicle_model}</p>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Descripción del Servicio</th>
+                <th>Fecha Entrada</th>
+                <th>Fecha Salida</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+       <tbody>
+    <tr>
+        <td>Servicio Principal: {d.main_service_name}</td>
+        <td>{d.entry_date}</td>
+        <td>{d.exit_date}</td>
+        <td>{d.total_price}€</td>
+    </tr>
+
+    {d.additional_services[i]}
+    <tr>
+        <td>+ {d.additional_services[i].name}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>{d.additional_services[i].price}€</td>
+    </tr>
+    {d.additional_services[i+1]}
+</tbody>
+    </table>
+
+    <div class="total-box">
+        <p>Subtotal: {d.total_price}€</p>
+        <p>IVA (21%): Incluido</p>
+        <p class="total-amount">TOTAL: {d.total_price}€</p>
+        <p><strong>Estado:</strong> {d.is_paid ? 'PAGADO' : 'PENDIENTE'}</p>
+    </div>
+
+    <div class="footer">
+        <p>PaparcApp - Desarrollado por Cabrera, Medina y Satori</p>
+        <p>Este documento sirve como comprobante de entrega/recogida del vehículo.</p>
+    </div>
+
+</body>
+</html>
