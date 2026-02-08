@@ -20,4 +20,19 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = `/booking?entrada=${encodeURIComponent(entrada)}&salida=${encodeURIComponent(salida)}`;
     });
   }
+
+  // FAQ Acordeón
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.faq-question');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        // Cerrar todos
+        faqItems.forEach(i => i.classList.remove('active'));
+        // Abrir el clickeado si no estaba abierto
+        if (!isActive) item.classList.add('active');
+      });
+    }
+  });
 });
