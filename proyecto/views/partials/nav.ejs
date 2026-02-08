@@ -19,10 +19,27 @@
 
     <div class="acceso">
         <% if (isLoggedIn) { %>
-        <a href="/users/profile" class="nav-user-badge">
-          <div class="nav-avatar"><%= user.nombre ? user.nombre.charAt(0).toUpperCase() : 'U' %></div>
-          <span class="nav-username"><%= user.nombre %></span>
-        </a>
+        <div class="nav-user-dropdown">
+          <button class="nav-user-badge" id="userDropdownBtn" type="button">
+            <div class="nav-avatar"><%= user.nombre ? user.nombre.charAt(0).toUpperCase() : 'U' %></div>
+            <span class="nav-username"><%= user.nombre %></span>
+            <i class="fas fa-chevron-down nav-dropdown-arrow"></i>
+          </button>
+          <div class="nav-dropdown-menu" id="userDropdownMenu">
+            <a href="/users/profile" class="nav-dropdown-item">
+              <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <% if (isAdmin) { %>
+            <a href="/admin/dashboard" class="nav-dropdown-item">
+              <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <% } %>
+            <hr class="nav-dropdown-divider">
+            <a href="/users/logout" class="nav-dropdown-item nav-dropdown-logout">
+              <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+          </div>
+        </div>
         <% } else { %>
       <ul>
         <li class="sign_up">
@@ -48,6 +65,26 @@
         navToggle.classList.toggle('nav-toggle--open');
         nav.classList.toggle('nav--open');
         document.body.classList.toggle('menu-open');
+      });
+    }
+
+    // Dropdown del usuario
+    const dropdownBtn = document.getElementById('userDropdownBtn');
+    const dropdownMenu = document.getElementById('userDropdownMenu');
+    if (dropdownBtn && dropdownMenu) {
+      dropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('open');
+        dropdownBtn.classList.toggle('active');
+      });
+      // Cerrar al hacer clic fuera
+      document.addEventListener('click', function() {
+        dropdownMenu.classList.remove('open');
+        dropdownBtn.classList.remove('active');
+      });
+      // Evitar que se cierre al hacer clic dentro del menú
+      dropdownMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
       });
     }
   });
