@@ -36,7 +36,12 @@ router.post('/login', authController.login); //el enrutador recibe los datos del
 router.post('/register', authController.register);
 
 /** GET logout: cerramos sesión */
-router.get('/logout', authController.logout);
+router.get('/logout', authController.logout, function(req, res, next) {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid');
+    res.redirect('/users/login');
+  });
+});
 
 
 
@@ -45,13 +50,7 @@ router.get('/logout', authController.logout);
 /*GET profile page: muestra el perfil del usuario logueado */
 // usamos getLoggedIn. Si no está logueado, redirige a login
 router.get('/profile', isLoggedIn, function(req, res, next) {
-  // Aquí deberías obtener la reserva actual y el historial del usuario desde la base de datos
-  // Por ahora, enviamos valores por defecto para evitar el error en la vista
-  res.render('profile', {
-    title: 'Perfil de Usuario',
-    reservaActual: null,
-    historial: []
-  });
+  res.render('profile', { title: 'Perfil de Usuario'})
 });
 
 
