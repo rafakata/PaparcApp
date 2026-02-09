@@ -82,7 +82,7 @@ class CustomerDAO {
             VALUES ($1, $2, $3, 'REGISTRADO')
             RETURNING id_customer 
         `; // devolvemos el id del nuevo usuario creado, util para futuras referencias, ahorra una consulta extra
-        // introducimo el type como 'REGISTRADO' por defecto para evitar que un usuario se cree a si mismo como ADMIN
+        // introducimos el type como 'REGISTRADO' por defecto para evitar que un usuario se cree a si mismo como ADMIN
 
         try {
 

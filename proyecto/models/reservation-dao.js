@@ -1,141 +1,111 @@
 /**
  * Clase que representa el acceso a datos para las reservas.
- * Se encarga de toda la interacción SQL relacionada con reservas y parking.
- */
-
+ * Se encarga de toda la interaccion SQL relacionada con las reservas. 
+*/
 const db = require('../config/database');
+
 
 class ReservationDAO {
 
     /**
-     * Obtiene todas las reservas pendientes/activas (próximas).
-     * @returns {Array} - Lista de reservas pendientes con información del servicio.
+     * @param {*} date -- fecha para filtrar las reservas, se buscan reservas que tengan entry_date o exit_date igual a esta fecha
+     * @returns -- devuelve un array de objetos con la informacion necesaria para mostrar en la tabla de reservas:
+     * -datos de la reserva (id, fechas, estado)
+     * -datos del vehiculo (matricula, marca, color)
+     * -datos del cliente (nombre, telefono)
+     * -nombre del servicio principal
+     * @throws -- lanza un error si ocurre un problema al consultar la base de datos
      */
-    async getUpcomingReservations() {
-        const sql = `
-            SELECT 
-                r.id_reservation,
-                r.license_plate,
-                r.entry_date,
-                r.exit_date,
-                r.status,
-                r.total_price,
-                r.cod_parking_spot,
-                ms.name as service_name,
-                STRING_AGG(ads.name, ', ') as additional_services
-            FROM reservation r
-            LEFT JOIN main_service ms ON r.id_main_service = ms.id_main_service
-            LEFT JOIN reservation_additional_service ras ON r.id_reservation = ras.id_reservation
-            LEFT JOIN additional_service ads ON ras.id_additional_service = ads.id_additional_service
-            WHERE r.status IN ('PENDIENTE', 'EN CURSO', 'CONFIRMADA')
-            GROUP BY r.id_reservation, r.license_plate, r.entry_date, r.exit_date, 
-                     r.status, r.total_price, r.cod_parking_spot, ms.name
-            ORDER BY r.entry_date ASC
+    async getReservationsByDate(date) {
+
+        const sql = `SELECT
+                        r.id_reservation,r.entry_date,r.exit_date,r.status,
+                        v.license_plate,v.brand,v.color,
+                        c.full_name AS customer_name,c.phone,
+                        s.name AS service_name
+                    FROM reservation r
+                    JOIN vehicle v ON r.license_plate = v.license_plate
+                    JOIN customer c ON v.id_customer = c.id_customer
+                    JOIN main_service s ON r.id_main_service = s.id_main_service
+                    WHERE
+                        r.entry_date::date = $1::date
+                        OR
+                        r.exit_date::date = $1::date
+                    ORDER BY r.entry_date ASC;
         `;
 
         try {
-            const result = await db.query(sql);
+
+            const result = await db.query(sql, [date]);
             return result.rows;
+
         } catch (error) {
-            console.error('Error al obtener reservas pendientes:', error);
-            throw new Error('Error al obtener reservas pendientes', { cause: error });
+
+            console.error('Error al obtener las reservas por fecha:', error);
+            throw new Error('Error al obtener las reservas por fecha', { cause: error });
+
         }
+
     }
 
     /**
-     * Obtiene todas las reservas completadas.
-     * @returns {Array} - Lista de reservas completadas con información del servicio.
+     * Realizamos dos consultas separadas, cuyas respuestas uniremos en un solo objeto para devolver toda la informacion necesaria para mostrar el detalle de la reserva.
+     * @param {*} id 
+     * @returns -- devuelve un objeto con toda la informacion de la reserva:
+     *  - datos de la reserva (id, fechas, estado, estacionamiento, notas, precio total, metodo de pago, si esta pagada o no)
+     *  - cantidad de fotos de evidencia asociadas a la reserva (subconsulta)
+     *  - datos del vehiculo (matricula, marca, modelo, color, tipo)
+     *  - datos del cliente (nombre, telefono, email)
+     *  - nombre del servicio principal (id y nombre)
+     *  - servicios adicionales (id, nombre y precio)
+     * @throws -- lanza un error si ocurre un problema al consultar la base de datos o si no se encuentra la reserva con el ID dado
      */
-    async getCompletedReservations() {
-        const sql = `
-            SELECT 
-                r.id_reservation,
-                r.license_plate,
-                r.entry_date,
-                r.exit_date,
-                r.status,
-                r.total_price,
-                r.cod_parking_spot,
-                ms.name as service_name,
-                STRING_AGG(ads.name, ', ') as additional_services
-            FROM reservation r
-            LEFT JOIN main_service ms ON r.id_main_service = ms.id_main_service
-            LEFT JOIN reservation_additional_service ras ON r.id_reservation = ras.id_reservation
-            LEFT JOIN additional_service ads ON ras.id_additional_service = ads.id_additional_service
-            WHERE r.status IN ('COMPLETADA', 'FINALIZADA')
-            GROUP BY r.id_reservation, r.license_plate, r.entry_date, r.exit_date, 
-                     r.status, r.total_price, r.cod_parking_spot, ms.name
-            ORDER BY r.exit_date DESC
-            LIMIT 10
+    async getReservationById(id) {
+
+        // esta consulta contiene una subconsulta para contar la cantidad de fotos de evidencia asociadas a la reserva y devuelve la información en forma objeto con clave photo_count
+        const sqlReservation = `SELECT
+                                    r.id_reservation, r.reservation_date, r.entry_date, r.exit_date, r.status, r.total_price, r.is_paid, r.payment_method, r.notes, r.cod_parking_spot,
+                                    (SELECT COUNT (*) FROM photo_evidence pe WHERE pe.id_reservation = r.id_reservation) :: int AS photo_count, 
+                                    v.license_plate, v.brand, v.model, v.color, v.type,
+                                    c.full_name AS customer_name, c.phone, c.email,
+                                    ms.id_main_service, ms.name AS main_service_name
+                                FROM reservation r
+                                JOIN vehicle v ON r.license_plate = v.license_plate
+                                JOIN customer c ON v.id_customer = c.id_customer
+                                JOIN main_service ms ON r.id_main_service = ms.id_main_service
+                                WHERE r.id_reservation = $1; 
+        `;
+
+        const sqlAdditionalServices = `SELECT
+                                            ads.id_additional_service,
+                                            ads.name AS additional_service_name,
+                                            ads.price AS additional_service_price
+                                        FROM additional_service ads
+                                        JOIN reservation_additional_service ras ON ads.id_additional_service = ras.id_additional_service
+                                        WHERE ras.id_reservation = $1
         `;
 
         try {
-            const result = await db.query(sql);
-            return result.rows;
-        } catch (error) {
-            console.error('Error al obtener reservas completadas:', error);
-            throw new Error('Error al obtener reservas completadas', { cause: error });
+
+            const resultReservation = await db.query(sqlReservation, [id]);
+
+            if (resultReservation.rows.length === 0) return null;
+
+            const reservationData = resultReservation.rows[0];
+
+            const resultAdditionalServices = await db.query(sqlAdditionalServices, [id]);
+
+            reservationData.additional_services = resultAdditionalServices.rows; // agregamos un nuevo campo al objeto reservationData con el array de servicios adicionales
+
+            return reservationData;
+
+        }catch (error) {
+
+            console.error('Error al obtener la reserva por ID:', error);
+            throw new Error('Error al obtener el detalle de la reserva', { cause: error });
+
         }
-    }
 
-    /**
-     * Obtiene estadísticas del parking.
-     * @returns {Object} - Objeto con available, occupied, reserved, total.
-     */
-    async getParkingStats() {
-        const sqlTotal = `SELECT COUNT(*) as total FROM parking_spot`;
-        const sqlAvailable = `SELECT COUNT(*) as available FROM parking_spot WHERE is_available = true`;
-        const sqlReserved = `
-            SELECT COUNT(DISTINCT cod_parking_spot) as reserved 
-            FROM reservation 
-            WHERE status IN ('PENDIENTE', 'EN CURSO', 'CONFIRMADA') 
-            AND cod_parking_spot IS NOT NULL
-        `;
-
-        try {
-            const [totalResult, availableResult, reservedResult] = await Promise.all([
-                db.query(sqlTotal),
-                db.query(sqlAvailable),
-                db.query(sqlReserved)
-            ]);
-
-            const total = parseInt(totalResult.rows[0].total) || 0;
-            const available = parseInt(availableResult.rows[0].available) || 0;
-            const reserved = parseInt(reservedResult.rows[0].reserved) || 0;
-            const occupied = total - available;
-
-            return {
-                total,
-                available,
-                occupied,
-                reserved
-            };
-        } catch (error) {
-            console.error('Error al obtener estadísticas del parking:', error);
-            throw new Error('Error al obtener estadísticas del parking', { cause: error });
-        }
-    }
-
-    /**
-     * Cancela una reserva por su ID.
-     * @param {number} reservationId - ID de la reserva a cancelar.
-     * @returns {boolean} - True si se canceló correctamente.
-     */
-    async cancelReservation(reservationId) {
-        const sql = `
-            UPDATE reservation 
-            SET status = 'CANCELADA' 
-            WHERE id_reservation = $1 
-            RETURNING id_reservation
-        `;
-
-        try {
-            const result = await db.query(sql, [reservationId]);
-            return result.rows.length > 0;
-        } catch (error) {
-            console.error('Error al cancelar reserva:', error);
-            throw new Error('Error al cancelar reserva', { cause: error });
-        }
     }
 }
 

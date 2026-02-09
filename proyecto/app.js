@@ -15,6 +15,7 @@ var session = require('express-session'); // importar el módulo express-session
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
+var apiRouter = require('./routes/api');
 
 // 3. Midlewares propios
 var { authLocalsMiddleware } = require('./middlewares/auth'); // importar el middleware de autenticación
@@ -59,6 +60,7 @@ app.use(authLocalsMiddleware);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
+app.use('/api', apiRouter);
 
 // -- MANEJO DE ERRORES --
 
