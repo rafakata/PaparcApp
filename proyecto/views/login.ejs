@@ -21,6 +21,19 @@
             <button class="trabajador">Worker</button>
           </div>
         </div>
+
+        <% if (locals.success) { %>
+            <div style="background-color: #d4edda; color: #155724; padding: 12px; margin-bottom: 20px; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; font-size: 14px;">
+                <strong>¡Bien hecho!</strong><br> <%= success %>
+            </div>
+        <% } %>
+
+        <% if (locals.error) { %>
+            <div style="background-color: #f8d7da; color: #721c24; padding: 12px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 4px; text-align: center; font-size: 14px;">
+                <strong>Error:</strong> <%= error %>
+            </div>
+        <% } %>
+
         <!-- Formulario para trabajadores -->
         <form action="/users/login" method="POST" class="formWorker">
           <input type="hidden" name="loginType" value="worker" /> <!-- campo oculto para indicar tipo de login, simulamos diferentes tipos de usuarios -->

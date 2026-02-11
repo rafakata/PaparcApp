@@ -25,19 +25,20 @@
 
         <form action="/users/register" method="POST">
           <div class="secciones">
-            <label for="username">Name and Surname</label>
+            <label for="full_name">Name and Surname</label> 
             <input
               type="text"
-              name="username"
-              id="username"
+              name="full_name"
+              id="full_name"
+              value="<%= locals.formData ? locals.formData.full_name : '' %>"
               required
               minlength="3"
               maxlength="50"
-            />
+            /> <!-- value con variables EJS, si el usuario tuvo un error en el formulario, se mantiene el valor -->
           </div>
           <div class="secciones">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" required />
+            <input type="email" name="email" id="email" value="<%= locals.formData ? locals.formData.email : '' %>" required /> <!-- value con variables EJS, si el usuario tuvo un error en el formulario, se mantiene el valor -->
           </div>
           <div class="secciones">
             <label for="password">Password</label>

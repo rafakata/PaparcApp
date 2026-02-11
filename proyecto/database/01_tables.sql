@@ -18,7 +18,7 @@ CREATE TABLE customer (
     full_name         VARCHAR(100) NOT NULL,
     email             VARCHAR(150) NOT NULL UNIQUE,
     phone             VARCHAR(20),
-    password_hash     VARCHAR(255) NOT NULL,
+    password_hash     VARCHAR(255),
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     type              VARCHAR(30), 
     is_active         BOOLEAN NOT NULL DEFAULT TRUE
@@ -30,7 +30,7 @@ CREATE TABLE vehicle (
     license_plate     VARCHAR(15) PRIMARY KEY,
     brand             VARCHAR(50) NOT NULL,
     model             VARCHAR(50) NOT NULL,
-    color             VARCHAR(30), 
+    color             VARCHAR(30) NOT NULL, 
     type              VARCHAR(30) NOT NULL, 
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     id_customer       INT NOT NULL -- FK

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+</head>
+<body style="font-family: sans-serif; padding: 20px;">
+
+    <a href="/admin/dashboard" style="display:inline-block; margin-bottom: 20px;">&larr; Volver al Panel</a>
+
+    <h1 style="border-bottom: 2px solid #333;">Detalles de la Reserva #<%= reservation.id_reservation %></h1>
+
+    <div style="background: #f0f0f0; padding: 15px; margin-bottom: 20px;">
+        <h3>👤 Datos del Cliente</h3>
+        <p><strong>Nombre:</strong> <%= reservation.customer_name %></p>
+        <p><strong>Email:</strong> <%= reservation.email %></p>
+        <p><strong>Teléfono:</strong> <%= reservation.phone %></p>
+    </div>
+
+    <div style="background: #e6f7ff; padding: 15px; margin-bottom: 20px;">
+        <h3>📅 Datos del Evento</h3>
+        <p><strong>Fecha:</strong> <%= reservation.reservation_date %></p> 
+        <p><strong>Hora:</strong> <%= reservation.entry_date %></p>
+        <p><strong>Servicio / Tipo:</strong> <%= reservation.main_service_name %></p>
+        <p><strong>Estado Actual:</strong> <%= reservation.status %></p>
+    </div>
+
+    <div style="background: #fff3cd; padding: 15px; margin-bottom: 20px;">
+        <h3>💰 Capacidad y Costes</h3>
+        <ul>
+            <li><strong>Adultos:</strong> <%= reservation.num_adults %></li>
+            <li><strong>Niños:</strong> <%= reservation.num_children %></li>
+            <li><strong>Total Personas:</strong> <%= reservation.num_adults + reservation.num_children %></li>
+        </ul>
+        
+        <hr>
+        
+        <p style="font-size: 1.2em;">
+            <strong>Precio Total Estimado:</strong> 
+            <%= reservation.total_price ? reservation.total_price + ' €' : 'Pendiente de calcular' %>
+        </p>
+    </div>
+
+    <div style="border: 1px solid #ccc; padding: 15px;">
+        <h3>📝 Observaciones / Notas</h3>
+        <p>
+            <%= reservation.observations ? reservation.observations : 'Sin observaciones adicionales.' %>
+        </p>
+    </div>
+
+    <hr style="margin-top: 50px;">
+    <h4>🔧 Herramienta para Desarrollador (Borrar al terminar)</h4>
+    <pre style="background: #333; color: #0f0; padding: 15px; overflow-x: auto;">
+<%= JSON.stringify(reservation, null, 2) %>
+    </pre>
+
+</body>
+</html>

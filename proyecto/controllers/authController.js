@@ -9,6 +9,36 @@ const bcrypt = require('bcrypt')
 //2. Creamos la funcion encargada de controlar el login/logout/register
 const authController = {
 
+    //formulario de login
+    formLogin: (req,res) => {
+
+        if (req.session.user) return res.redirect('/users/profile');
+
+        let successMessage = null;
+
+        if (req.query.registered === 'true') {
+            successMessage = 'Registro exitoso. Por favor, inicia sesión.'
+        } else if (req.query.logout === 'true') {
+            successMessage = 'Has cerrado sesión exitosamente. Hasta pronto!'
+        }
+
+        res.render('login', {
+            title: 'User Login',
+            error: null,
+            success: successMessage,
+            formData: {} // Devolvemos un objeto vacío para evitar errores en la vista al intentar acceder a formData.email o formData.password
+        })
+
+    },
+
+    //formulario de resgistro
+    formRegister: (req,res) => {
+
+        if (req.session.user) return res.redirect('/users/profile');
+        res.render('register', { title: 'Registro de Usuario' })
+
+    },
+
     // Login
     login: async(req,res) => {
         
@@ -22,11 +52,25 @@ const authController = {
             const user = await customerDAO.getCustomerByEmail(email);
 
             // verificamos que el usuario exista, si no existe mostramos un error
-            if (!user) return res.render('login', { error: 'Usuario no encontrado' })
+            if (!user) {
+                return res.render('login', { 
+                    title: 'User Login',
+                    error: 'Usuario no encontrado',
+                    success: null,
+                    formData: { email } // Devolvemos el email para que el usuario no tenga que volver a escribirlo, pero no devolvemos la contraseña por seguridad 
+                })
+            } 
 
             // verificamos la constraseña, si no coincide mostramos un error
             const passwordMatch = await bcrypt.compare(password, user.password_hash)
-            if (!passwordMatch) return res.render('login', { error: 'Contraseña incorrecta' })
+            if (!passwordMatch) {
+                return res.render('login', { 
+                    title: 'User Login',
+                    error: 'Contraseña incorrecta',
+                    success: null,
+                    formData: { email } // devolvemos el mail
+                })
+            } 
 
             // ----- LÓGICA PARA SIMULACIÓN DE DOBLE ACCESO -----------------
 
@@ -36,7 +80,12 @@ const authController = {
                 if (user.type !== 'ADMIN') {
 
                     console.warn(`Cliente ${user.full_name} intentó acceder desde acceso de empleados.`)
-                    return res.render('login', { error: 'Acceso denegado. No tienes permisos para acceder como empleado.' })
+                    return res.render('login', { 
+                        title: 'User Login',
+                        error: 'Acceso denegado. No tienes permisos para acceder como empleado.',
+                        success: null,
+                        formData: { email } 
+                    })
 
                 }
             }
@@ -60,8 +109,13 @@ const authController = {
             })
 
         } catch (error) {
-            console.error(error)
-            res.render('login', { error: 'Error en el servidor. Inténtalo de nuevo más tarde.' })
+            console.error('Error en login:', error)
+            res.render('login', { 
+                title: 'User Login',
+                error: 'Error en el servidor. Inténtalo de nuevo más tarde.',
+                success: null,
+                formData: { email }
+            })
         }
 
     },
@@ -70,21 +124,45 @@ const authController = {
     logout: (req, res) => {
 
         // Destruimos la sesión del usuario
-        req.session.destroy()
-        res.redirect('/')
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error al cerrar sesión:', err);
+                return res.redirect('/users/profile')
+            }
+
+            // Limpiamos la cookie de sesión y redirigimos al login
+            res.clearCookie('connect.sid');
+
+            res.redirect('/users/login?logout=true'); //pasamos un query param para mostrar un mensaje de logout exitoso en la página de login
+        })
 
     },
 
     // Register
     register: async (req, res) => {
 
-        const { username, email, password, confirm_password } = req.body
+        const { full_name, email, password, confirm_password } = req.body
 
         try {
 
             // Verificamos que las contraseñas coincidan
             if (password !== confirm_password) {
-                return  res.render('register', { error: 'Las contraseñas no coinciden' })
+                return  res.render('register', { 
+                    title : 'Registro de Usuario',
+                    error : 'Las contraseñas no coinciden.',
+                    formData : req.body // Devolvemos los datos del formulario para que el usuario no tenga que volver a escribirlos 
+                })
+            }
+
+            //Validamos si ya existe el usuario con ese mail
+            const existingUser = await customerDAO.getCustomerByEmail(email)
+
+            if (existingUser) {
+                return res.render('register', {
+                    title : 'Registro de Usuario',
+                    error : 'El email ya está registrado.',
+                    formData : req.body // Mantenemos el nombre, borramos el mail para que el usuario tenga que escribir un mail diferente, asi se le recuerda que el mail es el problema
+                })
             }
 
             // encriptamos la contraseña
@@ -93,21 +171,24 @@ const authController = {
 
             // Creamos el nuevo usuario en la base de datos
             const newUserId = await customerDAO.createCustomer({
-                nombre: username,
+                full_name: full_name,
                 email: email,
-                passwordHash: password_hash
+                password_hash: password_hash
             })
 
             console.log(`Nuevo usuario registrado con ID: ${newUserId}`)
 
             // Redirigimos al usuario a la página de login tras el registro
-            res.redirect('/users/login')
+            res.redirect('/users/login?registered=true');
 
         } catch (error) {
 
             console.error('Error al registrar el usuario:', error)
-
-            res.render('register', { error: error.message})
+            res.render('register', {
+                title : 'Registro de Usuario',
+                error : 'Error al registrar el usuario. Inténtalo de nuevo más tarde.',
+                formData : req.body
+            });
 
         }
     }
