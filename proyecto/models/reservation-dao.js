@@ -60,7 +60,7 @@ class ReservationDAO {
      *  - servicios adicionales (id, nombre y precio)
      * @throws -- lanza un error si ocurre un problema al consultar la base de datos o si no se encuentra la reserva con el ID dado
      */
-    async getReservationById(id) {
+    async getInfoReservationByIdReservation(id) {
 
         // esta consulta contiene una subconsulta para contar la cantidad de fotos de evidencia asociadas a la reserva y devuelve la información en forma objeto con clave photo_count
         const sqlReservation = `SELECT
@@ -85,6 +85,19 @@ class ReservationDAO {
                                         WHERE ras.id_reservation = $1
         `;
 
+        const sqlPhotos = `SELECT
+                            id_photo, file_path, taken_at
+                        FROM photo_evidence
+                        WHERE id_reservation = $1
+        `;
+
+        const sqlNotifications = `SELECT
+                                    type, sent_at
+                                FROM notification
+                                WHERE id_reservation = $1
+                                ORDER BY sent_at DESC
+        `;
+
         try {
 
             const resultReservation = await db.query(sqlReservation, [id]);
@@ -94,8 +107,12 @@ class ReservationDAO {
             const reservationData = resultReservation.rows[0];
 
             const resultAdditionalServices = await db.query(sqlAdditionalServices, [id]);
+            const resultPhotos = await db.query(sqlPhotos, [id]);
+            const resultNotifications = await db.query(sqlNotifications, [id]);
 
             reservationData.additional_services = resultAdditionalServices.rows; // agregamos un nuevo campo al objeto reservationData con el array de servicios adicionales
+            reservationData.photos = resultPhotos.rows; // agregamos un nuevo campo al objeto reservationData con el array de fotos de evidencia
+            reservationData.notifications = resultNotifications.rows; // agregamos un nuevo campo al objeto reservationData con el array de notificaciones
 
             return reservationData;
 

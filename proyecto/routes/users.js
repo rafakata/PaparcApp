@@ -18,30 +18,19 @@ const authController = require('../controllers/authController')
 /* -- RUTAS PUBLICAS (cualquiera puede entrar) -- */
 
 /*GET  register page: muestra el formulario de registro */
-router.get('/register', function(req, res, next) {
-  res.render('register', { title: 'Registro de Usuario' })
-});
-
-/*GET  login page: muestra el formulario de login */
-router.get('/login', function(req, res, next) {
-  //pasamos error=null para que no muestre error al cargar la página
-  res.render('login', { title: 'Login de Usuario', error: null })
-});
-
-
-/*POST login: procesa el formulario de login */
-router.post('/login', authController.login); //el enrutador recibe los datos del formulario y los pasa al controlador
+router.get('/register', authController.formRegister);
 
 /*POST register: procesa el formulario de registro */
 router.post('/register', authController.register);
 
+/*GET  login page: muestra el formulario de login */
+router.get('/login', authController.formLogin);
+
+/*POST login: procesa el formulario de login */
+router.post('/login', authController.login); //el enrutador recibe los datos del formulario y los pasa al controlador
+
 /** GET logout: cerramos sesión */
-router.get('/logout', authController.logout, function(req, res, next) {
-  req.session.destroy(() => {
-    res.clearCookie('connect.sid');
-    res.redirect('/users/login');
-  });
-});
+router.get('/logout', authController.logout)
 
 
 
@@ -50,7 +39,11 @@ router.get('/logout', authController.logout, function(req, res, next) {
 /*GET profile page: muestra el perfil del usuario logueado */
 // usamos getLoggedIn. Si no está logueado, redirige a login
 router.get('/profile', isLoggedIn, function(req, res, next) {
-  res.render('profile', { title: 'Perfil de Usuario'})
+  res.render('profile', { 
+    title: 'Perfil de Usuario',
+    reservaActual: null, //aqui se podria mostrar la reserva actual del usuario, pero por ahora lo dejamos en null
+    historial: null //aqui se podria mostrar el historial de reservas del usuario, pero por ahora lo dejamos en null
+  })
 });
 
 

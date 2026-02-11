@@ -49,7 +49,7 @@ class CustomerDAO {
      * @returns {Object|null} - Objeto del cliente o null si no se encuentra.
      * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
     */
-    async getCustomerById(id) {
+    async getCustomerById(id) { // este metodo no se esta usando actualmente, pero es util tenerlo para futuras funcionalidades, como mostrar el perfil del usuario o su historial de reservas, donde necesitaremos obtener sus datos a partir de su ID de sesión.
 
         const sql = 'SELECT * FROM customer WHERE id_customer = $1';
 
@@ -87,9 +87,9 @@ class CustomerDAO {
         try {
 
             const values = [
-                userData.nombre,
+                userData.full_name,
                 userData.email,
-                userData.passwordHash
+                userData.password_hash
             ]
 
             const result = await db.query(sql, values);

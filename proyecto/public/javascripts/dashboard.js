@@ -122,26 +122,43 @@ function renderTable(table,data,type) {
         tbody.innerHTML = `<tr><td colspan="7">No hay movimientos previstos para esta fecha.</td></tr>`;
         return;
     }
-
+    
     data.forEach(reservation =>{
 
-        const newRow = template.content.cloneNode(true); // Clonamos la plantilla
+        const useTemplate = template.content.cloneNode(true); // Clonamos la plantilla
+        const row = useTemplate.querySelector('tr');
+        const btn = useTemplate.querySelector('.column-btn'); // Obtenemos el botón de la fila para agregarle el enlace
+
+        // -- Lógica de estados -- //
+        switch (reservation.status) {
+
+            case 'CANCELADA':
+                row.classList.add('row-status-cancelled')
+                btn.classList.replace('btn-outline-primary', 'btn-outline-secondary');
+                btn.textContent = 'Cancelled';
+            break;
+
+            case 'FINALIZADA':
+                row.classList.add('row-status-finished')
+                btn.classList.replace('btn-outline-primary', 'btn-outline-success');
+                btn.textContent = 'Finished';
+            break;
+        }
 
         const rawTime = type === 'entry' ? reservation.entry_date : reservation.exit_date;
         const time = new Date(rawTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // hora formato español
 
-        newRow.querySelector('.column-time').textContent = time;
-        newRow.querySelector('.column-license').textContent = reservation.license_plate;
-        newRow.querySelector('.column-brand').textContent = reservation.brand;
-        newRow.querySelector('.column-color').textContent = reservation.color;
-        newRow.querySelector('.column-customer').textContent = reservation.customer_name;
-        newRow.querySelector('.column-phone').textContent = reservation.phone;
-        newRow.querySelector('.column-service').textContent = reservation.service_name;
+        useTemplate.querySelector('.column-time').textContent = time;
+        useTemplate.querySelector('.column-license').textContent = reservation.license_plate;
+        useTemplate.querySelector('.column-brand').textContent = reservation.brand;
+        useTemplate.querySelector('.column-color').textContent = reservation.color;
+        useTemplate.querySelector('.column-customer').textContent = reservation.customer_name;
+        useTemplate.querySelector('.column-phone').textContent = reservation.phone;
+        useTemplate.querySelector('.column-service').textContent = reservation.service_name;
 
-        const btn = newRow.querySelector('.column-btn')
-        btn.href = `admin/reservations/${reservation.id_reservation}`; // Enlace a la página de detalles de la reserva
+        btn.href = `/admin/reservations/details/${reservation.id_reservation}`; // Enlace a la página de detalles de la reserva
         btn.target = '_blank'; // Abrir en nueva pestaña
 
-        tbody.appendChild(newRow); // Agregamos la nueva fila al cuerpo de la tabla
+        tbody.appendChild(useTemplate); // Agregamos la nueva fila al cuerpo de la tabla
     })
 }

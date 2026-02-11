@@ -135,3 +135,8 @@ ALTER TABLE additional_service
 ALTER TABLE vehicle
     ADD CONSTRAINT chk_vehicle_type
     CHECK (type IN ('TURISMO','FURGONETA','MOTOCICLETA','CARAVANA','ESPECIAL'));
+
+-- Tipos de notificaciones: Limita los tipos de notificaciones a los permitidos por la lógica de negocio
+ALTER TABLE notification
+    ADD CONSTRAINT chk_notification_type
+    CHECK (type IN ('TICKET_RESERVA', 'RECORDATORIO_ENTRADA', 'ENTRADA_CONFIRMADA', 'RECORDATORIO_SALIDA', 'RECIBO_PAGO'));
