@@ -332,6 +332,17 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .navbar .d-flex.align-items-center {
+      margin-left: auto;
+      justify-content: flex-end;
+      width: auto;
+    }
+    .navbar .navbar-brand {
+      margin-right: auto ;
+    }
+    .navbar .d-flex.align-items-center {
+      margin-left: auto;
+    }
   .brand-text {
     font-size: 1.2rem;
   }
