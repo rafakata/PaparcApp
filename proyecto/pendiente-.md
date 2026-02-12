@@ -31,4 +31,8 @@
 
 - [ ] Diseñar pruebas unitarias para algunos métodos clave.
 
+- [ ] Pulir rutas públicas, separar lógica entre el controlador y el enrutador.
+
+
+
 ---
