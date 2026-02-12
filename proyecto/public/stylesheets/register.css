@@ -8,7 +8,8 @@ body {
   width: 100%;
 
   .contenedor_general {
-    height: 35rem;
+    min-height: 35rem;
+    height: auto;
     width: 60rem;
     border: 2px solid;
     display: flex;
@@ -19,7 +20,8 @@ body {
 
     .contenedor_principal {
       width: 70%;
-      height: 90%;
+      min-height: 90%;
+      height: auto;
       padding: 2rem;
       margin: 2rem;
       margin-top: -1rem;
@@ -73,8 +75,8 @@ body {
     }
   }
   .imagen {
-    height: 100%;
     width: 50%;
+    align-self: stretch;
     img {
       height: 100%;
       width: 100%;
