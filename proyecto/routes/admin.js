@@ -12,6 +12,11 @@ router.use(isAdmin); // usar el middleware para proteger todas las rutas de este
 /* GET dashboard page */
 router.get('/dashboard', adminController.getDashboard);
 
+/* GET booking page (dentro del panel dashboard) */
+router.get('/dashboard/dashboard_booking', function(req, res) {
+  res.render('dashboard_booking', { title: 'Nueva Reserva' });
+});
+
 /* GET reservation details page */  
 router.get('/reservations/details/:id', adminController.getReservationInfo);
 
