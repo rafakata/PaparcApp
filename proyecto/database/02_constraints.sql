@@ -71,6 +71,46 @@ ALTER TABLE reservation_additional_service
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
 
+-- RELACIÓN: VEHICLE -> VEHICLE_COEFFICIENT
+ALTER TABLE vehicle
+    ADD CONSTRAINT fk_vehicle_type
+    FOREIGN KEY (type)
+    REFERENCES vehicle_coefficient(vehicle_type)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
+-- RELACION: SERVICE_RATE -> MAIN_SERVICE
+ALTER TABLE service_rate
+    ADD CONSTRAINT  fk_service_rate_main_service
+    FOREIGN KEY (id_main_service)
+    REFERENCES main_service(id_main_service)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- RELACION: CONTRACT -> CUSTOMER
+ALTER TABLE contract
+    ADD CONSTRAINT fk_contract_customer
+    FOREIGN KEY (id_customer)
+    REFERENCES customer(id_customer)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
+-- RELACION CONTRACT -> VEHICLE
+ALTER TABLE contract
+    ADD CONSTRAINT fk_contract_vehicle
+    FOREIGN KEY (license_plate)
+    REFERENCES vehicle(license_plate)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
+-- RELCACION CONTRACT -> CONTRACT_PLAN
+ALTER TABLE contract
+    ADD CONSTRAINT fk_contract_plan
+    FOREIGN KEY (id_plan)
+    REFERENCES contract_plan(id_plan)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
 -- CONSTRAINTS ADICIONALES
 
 -- TIPOS DE ROLES DE USUARIO : limita los tipos de usuario permitidos en nuestra logica
@@ -131,12 +171,37 @@ ALTER TABLE additional_service
     ADD CONSTRAINT chk_additional_service_price
     CHECK (price >= 0);
 
--- TIPOS DE VEHICULO: Limita los tipos de vehículos a los permitidos
-ALTER TABLE vehicle
-    ADD CONSTRAINT chk_vehicle_type
-    CHECK (type IN ('TURISMO','FURGONETA','MOTOCICLETA','CARAVANA','ESPECIAL'));
-
 -- Tipos de notificaciones: Limita los tipos de notificaciones a los permitidos por la lógica de negocio
 ALTER TABLE notification
     ADD CONSTRAINT chk_notification_type
-    CHECK (type IN ('TICKET_RESERVA', 'RECORDATORIO_ENTRADA', 'ENTRADA_CONFIRMADA', 'RECORDATORIO_SALIDA', 'RECIBO_PAGO'));
+    CHECK (type IN ('TICKET_RESERVA', 'RECORDATORIO_ENTRADA', 'ENTRADA_CONFIRMADA', 'RECORDATORIO_SALIDA', 'RECIBO_PAGO', 'ACTUALIZACION_RESERVA'));
+
+-- RESTRICCION PARA VEHICLE_COEFFICIENT: aseguramos que que el multiplicador sea siempre mayor que 0
+ALTER TABLE vehicle_coefficient
+    ADD CONSTRAINT chk_vehicle_coefficient_positive
+    CHECK (multiplier > 0);
+
+-- VALIDACION DE RANGO DE DIAS: asegura que los días sean positivos y el rango tenga sentido
+ALTER TABLE service_rate
+    ADD CONSTRAINT chk_rate_days_range
+    CHECK (min_days > 0 AND max_days >= min_days);
+
+-- VALIDACIÓN DE PRECIO BASE: asegura que el precio base sea positivo3
+ALTER TABLE service_rate
+    ADD CONSTRAINT chk_rate_positive_price
+    CHECK (daily_price >= 0);
+
+-- EVITAR DUPLICADOS DE TRAMOS: impide crear dos tarifas que empiecen el mismo dia para el mismo servicio
+ALTER TABLE service_rate
+    ADD CONSTRAINT unique_rate_days
+    UNIQUE (id_main_service, min_days);
+
+-- VALIDACION DE FECHA: la fecha debe posterior a la de inicio
+ALTER TABLE contract
+    ADD CONSTRAINT chk_contract_dates
+    CHECK (end_date > start_date);
+
+-- VALIDACIÓN DE PLANES DE CONTRATO: los mese y el precio deben ser positvos
+ALTER TABLE contract_plan
+    ADD CONSTRAINT chk_contract_plan_values
+    CHECK (duration_months > 0 AND price > 0);
