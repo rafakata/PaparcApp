@@ -228,7 +228,7 @@ const authController = {
             req.session.save(() => {
                 res.json({
                     success: true,
-                    redirectUrl: user.type === 'ADMIN' ? '/admin/dashboard' : '/profile',
+                    redirectUrl: user.type === 'ADMIN' ? '/admin/dashboard' : '/users/profile',
                     message: 'Login exitoso'
                 });
             });

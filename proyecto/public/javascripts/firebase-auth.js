@@ -78,7 +78,7 @@ function handleAuthSuccess(result, provider) {
           color: '#2e7d32'
         }).then(() => {
           // Redirigir al dashboard o perfil
-          window.location.href = data.redirectUrl || '/profile';
+          window.location.href = data.redirectUrl || '/users/profile';
         });
       } else {
         Swal.fire({
