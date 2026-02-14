@@ -530,13 +530,14 @@ h1 {
   justify-content: center;
   align-items: center;
   position: relative;
-  border: 2px solid var(--color-primary);
+  border: 2px solid #e8e8e8;
+  border-top: 3px solid var(--color-secondary);
   color: var(--button-color-secondary);
   font-size: 0.9rem;
   border-radius: var(--border-radius);
   position: relative;
-  background-color: #0969ef48;
-  box-shadow: 8px 8px 0 var(--color-accent);
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 
   .circulo {
     width: 100px;
@@ -547,19 +548,19 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--color-primary);
-    background-color: var(--color-accent);
+    border: none;
+    background: linear-gradient(135deg, #1abc9c, #3498db);
     border-radius: var(--border-radius);
 
     i {
       font-size: 3.5rem;
+      color: #ffffff;
     }
   }
 
   &:hover {
-    transform: scale(1.05);
     transform: translateY(-0.5rem);
-    background-color: #0969ef86;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     transition: 0.5s ease-in;
   }
 }
