@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parking en Tiempo Real - PaparcApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Zen+Dots&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="/stylesheets/dashboard.css" />
+    <link rel="stylesheet" href="/stylesheets/parking.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark bg-gradient-primary sticky-top shadow-lg"
+    >
+      <div class="container-fluid px-4">
+        <a
+          class="navbar-brand d-flex align-items-center"
+          href="/admin/dashboard"
+        >
+          <i class="bi bi-p-circle-fill fs-3 me-2"></i>
+          <span class="brand-text">PaparcApp</span>
+        </a>
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/dashboard">
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link px-3"
+                href="/admin/dashboard/dashboard_booking"
+              >
+                <i class="bi bi-calendar-plus me-1"></i> Nueva Reserva
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/history">
+                <i class="bi bi-clock-history me-1"></i> Historial
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active px-3" href="/admin/dashboard/parking">
+                <i class="bi bi-car-front me-2"></i>Parking en Tiempo Real
+              </a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center text-white"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+              >
+                <div class="avatar-circle me-2">
+                  <i class="bi bi-person-fill"></i>
+                </div>
+                <span class="d-none d-md-inline"><%= user.nombre %></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+                <li>
+                  <a class="dropdown-item" href="/profile"
+                    ><i class="bi bi-person me-2"></i>Mi Perfil</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="/users/logout"
+                    ><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Stats Summary Bar -->
+    <div class="parking-stats-bar py-3">
+      <div class="container-fluid px-4">
+        <div class="row g-3 justify-content-center">
+          <!-- Ocupación -->
+          <div class="col-auto">
+            <div class="parking-stat-pill stat-ocupacion">
+              <div class="stat-pill-icon">
+                <i class="bi bi-pie-chart-fill"></i>
+              </div>
+              <div class="stat-pill-content">
+                <span class="stat-pill-label">OCUPACIÓN</span>
+                <span class="stat-pill-value" id="stat-ocupacion">0%</span>
+                <span class="stat-pill-detail" id="stat-detail">0 Ocup. · 0 Libres</span>
+              </div>
+            </div>
+          </div>
+          <!-- Total Plazas -->
+          <div class="col-auto">
+            <div class="parking-stat-pill stat-total">
+              <div class="stat-pill-icon">
+                <i class="bi bi-grid-3x3-gap-fill"></i>
+              </div>
+              <div class="stat-pill-content">
+                <span class="stat-pill-label">TOTAL PLAZAS</span>
+                <span class="stat-pill-value" id="stat-total-spots">0</span>
+              </div>
+            </div>
+          </div>
+          <!-- Reservadas -->
+          <div class="col-auto">
+            <div class="parking-stat-pill stat-reservadas">
+              <div class="stat-pill-icon">
+                <i class="bi bi-bookmark-fill"></i>
+              </div>
+              <div class="stat-pill-content">
+                <span class="stat-pill-label">RESERVADAS</span>
+                <span class="stat-pill-value" id="stat-reservadas">0</span>
+              </div>
+            </div>
+          </div>
+          <!-- En Curso -->
+          <div class="col-auto">
+            <div class="parking-stat-pill stat-encurso">
+              <div class="stat-pill-icon">
+                <i class="bi bi-car-front-fill"></i>
+              </div>
+              <div class="stat-pill-content">
+                <span class="stat-pill-label">EN CURSO</span>
+                <span class="stat-pill-value" id="stat-encurso">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container-fluid px-4 pb-5 mt-4">
+      <!-- Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">
+          <i class="bi bi-grid-3x3-gap me-2 text-primary"></i>Mapa de Plazas
+        </h4>
+      </div>
+
+      <!-- Leyenda de estados -->
+      <div class="status-legend-bar mb-4">
+        <span class="legend-item">
+          <span class="legend-dot libre"></span> Libre
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot ocupado"></span> En Curso
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot reservado"></span> Reservado
+        </span>
+        <span class="legend-item">
+          <span class="legend-dot no-disponible"></span> No Disponible
+        </span>
+      </div>
+
+      <!-- Grid de plazas (agrupadas por fila) -->
+      <div id="parking-grid">
+        <!-- Las plazas se cargarán dinámicamente -->
+        <div class="col-12 text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+          <p class="text-muted mt-2">Cargando plazas de parking...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Template para plaza LIBRE -->
+    <template id="spot-template-libre">
+      <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
+        <div class="parking-card parking-card-libre">
+          <div class="parking-card-header">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-car-front-fill parking-card-icon"></i>
+              <div>
+                <span class="parking-card-code"></span>
+                <span class="parking-card-type"></span>
+              </div>
+            </div>
+            <span class="badge parking-badge badge-libre">LIBRE</span>
+          </div>
+          <div class="parking-card-body">
+            <div class="parking-card-car-img">
+              <i class="bi bi-car-front"></i>
+            </div>
+            <span class="parking-card-status-text text-success">Disponible</span>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Template para plaza OCUPADA (EN CURSO) -->
+    <template id="spot-template-ocupado">
+      <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
+        <div class="parking-card parking-card-ocupado">
+          <div class="parking-card-header">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-car-front-fill parking-card-icon"></i>
+              <div>
+                <span class="parking-card-code"></span>
+                <span class="parking-card-type"></span>
+              </div>
+            </div>
+            <span class="badge parking-badge badge-ocupado">OCUPADO</span>
+          </div>
+          <div class="parking-card-body">
+            <p class="parking-card-customer">
+              <i class="bi bi-person-fill me-1"></i>
+              <span class="customer-name"></span>
+            </p>
+            <div class="parking-card-plate">
+              <i class="bi bi-credit-card-2-front me-1"></i>
+              <span class="plate-text"></span>
+            </div>
+            <div class="parking-card-dates">
+              <div class="date-block entry">
+                <span class="date-label">ENTRADA</span>
+                <span class="date-value entry-date"></span>
+              </div>
+              <div class="date-block exit">
+                <span class="date-label">SALIDA</span>
+                <span class="date-value exit-date"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Template para plaza RESERVADA -->
+    <template id="spot-template-reservado">
+      <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
+        <div class="parking-card parking-card-reservado">
+          <div class="parking-card-header">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-car-front-fill parking-card-icon"></i>
+              <div>
+                <span class="parking-card-code"></span>
+                <span class="parking-card-type"></span>
+              </div>
+            </div>
+            <span class="badge parking-badge badge-reservado">RESERVADO</span>
+          </div>
+          <div class="parking-card-body">
+            <p class="parking-card-customer">
+              <i class="bi bi-person-fill me-1"></i>
+              <span class="customer-name"></span>
+            </p>
+            <div class="parking-card-arrival">
+              <i class="bi bi-clock-fill me-1"></i>
+              <span class="date-label">HORA DE LLEGADA</span>
+              <span class="arrival-date"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Template para plaza NO DISPONIBLE -->
+    <template id="spot-template-nodisponible">
+      <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
+        <div class="parking-card parking-card-nodisponible">
+          <div class="parking-card-header">
+            <div class="d-flex align-items-center gap-2">
+              <i class="bi bi-car-front-fill parking-card-icon"></i>
+              <div>
+                <span class="parking-card-code"></span>
+                <span class="parking-card-type"></span>
+              </div>
+            </div>
+            <span class="badge parking-badge badge-nodisponible">NO DISPONIBLE</span>
+          </div>
+          <div class="parking-card-body">
+            <div class="parking-card-car-img text-muted">
+              <i class="bi bi-x-circle"></i>
+            </div>
+            <span class="parking-card-status-text text-muted">No disponible</span>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <footer class="footer-fixed">
+      <%- include('partials/footer_dashboard') %>
+    </footer>
+  </body>
+  <style>
+    .footer-fixed {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 1000;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.04);
+    }
+    main.container-fluid {
+      padding-bottom: 80px !important;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/javascripts/parking.js"></script>
+</html>

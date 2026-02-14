@@ -17,6 +17,9 @@ router.get('/dashboard/dashboard_booking', function(req, res) {
   res.render('dashboard_booking', { title: 'Nueva Reserva' });
 });
 
+/* GET parking real-time page */
+router.get('/dashboard/parking', adminController.getParking);
+
 /* GET reservation details page */  
 router.get('/reservations/details/:id', adminController.getReservationInfo);
 

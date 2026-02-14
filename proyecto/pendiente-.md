@@ -11,9 +11,9 @@
 
 - [] Revisar código para mostrar errores de registro en la vista `register.ejs`.
 
-- [ ] Revisar el código de registro exitoso en la página `login.ejs` (sugerencia: implementarlo con **SweetAlert**).
+- [✅] Revisar el código de registro exitoso en la página `login.ejs` (sugerencia: implementarlo con **SweetAlert**).
 
-- [ ] Revisar el código para mostrar errores en el login en `login.ejs`.
+- [✅ ] Revisar el código para mostrar errores en el login en `login.ejs`.
 
 - [ ] Diseñar cómo pintar el contenido en la página `reservation-details.ejs`:
   - Los campos de la reserva deben ser editables (inputs).

@@ -124,6 +124,66 @@ class ReservationDAO {
         }
 
     }
+
+    /**
+     * Obtiene todas las plazas de parking con su estado actual.
+     * Para cada plaza, busca si tiene una reserva activa (EN CURSO, CONFIRMADA o PENDIENTE)
+     * y devuelve la información del cliente y vehículo asociado.
+     * @returns {Object} - Objeto con stats y array de plazas
+     */
+    async getParkingSpotsWithStatus() {
+
+        const sql = `SELECT
+                        ps.cod_parking_spot,
+                        ps.is_available,
+                        ps.floor,
+                        ps.type,
+                        r.id_reservation,
+                        r.entry_date,
+                        r.exit_date,
+                        r.status AS reservation_status,
+                        v.license_plate,
+                        c.full_name AS customer_name
+                    FROM parking_spot ps
+                    LEFT JOIN reservation r 
+                        ON r.cod_parking_spot = ps.cod_parking_spot
+                        AND r.status IN ('EN CURSO', 'CONFIRMADA', 'PENDIENTE')
+                    LEFT JOIN vehicle v ON r.license_plate = v.license_plate
+                    LEFT JOIN customer c ON v.id_customer = c.id_customer
+                    ORDER BY ps.cod_parking_spot ASC;
+        `;
+
+        try {
+
+            const result = await db.query(sql);
+            const spots = result.rows;
+
+            // Calcular estadísticas
+            const total = spots.length;
+            const enCurso = spots.filter(s => s.reservation_status === 'EN CURSO').length;
+            const reservadas = spots.filter(s => s.reservation_status === 'CONFIRMADA' || s.reservation_status === 'PENDIENTE').length;
+            const noDisponibles = spots.filter(s => !s.is_available).length;
+            const libres = total - enCurso - reservadas - noDisponibles;
+
+            return {
+                stats: {
+                    total,
+                    en_curso: enCurso,
+                    reservadas,
+                    libres,
+                    no_disponibles: noDisponibles
+                },
+                spots
+            };
+
+        } catch (error) {
+
+            console.error('Error al obtener las plazas de parking:', error);
+            throw new Error('Error al obtener las plazas de parking', { cause: error });
+
+        }
+
+    }
 }
 
 module.exports = new ReservationDAO();
