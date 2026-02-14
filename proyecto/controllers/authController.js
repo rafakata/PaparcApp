@@ -191,6 +191,55 @@ const authController = {
             });
 
         }
+    },
+
+    // Social Login (Google/Facebook via Firebase)
+    socialLogin: async (req, res) => {
+        const { idToken, provider, uid, email, displayName, photoURL } = req.body;
+
+        try {
+            // Verificamos si el usuario ya existe en nuestra base de datos
+            let user = await customerDAO.getCustomerByEmail(email);
+
+            if (!user) {
+                // Si no existe, creamos un nuevo usuario
+                const newUserId = await customerDAO.createCustomer({
+                    full_name: displayName || 'Usuario ' + provider,
+                    email: email,
+                    password_hash: 'SOCIAL_LOGIN_' + provider.toUpperCase() + '_' + uid, // No usamos contraseña real para usuarios sociales
+                    phone: null
+                });
+
+                user = await customerDAO.getCustomerByEmail(email);
+                console.log(`Nuevo usuario social registrado: ${email} via ${provider}`);
+            }
+
+            // Creamos la sesión del usuario
+            req.session.user = {
+                id: user.id_customer,
+                nombre: user.full_name,
+                email: user.email,
+                numero: user.phone,
+                role: user.type,
+                photoURL: photoURL,
+                socialProvider: provider
+            };
+
+            req.session.save(() => {
+                res.json({
+                    success: true,
+                    redirectUrl: user.type === 'ADMIN' ? '/admin/dashboard' : '/profile',
+                    message: 'Login exitoso'
+                });
+            });
+
+        } catch (error) {
+            console.error('Error en social login:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Error al procesar el inicio de sesión social'
+            });
+        }
     }
 
 }

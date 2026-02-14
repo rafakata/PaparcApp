@@ -10,6 +10,9 @@
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
     <link rel="stylesheet" href="/stylesheets/login.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   </head>
   <body>
     <div class="contenedor_general">
@@ -92,15 +95,18 @@
             <button type="submit">Login</button>
           </form>
           <hr />
+          <p class="text-center" style="margin-top: 10px;">
+            ¿No estás registrado? <a href="/users/register" style="color: #007bff; text-decoration: underline;">Crear cuenta</a>
+          </p>
           <div class="botones">
-            <button>
+            <button type="button" onclick="loginWithGoogle()">
               <img
                 src="https://www.svgrepo.com/show/475656/google-color.svg"
                 alt="Google logo"
               />
               <span>Continue with Google</span>
             </button>
-            <button>
+            <button type="button" onclick="loginWithFacebook()">
               <img
                 src="https://www.svgrepo.com/show/475647/facebook-color.svg"
                 alt="Facebook logo"
@@ -118,6 +124,9 @@
       </div>
     </div>
     <script src="/javascripts/login.js"></script>
+    <!-- Firebase Auth -->
+    <script src="/javascripts/firebase-config.js"></script>
+    <script src="/javascripts/firebase-auth.js"></script>
     
     <!-- SweetAlert2: Mensaje de alerta de éxito/error -->
 
