@@ -9,7 +9,7 @@
 
 ## 🛠️ Tareas
 
-- [ ] Revisar código para mostrar errores de registro en la vista `register.ejs`.
+- [] Revisar código para mostrar errores de registro en la vista `register.ejs`.
 
 - [ ] Revisar el código de registro exitoso en la página `login.ejs` (sugerencia: implementarlo con **SweetAlert**).
 
