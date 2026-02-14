@@ -1,4 +1,4 @@
-// Script para la página de reserva (rediseñada con pasos)
+// Script para la página de reserva (vista en columnas)
 window.addEventListener('DOMContentLoaded', () => {
   // Leer parámetros de la URL (si vienen del index)
   const params = new URLSearchParams(window.location.search);
@@ -8,50 +8,20 @@ window.addEventListener('DOMContentLoaded', () => {
   if (entradaParam) document.getElementById('book-entrada').value = entradaParam;
   if (salidaParam) document.getElementById('book-salida').value = salidaParam;
 
-  // Calcular precio si ya hay fechas
+  // Calcular precio y resumen si ya hay fechas
   calcPrice();
+  updateSummary();
 
-  // Listeners para calcular precio al cambiar fechas
-  document.getElementById('book-entrada').addEventListener('change', calcPrice);
-  document.getElementById('book-salida').addEventListener('change', calcPrice);
+  // Listeners para actualizar precio y resumen en tiempo real
+  const fields = ['book-entrada', 'book-salida', 'book-nombre', 'book-telefono', 'book-matricula', 'book-marca', 'book-modelo'];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateSummary);
+      el.addEventListener('change', () => { calcPrice(); updateSummary(); });
+    }
+  });
 });
-
-/* ========== NAVEGACIÓN POR PASOS ========== */
-function goToStep(step) {
-  // Validar antes de avanzar
-  if (step === 2) {
-    const entrada = document.getElementById('book-entrada').value;
-    const salida = document.getElementById('book-salida').value;
-    if (!entrada || !salida) {
-      alert('Por favor, selecciona las fechas de entrada y salida.');
-      return;
-    }
-    if (new Date(salida) <= new Date(entrada)) {
-      alert('La fecha de salida debe ser posterior a la de entrada.');
-      return;
-    }
-  }
-  if (step === 3) {
-    const matricula = document.getElementById('book-matricula').value;
-    const marca = document.getElementById('book-marca').value;
-    const modelo = document.getElementById('book-modelo').value;
-    if (!matricula || !marca || !modelo) {
-      alert('Por favor, completa todos los datos del vehículo.');
-      return;
-    }
-    updateSummary();
-  }
-
-  document.getElementById('booking-step-1').style.display = step === 1 ? 'flex' : 'none';
-  document.getElementById('booking-step-2').style.display = step === 2 ? 'flex' : 'none';
-  document.getElementById('booking-step-3').style.display = step === 3 ? 'flex' : 'none';
-  const success = document.getElementById('booking-step-success');
-  if (success) success.style.display = 'none';
-
-  for (let i = 1; i <= 3; i++) {
-    document.getElementById('step-ind-' + i).classList.toggle('active', i <= step);
-  }
-}
 
 /* ========== CÁLCULO DE PRECIO ========== */
 function calcPrice() {
@@ -65,16 +35,16 @@ function calcPrice() {
     if (salida > entrada) {
       const dias = Math.ceil((salida - entrada) / (1000 * 60 * 60 * 24));
       const precio = (dias * 8.50).toFixed(2);
-      preview.innerHTML = '<i class="fas fa-tag"></i> <span>' + dias + ' día(s) — <strong>' + precio + ' €</strong> (IVA incl.)</span>';
+      preview.innerHTML = '<i class="bi bi-tag-fill text-primary me-2 fs-5"></i> <span>' + dias + ' día(s) — <strong>' + precio + ' €</strong> (IVA incl.)</span>';
       preview.classList.add('has-price');
       return;
     }
   }
-  preview.innerHTML = '<i class="fas fa-tag"></i> <span>Selecciona las fechas para ver el precio</span>';
+  preview.innerHTML = '<i class="bi bi-tag-fill text-primary me-2 fs-5"></i> <span>Selecciona las fechas para ver el precio</span>';
   preview.classList.remove('has-price');
 }
 
-/* ========== RESUMEN ========== */
+/* ========== RESUMEN EN TIEMPO REAL ========== */
 function updateSummary() {
   const entrada = document.getElementById('book-entrada').value;
   const salida = document.getElementById('book-salida').value;
@@ -95,6 +65,8 @@ function updateSummary() {
   if (e && s && s > e) {
     const dias = Math.ceil((s - e) / (1000 * 60 * 60 * 24));
     document.getElementById('sum-precio').textContent = (dias * 8.50).toFixed(2) + ' €';
+  } else {
+    document.getElementById('sum-precio').textContent = '0.00 €';
   }
 }
 
@@ -116,12 +88,29 @@ function generarQR(texto) {
 }
 
 function confirmBooking() {
-  const codigo = generarCodigoReserva();
+  // Validar campos obligatorios
+  const entrada = document.getElementById('book-entrada').value;
+  const salida = document.getElementById('book-salida').value;
   const nombre = document.getElementById('book-nombre') ? document.getElementById('book-nombre').value : '';
   const telefono = document.getElementById('book-telefono') ? document.getElementById('book-telefono').value : '';
   const matricula = document.getElementById('book-matricula').value;
   const marca = document.getElementById('book-marca').value;
   const modelo = document.getElementById('book-modelo').value;
+
+  if (!entrada || !salida) {
+    alert('Por favor, selecciona las fechas de entrada y salida.');
+    return;
+  }
+  if (new Date(salida) <= new Date(entrada)) {
+    alert('La fecha de salida debe ser posterior a la de entrada.');
+    return;
+  }
+  if (!matricula || !marca || !modelo) {
+    alert('Por favor, completa todos los datos del vehículo.');
+    return;
+  }
+
+  const codigo = generarCodigoReserva();
 
   document.getElementById('codigo-reserva').textContent = codigo;
   document.getElementById('qr-reserva').innerHTML = generarQR(codigo);
@@ -130,14 +119,7 @@ function confirmBooking() {
   document.getElementById('conf-matricula').textContent = matricula;
   document.getElementById('conf-vehiculo').textContent = marca + ' ' + modelo;
 
-  // Ocultar pasos y mostrar éxito
-  document.getElementById('booking-step-1').style.display = 'none';
-  document.getElementById('booking-step-2').style.display = 'none';
-  document.getElementById('booking-step-3').style.display = 'none';
+  // Ocultar formulario y mostrar éxito
+  document.getElementById('booking-form-section').querySelector('.row.g-4').style.display = 'none';
   document.getElementById('booking-step-success').style.display = 'flex';
-
-  // Desactivar steps visual
-  for (let i = 1; i <= 3; i++) {
-    document.getElementById('step-ind-' + i).classList.add('active');
-  }
 }

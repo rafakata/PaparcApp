@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
     <link rel="stylesheet" href="/stylesheets/login.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="contenedor_general">
@@ -21,18 +22,6 @@
             <button class="trabajador">Worker</button>
           </div>
         </div>
-
-        <% if (locals.success) { %>
-            <div style="background-color: #d4edda; color: #155724; padding: 12px; margin-bottom: 20px; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center; font-size: 14px;">
-                <strong>¡Bien hecho!</strong><br> <%= success %>
-            </div>
-        <% } %>
-
-        <% if (locals.error) { %>
-            <div style="background-color: #f8d7da; color: #721c24; padding: 12px; margin-bottom: 20px; border: 1px solid #f5c6cb; border-radius: 4px; text-align: center; font-size: 14px;">
-                <strong>Error:</strong> <%= error %>
-            </div>
-        <% } %>
 
         <!-- Formulario para trabajadores -->
         <form action="/users/login" method="POST" class="formWorker">
@@ -129,5 +118,41 @@
       </div>
     </div>
     <script src="/javascripts/login.js"></script>
+    
+    <!-- SweetAlert2: Mensaje de alerta de éxito/error -->
+
+    <% if (locals.success) { %>
+      <div id="flash-msg" data-type="success" data-text="<%= success %>" style="display:none;"></div>
+    <% } %>
+    <% if (locals.error) { %>
+      <div id="flash-msg" data-type="error" data-text="<%= error %>" style="display:none;"></div>
+    <% } %>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let flash = document.getElementById('flash-msg');
+        if (flash) {
+          let type = flash.getAttribute('data-type');
+          let bgColor = type === 'success' ? '#eafaf1' : '#fdecea';
+          let textColor = type === 'success' ? '#2e7d32' : '#c62828';
+          Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            icon: type,
+            title: type === 'success' ? '¡Bien hecho!' : 'Error',
+            text: flash.getAttribute('data-text'),
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            width: '520px',
+            background: bgColor,
+            color: textColor,
+            didOpen: function(toast) {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
