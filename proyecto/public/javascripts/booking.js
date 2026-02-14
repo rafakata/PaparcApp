@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
   updateSummary();
 
   // Listeners para actualizar precio y resumen en tiempo real
-  const fields = ['book-entrada', 'book-salida', 'book-nombre', 'book-telefono', 'book-matricula', 'book-marca', 'book-modelo'];
+  const fields = ['book-entrada', 'book-salida', 'book-nombre', 'book-email', 'book-telefono', 'book-matricula', 'book-marca', 'book-modelo'];
   fields.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
@@ -49,6 +49,7 @@ function updateSummary() {
   const entrada = document.getElementById('book-entrada').value;
   const salida = document.getElementById('book-salida').value;
   const nombre = document.getElementById('book-nombre') ? document.getElementById('book-nombre').value : '';
+  const email = document.getElementById('book-email') ? document.getElementById('book-email').value : '';
   const matricula = document.getElementById('book-matricula').value;
   const marca = document.getElementById('book-marca').value;
   const modelo = document.getElementById('book-modelo').value;
@@ -57,6 +58,7 @@ function updateSummary() {
   document.getElementById('sum-entrada').textContent = entrada ? new Date(entrada).toLocaleString('es-ES') : '-';
   document.getElementById('sum-salida').textContent = salida ? new Date(salida).toLocaleString('es-ES') : '-';
   document.getElementById('sum-nombre').textContent = nombre || '-';
+  document.getElementById('sum-email').textContent = email || '-';
   document.getElementById('sum-matricula').textContent = matricula || '-';
   document.getElementById('sum-vehiculo').textContent = (marca + ' ' + modelo).trim() || '-';
   document.getElementById('sum-telefono').textContent = telefono || '-';
@@ -92,6 +94,7 @@ function confirmBooking() {
   const entrada = document.getElementById('book-entrada').value;
   const salida = document.getElementById('book-salida').value;
   const nombre = document.getElementById('book-nombre') ? document.getElementById('book-nombre').value : '';
+  const email = document.getElementById('book-email') ? document.getElementById('book-email').value : '';
   const telefono = document.getElementById('book-telefono') ? document.getElementById('book-telefono').value : '';
   const matricula = document.getElementById('book-matricula').value;
   const marca = document.getElementById('book-marca').value;
@@ -109,12 +112,17 @@ function confirmBooking() {
     alert('Por favor, completa todos los datos del vehículo.');
     return;
   }
+  if (!email) {
+    alert('Por favor, introduce un correo electrónico válido.');
+    return;
+  }
 
   const codigo = generarCodigoReserva();
 
   document.getElementById('codigo-reserva').textContent = codigo;
   document.getElementById('qr-reserva').innerHTML = generarQR(codigo);
   document.getElementById('conf-nombre').textContent = nombre;
+  document.getElementById('conf-email').textContent = email;
   document.getElementById('conf-telefono').textContent = telefono;
   document.getElementById('conf-matricula').textContent = matricula;
   document.getElementById('conf-vehiculo').textContent = marca + ' ' + modelo;

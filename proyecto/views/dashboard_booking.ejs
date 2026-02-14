@@ -128,6 +128,12 @@
                             <input type="text" class="form-control" id="book-nombre" placeholder="Nombre y Apellidos" required>
                         </div>
                         <div>
+                            <label for="book-email" class="form-label fw-semibold">
+                                <i class="bi bi-envelope me-1"></i> Correo electrónico
+                            </label>
+                            <input type="email" class="form-control" id="book-email" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div>
                             <label for="book-telefono" class="form-label fw-semibold">
                                 <i class="bi bi-telephone me-1"></i> Teléfono
                             </label>
@@ -187,6 +193,12 @@
                             </div>
                             <div class="col-6">
                                 <div class="p-3 bg-light rounded-3">
+                                    <small class="text-muted d-block"><i class="bi bi-envelope me-1"></i> Email</small>
+                                    <strong id="sum-email" class="text-truncate d-block">-</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-3 bg-light rounded-3">
                                     <small class="text-muted d-block"><i class="bi bi-telephone me-1"></i> Teléfono</small>
                                     <strong id="sum-telefono" class="text-truncate d-block">-</strong>
                                 </div>
@@ -236,6 +248,7 @@
                         <div id="qr-reserva" class="mb-3"></div>
                         <div class="row justify-content-center g-2 mb-4">
                             <div class="col-auto"><span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-person me-1"></i> <span id="conf-nombre"></span></span></div>
+                            <div class="col-auto"><span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-envelope me-1"></i> <span id="conf-email"></span></span></div>
                             <div class="col-auto"><span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-telephone me-1"></i> <span id="conf-telefono"></span></span></div>
                             <div class="col-auto"><span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-card-text me-1"></i> <span id="conf-matricula"></span></span></div>
                             <div class="col-auto"><span class="badge bg-light text-dark border px-3 py-2"><i class="bi bi-car-front me-1"></i> <span id="conf-vehiculo"></span></span></div>
