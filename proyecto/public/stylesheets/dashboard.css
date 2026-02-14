@@ -155,14 +155,7 @@ body {
   overflow: hidden;
 }
 
-.card-hover {
-  transition: all 0.3s ease;
-}
 
-.card-hover:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover) !important;
-}
 
 .card-header {
   border-bottom: none !important;

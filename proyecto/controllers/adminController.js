@@ -12,6 +12,11 @@ const adminController = {
         res.render('dashboard', { title: 'Dashboard' });
     },
 
+    getParking: (req, res) => {
+        console.log('Accediendo al parking en tiempo real por el usuario:', req.session.user.email);
+        res.render('dashboard_parking', { title: 'Parking en Tiempo Real' });
+    },
+
     getReservationInfo: async (req, res) => {
 
         try {

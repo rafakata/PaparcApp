@@ -298,11 +298,16 @@ h1 {
   font-size: 3rem;
   margin-right: 19rem;
   span {
-    color: var(--color-primary);
+    color: var(--color-secondary);
     position: absolute;
-    transform: rotate(25deg);
     margin-top: 3.5rem;
     margin-left: 0.8rem;
+    transform: scale(0) rotate(25deg);
+    animation: spanGrow 1.6s ease-out 0.3s forwards;
+
+    /* --- HOVER ORIGINAL (desactivado) ---
+    color: var(--color-primary);
+    transform: rotate(25deg);
     -webkit-text-stroke: 1px var(--background-color-secondary);
     &:hover {
       transform: rotate(0);
@@ -312,6 +317,23 @@ h1 {
       color: var(--color-secondary);
       -webkit-text-stroke: 0px;
     }
+    --- FIN HOVER ORIGINAL --- */
+  }
+}
+
+@keyframes spanGrow {
+  0% {
+    transform: scale(0) rotate(25deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1) rotate(-3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    margin-top: 0;
   }
 }
 .sub_titulo {
