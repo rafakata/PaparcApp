@@ -17,6 +17,9 @@ var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 var apiRouter = require('./routes/api');
 
+// importamos el servicio de precios
+var PricingService = require('./services/pricingService');
+
 // 3. Midlewares propios
 var { authLocalsMiddleware } = require('./middlewares/auth'); // importar el middleware de autenticación
 
@@ -79,5 +82,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+PricingService.initCache()
+  .then(()=> {
+    console.log("Cache de precios inicializada correctamente");
+  })
+  .catch((err) => {
+    console.error("No se pudo cargar la cache de precio");
+    console.error(err);
+    process.exit(1); // salir del proceso con código de error
+  });
 
 module.exports = app;
