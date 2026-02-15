@@ -121,7 +121,7 @@ ALTER TABLE customer
 -- ESTADO DE LA RESERVA: Limita los estados a los permitidos por la lógica de negocio
 ALTER TABLE reservation
     ADD CONSTRAINT chk_reservation_status
-    CHECK (status IN ('PENDIENTE', 'CONFIRMADA', 'EN CURSO', 'SALIDA CONFIRMADA', 'FINALIZADA', 'CANCELADA'));
+    CHECK (status IN ('PENDIENTE', 'ENTRADA CONFIRMADA', 'EN CURSO', 'SALIDA CONFIRMADA', 'FINALIZADA', 'CANCELADA'));
 
 -- MÉTODO DE PAGO: Solo permite valores específicos o nulo si aún no se ha pagado
 ALTER TABLE reservation
@@ -142,7 +142,7 @@ ALTER TABLE reservation
 ALTER TABLE reservation
     ADD CONSTRAINT chk_spot_assigned
     CHECK (
-        status IN ('PENDIENTE','CONFIRMADA', 'CANCELADA') AND cod_parking_spot IS NULL -- permite nul si se encuentra en estos estados
+        status IN ('PENDIENTE','ENTRADA CONFIRMADA', 'CANCELADA') AND cod_parking_spot IS NULL -- permite nul si se encuentra en estos estados
         OR
         status IN ('EN CURSO', 'SALIDA CONFIRMADA', 'FINALIZADA') AND cod_parking_spot IS NOT NULL -- no permite nul si se encuentra en estos estados
     );

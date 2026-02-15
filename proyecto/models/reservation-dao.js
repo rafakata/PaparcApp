@@ -108,9 +108,11 @@ class ReservationDAO {
 
             const reservationData = resultReservation.rows[0];
 
-            const resultAdditionalServices = await db.query(sqlAdditionalServices, [id]);
-            const resultPhotos = await db.query(sqlPhotos, [id]);
-            const resultNotifications = await db.query(sqlNotifications, [id]);
+            const [resultAdditionalServices, resultPhotos, resultNotifications] = await Promise.all([
+                db.query(sqlAdditionalServices, [id]),
+                db.query(sqlPhotos, [id]),
+                db.query(sqlNotifications, [id])
+            ]);
 
             reservationData.additional_services = resultAdditionalServices.rows; // agregamos un nuevo campo al objeto reservationData con el array de servicios adicionales
             reservationData.photos = resultPhotos.rows; // agregamos un nuevo campo al objeto reservationData con el array de fotos de evidencia

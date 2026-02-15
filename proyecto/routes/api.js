@@ -16,4 +16,7 @@ router.get('/reservations', apiController.getReservationsByDate);
 /* GET Parking spots with status */
 router.get('/parking/spots', apiController.getParkingSpots);
 
+/* POST Calculate dynamic price */
+router.post('/pricing/dynamic', apiController.calculatePriceDynamic);
+
 module.exports = router;

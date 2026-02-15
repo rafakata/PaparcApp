@@ -4,6 +4,7 @@
  * se procesan los datos para organizarlos antes enviarlos  y finalmente se envían al cliente. 
 */
 const reservationDAO = require('../models/reservation-dao')
+const pricingService = require('../services/pricingService');
 
 const apiController = {
 
@@ -56,6 +57,49 @@ const apiController = {
             res.status(500).json({ error: 'Error en el servidor, por favor intente más tarde.' });
 
         }
+    },
+
+    calculatePriceDynamic : async (req, res) => {
+
+        try {
+
+            const { entry_date, exit_date, vehicle_type, id_main_service, additional_services } = req.body;
+
+            if (!entry_date || !exit_date ) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Las fechas de entrada y salida son requeridas para calcular el precio.'
+                })
+            }
+
+            const entryDate = new Date(entry_date);
+            const exitDate = new Date(exit_date);
+
+            const extra_additional_services = additional_services ? additional_services : [];
+
+            const newTotalPrice = pricingService.calculateTotalPrice(
+                entryDate, 
+                exitDate, 
+                vehicle_type, 
+                parseInt(id_main_service), 
+                extra_additional_services.map(id => parseInt(id))
+            );
+
+            res.json({
+                success: true,
+                total_price: newTotalPrice
+            })
+
+        } catch (error) {
+
+            console.error('Error al calcular el precio dinámico:', error);
+            return res.status(500).json({
+                success: false,
+                message: error.message || 'Error en el servidor al calcular el precio dinámico.'
+            })
+        }
+
+
     },
 
     // Obtener plazas de parking con su estado actual
