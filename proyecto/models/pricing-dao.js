@@ -77,7 +77,7 @@ class PricingDAO {
     */
     async getAdditionalServices() {
 
-        const sql = 'SELECT id_additional_service,name,price FROM additional_service';
+        const sql = 'SELECT id_additional_service,price FROM additional_service';
 
         try {
 
@@ -95,4 +95,4 @@ class PricingDAO {
 
 }
 
-module.exports = PricingDAO;
+module.exports = new PricingDAO();
