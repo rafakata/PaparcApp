@@ -3,7 +3,7 @@
  * Este servicio se encarga de gestionar toda la lógica relacionada con los precios de las reservas. 
 */
 
-const PricingDAO = require('../models/pricing-dao');
+const pricingDAO = require('../models/pricing-dao');
 
 /**
  * Implementamos una clase singleton para el servicio de precios ya que:
@@ -29,11 +29,9 @@ class PricingService {
 
             console.log('Inicializando cache de precios ...');
 
-            const pricingDao = new PricingDAO();
-
-            const rawCoefficients = await pricingDao.getVehicleCoefficients();
-            const rawRates = await pricingDao.getServiceRates();
-            const rawAdditionalServices = await pricingDao.getAdditionalServices();
+            const rawCoefficients = await pricingDAO.getVehicleCoefficients();
+            const rawRates = await pricingDAO.getServiceRates();
+            const rawAdditionalServices = await pricingDAO.getAdditionalServices();
 
             rawCoefficients.forEach(v => {
                 this.cache.coefficients.set(v.vehicle_type, parseFloat(v.multiplier));
