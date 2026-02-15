@@ -6,53 +6,210 @@
 </head>
 <body style="font-family: sans-serif; padding: 20px;">
 
-    <a href="/admin/dashboard" style="display:inline-block; margin-bottom: 20px;">&larr; Volver al Panel</a>
+    <% 
+        // Helper para formatear fechas para el input datetime-local respetando la zona horaria local (Málaga/España)
+        function formatForDateTimeLocal(dateInput) {
+            if (!dateInput) return '';
+            const d = new Date(dateInput);
+            // Ajustamos el desfase horario local para no perder la hora real
+            d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+            // Cortamos la cadena para que quede YYYY-MM-DDThh:mm (el formato estricto de HTML5)
+            return d.toISOString().slice(0, 16);
+        }
+    %>
 
-    <h1 style="border-bottom: 2px solid #333;">Detalles de la Reserva #<%= reservation.id_reservation %></h1>
+    <div class="reservation-detail-container">
+        <header>
+            <h2><%= title %></h2>
+            
+            <div class="badges-container" style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <div class="status-badge" style="padding: 10px; background-color: #e8f4fd; border-radius: 5px;">
+                    Estado Actual: <strong><%= reservation.status %></strong>
+                </div>
+                
+                <div class="date-badge" style="padding: 10px; background-color: #f8f9fa; border-radius: 5px; color: #555;">
+                    🗓️ Fecha de creación: 
+                    <strong><%= new Date(reservation.reservation_date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }) %></strong>
+                </div>
+            </div>
+        </header>
 
-    <div style="background: #f0f0f0; padding: 15px; margin-bottom: 20px;">
-        <h3>👤 Datos del Cliente</h3>
-        <p><strong>Nombre:</strong> <%= reservation.customer_name %></p>
-        <p><strong>Email:</strong> <%= reservation.email %></p>
-        <p><strong>Teléfono:</strong> <%= reservation.phone %></p>
-    </div>
+        <form id="editReservationForm" action="/reservations/<%= reservation.id_reservation %>/edit" method="POST">
+            
+            <fieldset>
+                <legend>👤 Información del Cliente</legend>
+                
+                <div class="form-group">
+                    <label for="customer_name">Nombre Completo:</label>
+                    <input type="text" id="customer_name" name="customer_name" value="<%= reservation.customer_name %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Teléfono:</label>
+                    <input type="tel" id="phone" name="phone" value="<%= reservation.phone %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="email" id="email" name="email" value="<%= reservation.email %>" required>
+                </div>
+            </fieldset>
 
-    <div style="background: #e6f7ff; padding: 15px; margin-bottom: 20px;">
-        <h3>📅 Datos del Evento</h3>
-        <p><strong>Fecha:</strong> <%= reservation.reservation_date %></p> 
-        <p><strong>Hora:</strong> <%= reservation.entry_date %></p>
-        <p><strong>Servicio / Tipo:</strong> <%= reservation.main_service_name %></p>
-        <p><strong>Estado Actual:</strong> <%= reservation.status %></p>
-    </div>
+            <fieldset>
+                <legend>🚗 Información del Vehículo</legend>
+                
+                <div class="form-group">
+                    <label for="license_plate">Matrícula:</label>
+                    <input type="text" id="license_plate" name="license_plate" value="<%= reservation.license_plate %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brand">Marca y Modelo:</label>
+                    <input type="text" id="brand" name="brand" value="<%= reservation.brand %>" required>
+                    <input type="text" id="model" name="model" value="<%= reservation.model %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <input type="text" id="color" name="color" value="<%= reservation.color %>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="calc_vehicle_type">Tipo de Vehículo (Afecta tarifa):</label>
+                    <select id="calc_vehicle_type" name="vehicle_type">
+                        <% vehicleTypes.forEach(v => { %>
+                            <option value="<%= v.type %>" <%= reservation.type === v.type ? 'selected' : '' %>>
+                                <%= v.type %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+            </fieldset>
 
-    <div style="background: #fff3cd; padding: 15px; margin-bottom: 20px;">
-        <h3>💰 Capacidad y Costes</h3>
-        <ul>
-            <li><strong>Adultos:</strong> <%= reservation.num_adults %></li>
-            <li><strong>Niños:</strong> <%= reservation.num_children %></li>
-            <li><strong>Total Personas:</strong> <%= reservation.num_adults + reservation.num_children %></li>
-        </ul>
-        
-        <hr>
-        
-        <p style="font-size: 1.2em;">
-            <strong>Precio Total Estimado:</strong> 
-            <%= reservation.total_price ? reservation.total_price + ' €' : 'Pendiente de calcular' %>
-        </p>
-    </div>
+            <fieldset>
+                <legend>📅 Estancia y Servicios Contratados</legend>
+                
+                <div class="form-group">
+                    <label for="calc_entry_date">Fecha y Hora de Entrada:</label>
+                    <input type="datetime-local" id="calc_entry_date" name="entry_date" value="<%= formatForDateTimeLocal(reservation.entry_date) %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="calc_exit_date">Fecha y Hora de Salida:</label>
+                    <input type="datetime-local" id="calc_exit_date" name="exit_date" value="<%= formatForDateTimeLocal(reservation.exit_date) %>" required>
+                </div>
 
-    <div style="border: 1px solid #ccc; padding: 15px;">
-        <h3>📝 Observaciones / Notas</h3>
-        <p>
-            <%= reservation.observations ? reservation.observations : 'Sin observaciones adicionales.' %>
-        </p>
+                <div class="form-group">
+                    <label for="calc_main_service">Servicio Principal:</label>
+                    <select id="calc_main_service" name="id_main_service">
+                        <% mainServices.forEach(ms => { %>
+                            <option value="<%= ms.id_main_service %>" <%= reservation.id_main_service === ms.id_main_service ? 'selected' : '' %>>
+                                <%= ms.name %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Servicios Adicionales (Extras):</label>
+                    <div id="additional_services_container">
+                        <% additionalServices.forEach(extra => { %>
+                            <% const isChecked = reservation.additional_services && reservation.additional_services.some(ras => ras.id_additional_service === extra.id_additional_service) ? 'checked' : ''; %>
+                            
+                            <div class="checkbox-item">
+                                <label>
+                                    <input type="checkbox" class="calc_extra_service" name="additional_services[]" value="<%= extra.id_additional_service %>" <%= isChecked %>>
+                                    <%= extra.name %> (+<%= extra.price %>€)
+                                </label>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="summary-section">
+                <legend>💶 Resumen Financiero</legend>
+                
+                <div class="price-display">
+                    <h3>Total Calculado: <span id="dynamic_total_price"><%= reservation.total_price %></span> €</h3>
+                    <span id="recalculating_indicator" style="display:none; color: #f39c12; font-size: 0.9em;">
+                        ⏳ Recalculando importe...
+                    </span>
+                </div>
+                
+                <div class="action-buttons">
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/admin/dashboard'">Descartar Cambios</button>
+                    <button type="submit" id="btn_save_changes" class="btn-save">Confirmar y Guardar Reserva</button>
+                </div>
+            </fieldset>
+
+        </form>
+
+        <hr style="margin: 40px 0; border: 1px solid #eee;">
+
+        <section class="photos-section">
+            <h3>📸 Evidencias del Vehículo</h3>
+            
+            <% if (reservation.status === 'PENDIENTE' || reservation.status === 'CONFIRMADA') { %>
+                
+                <div class="upload-alert" style="background-color: #fff3cd; padding: 10px; border-left: 4px solid #ffeeba; margin-bottom: 15px;">
+                    ⚠️ <strong>Atención Operario:</strong> Son necesarias un mínimo de 5 fotografías del estado del vehículo antes de poder transicionar la reserva a estado "EN CURSO".
+                    Llevas: <strong><%= reservation.photos ? reservation.photos.length : 0 %> / 5</strong>
+                </div>
+
+                <form action="/admin/reservations/<%= reservation.id_reservation %>/photos" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="url" name="file_path" placeholder="https://ruta-en-la-nube.com/foto1.jpg" required style="flex-grow: 1; padding: 8px;">
+                    <button type="submit" class="btn-secondary">Subir Evidencia</button>
+                </form>
+
+            <% } %>
+
+            <div class="photos-gallery" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                <% if (reservation.photos && reservation.photos.length > 0) { %>
+                    <% reservation.photos.forEach((photo, index) => { %>
+                        <div class="photo-card" style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; text-align: center;">
+                            <span>📷 Foto <%= index + 1 %></span><br>
+                            <a href="<%= photo.file_path %>" target="_blank" style="font-size: 0.9em; color: #3498db;">Ver imagen original</a>
+                            <div style="font-size: 0.8em; color: #7f8c8d; margin-top: 5px;">
+                                <%= new Date(photo.taken_at).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }) %>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p style="color: #7f8c8d; font-style: italic;">No hay evidencias fotográficas registradas aún.</p>
+                <% } %>
+            </div>
+        </section>
+
+        <hr style="margin: 40px 0; border: 1px solid #eee;">
+
+        <section class="notifications-section">
+            <h3>📬 Registro de Comunicaciones</h3>
+            
+            <ul class="notifications-list" style="list-style-type: none; padding: 0;">
+                <% if (reservation.notifications && reservation.notifications.length > 0) { %>
+                    <% reservation.notifications.forEach(notif => { %>
+                        <li style="padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;">
+                            <span>Tipo de aviso: <strong><%= notif.type %></strong></span>
+                            <span style="color: #7f8c8d; font-size: 0.9em;">
+                                Enviado: <%= new Date(notif.sent_at).toLocaleString('es-ES') %>
+                            </span>
+                        </li>
+                    <% }) %>
+                <% } else { %>
+                    <li style="color: #7f8c8d; font-style: italic;">El cliente no ha recibido notificaciones automáticas.</li>
+                <% } %>
+            </ul>
+        </section>
+
     </div>
 
     <hr style="margin-top: 50px;">
     <h4>🔧 Herramienta para Desarrollador (Borrar al terminar)</h4>
     <pre style="background: #333; color: #0f0; padding: 15px; overflow-x: auto;">
-<%= JSON.stringify(reservation, null, 2) %>
+    <%= JSON.stringify(reservation, null, 2) %>
     </pre>
 
 </body>
+<script src="/javascripts/dynamic-pricing.js"></script>
 </html>

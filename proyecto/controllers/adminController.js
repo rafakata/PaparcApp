@@ -4,10 +4,11 @@
 */
 
 const reservationDAO = require('../models/reservation-dao');
+const serviceCatalogDAO = require('../models/service-catalog-dao');
 
 const adminController = {
 
-    getDashboard: (req, res) => {
+    getDashboard: async (req, res) => {
         console.log('Accediendo al panel de administración por el usuario:', req.session.user.email);
         res.render('dashboard', { title: 'Dashboard' });
     },
@@ -26,10 +27,19 @@ const adminController = {
             const reservation = await reservationDAO.getInfoReservationByIdReservation(id);
 
             if (!reservation) return res.redirect('admin/dashboard');
+
+            const [vehicleTypes, mainServices, additionalServices] = await Promise.all([
+                serviceCatalogDAO.getVehicleTypes(),
+                serviceCatalogDAO.getMainServices(),
+                serviceCatalogDAO.getAllAdditionalServices()
+            ]);
             
             res.render('reservation-details', {
                 title : `Gestión Reserva #${id}`,
-                reservation : reservation 
+                reservation : reservation ,
+                vehicleTypes : vehicleTypes,
+                mainServices : mainServices,
+                additionalServices : additionalServices
             });
 
         } catch (error) {
