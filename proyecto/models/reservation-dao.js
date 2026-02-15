@@ -8,6 +8,7 @@ const db = require('../config/database');
 class ReservationDAO {
 
     /**
+     * Obtiene todas las reservas por una fecha dada.
      * @param {*} date -- fecha para filtrar las reservas, se buscan reservas que tengan entry_date o exit_date igual a esta fecha
      * @returns -- devuelve un array de objetos con la informacion necesaria para mostrar en la tabla de reservas:
      * -datos de la reserva (id, fechas, estado)
@@ -49,6 +50,7 @@ class ReservationDAO {
     }
 
     /**
+     * Obtiene toda la informacion de una reserva por su ID.
      * Realizamos dos consultas separadas, cuyas respuestas uniremos en un solo objeto para devolver toda la informacion necesaria para mostrar el detalle de la reserva.
      * @param {*} id 
      * @returns -- devuelve un objeto con toda la informacion de la reserva:
@@ -136,8 +138,6 @@ class ReservationDAO {
         const sql = `SELECT
                         ps.cod_parking_spot,
                         ps.is_available,
-                        ps.floor,
-                        ps.type,
                         r.id_reservation,
                         r.entry_date,
                         r.exit_date,

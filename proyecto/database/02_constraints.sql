@@ -201,7 +201,7 @@ ALTER TABLE contract
     ADD CONSTRAINT chk_contract_dates
     CHECK (end_date > start_date);
 
--- VALIDACIÓN DE PLANES DE CONTRATO: los mese y el precio deben ser positvos
+-- VALIDACIÓN DE PLANES DE CONTRATO: los meses y el precio deben ser positvos
 ALTER TABLE contract_plan
     ADD CONSTRAINT chk_contract_plan_values
     CHECK (duration_months > 0 AND price > 0);

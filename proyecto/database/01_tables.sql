@@ -1,26 +1,20 @@
--- ==========================================================
--- 01_TABLES.SQL - DEFINICIÓN DE ESTRUCTURA (REF: 13/02/2026)
--- ==========================================================
+--Contiene la creacion de todas la tablas del proyecto PaparCapp
 
--- 1. LIMPIEZA PREVIA (Ordenada para evitar errores de dependencias)
--- Usamos CASCADE para asegurar que se borre todo lo relacionado
+--LIMPIEZA PREVIA
+-- El CASCADE es vital: borra la tabla y todas las FK que apunten a ella
 DROP TABLE IF EXISTS reservation_additional_service CASCADE;
 DROP TABLE IF EXISTS notification CASCADE;
 DROP TABLE IF EXISTS photo_evidence CASCADE;
-DROP TABLE IF EXISTS contract CASCADE;          -- Nueva tabla
-DROP TABLE IF EXISTS contract_plan CASCADE;     -- Nueva tabla
-DROP TABLE IF EXISTS service_rate CASCADE;      -- Nueva tabla
+DROP TABLE IF EXISTS contract CASCADE;          
+DROP TABLE IF EXISTS contract_plan CASCADE;     
+DROP TABLE IF EXISTS service_rate CASCADE;
 DROP TABLE IF EXISTS reservation CASCADE;
 DROP TABLE IF EXISTS additional_service CASCADE;
 DROP TABLE IF EXISTS main_service CASCADE;
 DROP TABLE IF EXISTS parking_spot CASCADE;
 DROP TABLE IF EXISTS vehicle CASCADE;
-DROP TABLE IF EXISTS vehicle_coefficient CASCADE; -- Nueva tabla maestra
+DROP TABLE IF EXISTS vehicle_coefficient CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
-
--- ==========================================================
--- 2. MÓDULO DE USUARIOS Y VEHÍCULOS
--- ==========================================================
 
 -- TABLA CUSTOMER: Clientes de la aplicación
 CREATE TABLE customer (
@@ -28,136 +22,127 @@ CREATE TABLE customer (
     full_name         VARCHAR(100) NOT NULL,
     email             VARCHAR(150) NOT NULL UNIQUE,
     phone             VARCHAR(20),
-    password_hash     VARCHAR(255), -- Puede ser NULL para usuarios 'guest'
+    password_hash     VARCHAR(255),
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    type              VARCHAR(30) DEFAULT 'REGISTRADO', -- 'ADMIN', 'REGISTRADO', 'GUEST'
+    type              VARCHAR(30), 
     is_active         BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- TABLA VEHICLE_COEFFICIENT (NUEVA): Configuración de precios por tipo
--- Esta tabla debe crearse antes que 'vehicle' conceptualmente
-CREATE TABLE vehicle_coefficient (
-    vehicle_type VARCHAR(30) PRIMARY KEY, -- Ej: 'TURISMO', 'MOTOCICLETA'
-    multiplier   NUMERIC(4,2) NOT NULL DEFAULT 1.00
-);
 
--- TABLA VEHICLE: Inventario de vehículos
+-- TABLA VEHICLE: Vehículos registrados
 CREATE TABLE vehicle (
     license_plate     VARCHAR(15) PRIMARY KEY,
     brand             VARCHAR(50) NOT NULL,
     model             VARCHAR(50) NOT NULL,
-    color             VARCHAR(30) NOT NULL,
-    type              VARCHAR(30) NOT NULL, -- Ahora será FK a vehicle_coefficient (en constraints)
+    color             VARCHAR(30) NOT NULL, 
+    type              VARCHAR(30) NOT NULL, 
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    id_customer       INT NOT NULL          -- FK a customer (en constraints)
+    id_customer       INT NOT NULL -- FK
 );
 
--- ==========================================================
--- 3. MÓDULO DE INFRAESTRUCTURA Y SERVICIOS
--- ==========================================================
 
--- TABLA PARKING_SPOT: Plazas físicas
+-- TABLA PARKING_SPOT: Plazas de aparcamiento
 CREATE TABLE parking_spot (
-    cod_parking_spot VARCHAR(10) PRIMARY KEY, -- Ej: 'A-001'
-    is_available     BOOLEAN NOT NULL DEFAULT TRUE,
-    floor            INT DEFAULT 0, -- Opcional: Planta del parking
-    type             VARCHAR(20) DEFAULT 'STANDARD' -- Opcional: 'STANDARD', 'XL', 'ELECTRICO'
+    cod_parking_spot  VARCHAR(20) PRIMARY KEY,
+    is_available      BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- TABLA MAIN_SERVICE: Catálogo de servicios principales
+
+-- TABLA MAIN_SERVICE: Servicios principales
 CREATE TABLE main_service (
-    id_main_service SERIAL PRIMARY KEY,
-    name            VARCHAR(50) NOT NULL UNIQUE, -- Ej: 'ECO', 'TRANSFER'
-    description     VARCHAR(255)
+    id_main_service   SERIAL PRIMARY KEY,
+    name              VARCHAR(100) NOT NULL UNIQUE, 
+    description       VARCHAR(250),                 
+    is_active         BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- TABLA SERVICE_RATE (NUEVA): Tarifas dinámicas por tramos de días
-CREATE TABLE service_rate (
-    id_rate         SERIAL PRIMARY KEY,
-    min_days        INT NOT NULL,
-    max_days        INT NOT NULL,
-    daily_price     NUMERIC(8,2) NOT NULL,
-    id_main_service INT NOT NULL -- FK a main_service (en constraints)
-);
 
--- TABLA ADDITIONAL_SERVICE: Catálogo de extras
+-- TABLA ADDITIONAL_SERVICE: Servicios adicionales
 CREATE TABLE additional_service (
     id_additional_service SERIAL PRIMARY KEY,
-    name                  VARCHAR(100) NOT NULL,
+    name                  VARCHAR(100) NOT NULL UNIQUE,
     price                 NUMERIC(8,2) NOT NULL,
-    description           VARCHAR(255)
+    description           VARCHAR(250),                 
+    is_active             BOOLEAN NOT NULL DEFAULT TRUE
 );
 
--- ==========================================================
--- 4. MÓDULO TRANSACCIONAL (CORE)
--- ==========================================================
 
--- TABLA RESERVATION: Tabla central del sistema
+-- TABLA RESERVATION: Reservas realizadas
 CREATE TABLE reservation (
-    id_reservation   SERIAL PRIMARY KEY,
-    entry_date       TIMESTAMP NOT NULL,
-    exit_date        TIMESTAMP, -- Puede ser NULL si no saben cuándo salen (aunque raro en reservas)
-    status           VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE', -- 'PENDIENTE', 'CONFIRMADA', 'EN CURSO', 'FINALIZADA', 'CANCELADA'
-    total_price      NUMERIC(10,2) NOT NULL DEFAULT 0.00,
+    id_reservation    SERIAL PRIMARY KEY,
+    reservation_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    entry_date        TIMESTAMP NOT NULL,
+    exit_date         TIMESTAMP,
+    status            VARCHAR(30) NOT NULL DEFAULT 'PENDIENTE', -- Simplificado
+    total_price       NUMERIC(10,2) NOT NULL,
     is_paid          BOOLEAN NOT NULL DEFAULT FALSE,
-    payment_method   VARCHAR(50), -- 'TARJETA', 'EFECTIVO', 'APP'
-    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    notes            TEXT,
-    
-    -- Claves foráneas (definidas en constraints.sql)
-    license_plate    VARCHAR(15) NOT NULL,
-    id_main_service  INT NOT NULL,
-    cod_parking_spot VARCHAR(10) -- Puede ser NULL al principio hasta que se asigne plaza
+    payment_method    VARCHAR(30),
+    notes             TEXT,
+    license_plate     VARCHAR(15) NOT NULL, -- FK
+    id_main_service   INT NOT NULL, -- FK
+    cod_parking_spot  VARCHAR(20)  -- FK
 );
 
--- TABLA RESERVATION_ADDITIONAL_SERVICE: Tabla pivote N:M
+
+-- TABLA PHOTO_EVIDENCE: Evidencia visual de la entrada
+CREATE TABLE photo_evidence (
+    id_photo          SERIAL PRIMARY KEY,
+    file_path         VARCHAR(255) NOT NULL,
+    description       VARCHAR(200),
+    taken_at          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_reservation    INT NOT NULL --FK
+);
+
+
+-- TABLA NOTIFICATION: Registro de comunicaciones
+CREATE TABLE notification (
+    id_notification   SERIAL PRIMARY KEY,
+    subject           VARCHAR(150) NOT NULL, -- Simplificado
+    message           TEXT NOT NULL,          -- Simplificado
+    type              VARCHAR(50) NOT NULL,  -- Simplificado
+    sent_at           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_reservation    INT NOT NULL --FK
+);
+
+
+-- TABLA INTERMEDIA: Relación Muchos a Muchos (Reservas <-> Servicios Adicionales)
 CREATE TABLE reservation_additional_service (
     id_reservation        INT NOT NULL,
     id_additional_service INT NOT NULL,
     PRIMARY KEY (id_reservation, id_additional_service)
 );
 
--- TABLA PHOTO_EVIDENCE: Fotos del estado del vehículo
-CREATE TABLE photo_evidence (
-    id_photo       SERIAL PRIMARY KEY,
-    file_path      VARCHAR(255) NOT NULL,
-    uploaded_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    id_reservation INT NOT NULL -- FK
+-- TABLA VEHICLE_COEFFICIENT: tabla maestra para tipos de vehículos y su multiplicador de precio según el tipo de vehículo
+CREATE TABLE vehicle_coefficient (
+    vehicle_type VARCHAR(30) PRIMARY KEY,
+    multiplier NUMERIC(4,2) NOT NULL DEFAULT 1.00
 );
 
--- TABLA NOTIFICATION: Historial de comunicaciones
-CREATE TABLE notification (
-    id_notification SERIAL PRIMARY KEY,
-    type            VARCHAR(50) NOT NULL, -- 'TICKET', 'RECORDATORIO', 'FACTURA'
-    subject         VARCHAR(150),
-    message         TEXT,
-    sent_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_read         BOOLEAN DEFAULT FALSE,
-    id_reservation  INT NOT NULL -- FK
+-- TABLA SERVICE_RATE: tabla que controla los diferentes tipos de tarifas por tramos de días y servicios
+CREATE TABLE service_rate (
+    id_rate SERIAL PRIMARY KEY,
+    min_days INT NOT NULL,
+    max_days INT NOT NULL,
+    daily_price NUMERIC(8,2) NOT NULL,
+    id_main_service INT NOT NULL -- FK
 );
 
--- ==========================================================
--- 5. MÓDULO DE CONTRATOS / SUSCRIPCIONES (NUEVO)
--- ==========================================================
-
--- TABLA CONTRACT_PLAN (NUEVA): Catálogo de planes
+-- TABLA CONTRACT_PLAN: tabla que controla los diferentes tipos de planes de contrato
 CREATE TABLE contract_plan (
-    id_plan         SERIAL PRIMARY KEY,
-    name            VARCHAR(50) NOT NULL UNIQUE, -- Ej: 'Trimestral', 'Anual'
+    id_plan SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
     duration_months INT NOT NULL,
-    price           NUMERIC(8,2) NOT NULL,
-    description     VARCHAR(200)
+    price NUMERIC(8,2) NOT NULL,
+    description VARCHAR(250)
 );
 
--- TABLA CONTRACT (NUEVA): Suscripciones activas
+-- TABLA CONTRACT: controla las subscripciones o contratos activos de los clientes
 CREATE TABLE contract (
-    id_contract     SERIAL PRIMARY KEY,
-    start_date      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_date        TIMESTAMP NOT NULL,
-    is_active       BOOLEAN NOT NULL DEFAULT TRUE,
-    
-    -- Claves foráneas (definidas en constraints.sql)
-    id_customer     INT NOT NULL,
-    license_plate   VARCHAR(15) NOT NULL,
-    id_plan         INT NOT NULL
+    id_contract SERIAL PRIMARY KEY,
+    start_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    end_date TIMESTAMP NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    id_customer INT NOT NULL, -- FK
+    license_plate VARCHAR(15) NOT NULL, -- FK el contrato pertenece a un coche específico
+    id_plan INT NOT NULL -- FK 
 );
