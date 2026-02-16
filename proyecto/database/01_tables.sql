@@ -51,8 +51,9 @@ CREATE TABLE parking_spot (
 -- TABLA MAIN_SERVICE: Servicios principales
 CREATE TABLE main_service (
     id_main_service   SERIAL PRIMARY KEY,
-    name              VARCHAR(100) NOT NULL UNIQUE, 
-    description       VARCHAR(250),                 
+    name              VARCHAR(100) NOT NULL UNIQUE,
+    tagline           VARCHAR(150) NOT NULL, 
+    full_description  TEXT NOT NULL,                 
     is_active         BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -61,8 +62,10 @@ CREATE TABLE main_service (
 CREATE TABLE additional_service (
     id_additional_service SERIAL PRIMARY KEY,
     name                  VARCHAR(100) NOT NULL UNIQUE,
+    category              VARCHAR(50) NOT NULL, 
+    tagline               VARCHAR(150),         
     price                 NUMERIC(8,2) NOT NULL,
-    description           VARCHAR(250),                 
+    features              TEXT,                 
     is_active             BOOLEAN NOT NULL DEFAULT TRUE
 );
 
@@ -129,12 +132,14 @@ CREATE TABLE service_rate (
 
 -- TABLA CONTRACT_PLAN: tabla que controla los diferentes tipos de planes de contrato
 CREATE TABLE contract_plan (
-    id_plan SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    duration_months INT NOT NULL,
-    price NUMERIC(8,2) NOT NULL,
-    description VARCHAR(250)
-);
+    id_plan          SERIAL PRIMARY KEY,
+    name             VARCHAR(50) NOT NULL UNIQUE,
+    duration_months  INT NOT NULL,
+    price            NUMERIC(8,2) NOT NULL,
+    tagline          VARCHAR(150), 
+    features         TEXT,         
+    is_active        BOOLEAN NOT NULL DEFAULT TRUE
+)
 
 -- TABLA CONTRACT: controla las subscripciones o contratos activos de los clientes
 CREATE TABLE contract (

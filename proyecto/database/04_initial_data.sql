@@ -32,10 +32,22 @@ INSERT INTO vehicle_coefficient (vehicle_type, multiplier) VALUES
 ('ESPECIAL', 1.50);
 
 -- 2.2 CATÁLOGO DE SERVICIOS
-INSERT INTO main_service (name, description) VALUES 
-('ECO', 'Cliente aparca, entrega llaves y se va andando.'),       -- ID 1
-('TRANSFER', 'Traslado gratuito a la terminal en minibus.'),      -- ID 2
-('MEET', 'Recogida y entrega del vehículo en la terminal (Valet).'); -- ID 3
+INSERT INTO main_service (name, tagline, full_description) VALUES 
+(
+  'ECO', 
+  'Llega, entrega tus llaves y camina directo a tu vuelo.', 
+  'Recepción de vehículo por nuestro personal|Aparcamiento profesional garantizado|Custodia de llaves en caja fuerte|Acceso a pie inmediato (2 min a terminal)|La opción más económica y rápida'
+),
+(
+  'TRANSFER', 
+  'Entrega tu coche y te llevamos a la terminal en minibus.', 
+  'Aparcamiento realizado por trabajadores|Traslado VIP en minibus de cortesía|Ayuda completa con el equipaje|Recogida inmediata a tu regreso|Vigilancia 24h mientras viajas'
+),
+(
+  'MEET', 
+  'Servicio Premium: Recogida y entrega en la misma terminal.', 
+  'Chófer profesional te espera en la terminal|Recogida de llaves y coche a pie de pista|Entrega de vehículo en la puerta de llegadas|Cero desplazamientos para el cliente|Ideal para viajes de negocios o máxima comodidad'
+);
 
 INSERT INTO service_rate (id_main_service, min_days, max_days, daily_price) VALUES
 -- TARIFA ECO (ID 1)
@@ -57,23 +69,70 @@ INSERT INTO service_rate (id_main_service, min_days, max_days, daily_price) VALU
 (3, 16, 9999, 11.00);
 
 -- 2.4 PLANES DE SUSCRIPCIÓN (CONTRACT_PLAN)
-INSERT INTO contract_plan (name, duration_months, price, description) VALUES
-('Trimestral', 3, 270.00, 'Acceso ilimitado durante 3 meses. Servicio ECO.'),
-('Semestral', 6, 480.00, 'Acceso ilimitado durante 6 meses. Servicio ECO.'),
-('Anual', 12, 840.00, 'Acceso ilimitado todo el año. Plaza prioritaria.');
+INSERT INTO contract_plan (name, duration_months, price, tagline, features) VALUES
+(
+  'Trimestral', 
+  3, 
+  325.00, 
+  'La solución perfecta para tus viajes de temporada.', 
+  'Servicios ECO y TRANSFER incluidos|Plaza prioritaria garantizada 100%|1 Lavado exterior de cortesía|Acceso ilimitado 24/7 sin reserva previa|Gestión de llaves profesional'
+),
+(
+  'Semestral', 
+  6, 
+  590.00, 
+  'Ahorra y viaja con total libertad durante medio año.', 
+  'Servicios ECO y TRANSFER incluidos|Plaza prioritaria garantizada 100%|1 Lavado integral de cortesía|Prioridad en servicios adicionales|Sin compromiso de permanencia tras los 6 meses'
+),
+(
+  'Anual', 
+  12, 
+  999.00, 
+  'Máxima tranquilidad y ahorro para viajeros expertos.', 
+  'Servicios ECO y TRANSFER incluidos|Plaza VIP fija y garantizada|2 Lavados integrales al año|Descuento del 10% en servicios extra|Facturación mensual o anual simplificada'
+);
 
 -- ----------------------------------------------------------
 -- 3. SERVICIOS ADICIONALES
 -- ----------------------------------------------------------
-INSERT INTO additional_service (name, price, description) VALUES 
-('Lavado Básico', 15.00, 'Exterior a mano y secado'),
-('Lavado Interior', 25.00, 'Aspirado profundo y salpicadero'),
-('Lavado Integral', 50.00, 'Limpieza completa tapicería + exterior'),
-('Detallado Pro', 100.00, 'Pulido, encerado y tratamiento de plásticos'),
-('Repostaje', 15.00, 'Servicio de llenado (Coste combustible aparte)'),
-('Pasar ITV', 60.00, 'Llevamos el vehículo a inspección técnica'),
-('Mecánica Rápida', 30.00, 'Revisión niveles, presión y luces'),
-('Carga EV', 25.00, 'Carga eléctrica completa');
+INSERT INTO additional_service (name, category, tagline, price, features) VALUES 
+-- CATEGORÍA: LIMPIEZA
+(
+  'Lavado Básico', 'LIMPIEZA', 'Reluce por fuera.', 15.00, 
+  'Lavado a mano exterior|Secado con microfibra|Limpieza de llantas y neumáticos'
+),
+(
+  'Lavado Interior', 'LIMPIEZA', 'Higiene y frescura en el habitáculo.', 25.00, 
+  'Aspirado profundo de alfombrillas|Limpieza técnica de salpicadero|Desinfección de conductos de aire'
+),
+(
+  'Lavado Integral', 'LIMPIEZA', 'Tu coche, como si fuera nuevo.', 50.00, 
+  'Limpieza de tapicería (asientos y suelo)|Lavado exterior premium|Eliminación de olores con ozono'
+),
+(
+  'Detallado Pro', 'LIMPIEZA', 'El cuidado definitivo para entusiastas.', 100.00, 
+  'Pulido de carrocería artesanal|Encerado de alta protección|Tratamiento de plásticos y gomas'
+),
+
+-- CATEGORÍA: GESTIÓN Y LOGÍSTICA
+(
+  'Repostaje', 'GESTIÓN', 'Sin paradas al salir del parking.', 15.00, 
+  'Llenado del depósito antes de la entrega|Ahorro de tiempo al recoger|Combustible a precio de mercado (tique aparte)'
+),
+(
+  'Pasar ITV', 'GESTIÓN', 'Nosotros nos encargamos de las colas.', 60.00, 
+  'Revisión pre-ITV de puntos clave|Traslado a estación oficial|Trámite administrativo completo|Tasas ITV no incluidas'
+),
+
+-- CATEGORÍA: MANTENIMIENTO Y ENERGÍA
+(
+  'Mecánica Rápida', 'MANTENIMIENTO', 'Viaja con total seguridad.', 30.00, 
+  'Revisión de niveles (aceite y refrigerante)|Presión de neumáticos|Comprobación del sistema de luces'
+),
+(
+  'Carga EV', 'ENERGÍA', 'Batería al 100% al aterrizar.', 25.00, 
+  'Carga eléctrica completa garantizada|Compatible con todos los modelos (Type 2/Tesla)|Sin colas en cargadores públicos'
+);
 
 -- ----------------------------------------------------------
 -- 4. INFRAESTRUCTURA (70 PLAZAS: A-G)
