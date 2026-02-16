@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifas | PaparCapp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-blue-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex justify-between items-center">
+            <h1 class="text-3xl font-bold tracking-tight">PaparCapp</h1>
+            <nav>
+                <a href="#" class="hover:text-blue-200 font-medium">Volver al inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-4 py-12 text-center">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Aparca sin preocupaciones. Precios transparentes.</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Selecciona el servicio que mejor se adapte a tu viaje. Cuantos más días te quedes, más barata será tu tarifa diaria.</p>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 py-8">
+        <h3 class="text-2xl font-bold text-center mb-8">Nuestros Servicios de Parking</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="bg-green-500 p-4 text-center text-white">
+                    <h4 class="text-xl font-bold">Servicio ECO</h4>
+                    <p class="text-sm opacity-90">Aparcas y te vas andando</p>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-3 mb-6 text-sm text-gray-600">
+                        <li class="flex justify-between border-b pb-2"><span>1 a 3 días:</span> <span class="font-bold text-gray-900">12.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>4 a 10 días:</span> <span class="font-bold text-gray-900">8.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>11 a 15 días:</span> <span class="font-bold text-gray-900">6.00 € / día</span></li>
+                        <li class="flex justify-between"><span>+16 días:</span> <span class="font-bold text-green-600">5.00 € / día</span></li>
+                    </ul>
+                    <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded transition">Reservar ECO</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform md:-translate-y-4 border-blue-500 border-2">
+                <div class="bg-blue-600 p-4 text-center text-white relative">
+                    <span class="absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-bl-lg">MÁS POPULAR</span>
+                    <h4 class="text-xl font-bold">Servicio TRANSFER</h4>
+                    <p class="text-sm opacity-90">Traslado gratuito en minibus</p>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-3 mb-6 text-sm text-gray-600">
+                        <li class="flex justify-between border-b pb-2"><span>1 a 3 días:</span> <span class="font-bold text-gray-900">15.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>4 a 10 días:</span> <span class="font-bold text-gray-900">11.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>11 a 15 días:</span> <span class="font-bold text-gray-900">9.00 € / día</span></li>
+                        <li class="flex justify-between"><span>+16 días:</span> <span class="font-bold text-blue-600">8.00 € / día</span></li>
+                    </ul>
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded transition">Reservar TRANSFER</button>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="bg-gray-800 p-4 text-center text-white">
+                    <h4 class="text-xl font-bold">Servicio MEET</h4>
+                    <p class="text-sm opacity-90">Servicio Valet en la terminal</p>
+                </div>
+                <div class="p-6">
+                    <ul class="space-y-3 mb-6 text-sm text-gray-600">
+                        <li class="flex justify-between border-b pb-2"><span>1 a 3 días:</span> <span class="font-bold text-gray-900">18.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>4 a 10 días:</span> <span class="font-bold text-gray-900">14.00 € / día</span></li>
+                        <li class="flex justify-between border-b pb-2"><span>11 a 15 días:</span> <span class="font-bold text-gray-900">12.00 € / día</span></li>
+                        <li class="flex justify-between"><span>+16 días:</span> <span class="font-bold text-gray-800">11.00 € / día</span></li>
+                    </ul>
+                    <button class="w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 rounded transition">Reservar MEET</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="bg-blue-50 py-10 mt-8">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-xl font-bold mb-4">Nota sobre el tipo de vehículo</h3>
+            <p class="text-gray-600 mb-6 text-sm">El precio base se calcula para Turismos. Según tu vehículo, se aplicará un coeficiente sobre el precio de tu estancia:</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <span class="bg-white border px-4 py-2 rounded-full text-sm shadow-sm">🏍️ Motocicleta: <strong>x0.50</strong> (Mitad de precio)</span>
+                <span class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm shadow-sm">🚗 Turismo: <strong>x1.00</strong> (Precio Base)</span>
+                <span class="bg-white border px-4 py-2 rounded-full text-sm shadow-sm">🚐 Furgoneta: <strong>x1.25</strong></span>
+                <span class="bg-white border px-4 py-2 rounded-full text-sm shadow-sm">🚜 Especial: <strong>x1.50</strong></span>
+                <span class="bg-white border px-4 py-2 rounded-full text-sm shadow-sm">🏕️ Caravana: <strong>x2.00</strong></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 py-12">
+        <h3 class="text-2xl font-bold text-center mb-8">Mima tu vehículo mientras viajas</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Lavado Básico</h5>
+                <p class="text-blue-600 font-extrabold mt-2">15.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Exterior a mano y secado</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Lavado Interior</h5>
+                <p class="text-blue-600 font-extrabold mt-2">25.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Aspirado y salpicadero</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Carga EV</h5>
+                <p class="text-blue-600 font-extrabold mt-2">25.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Carga eléctrica completa</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Mecánica Rápida</h5>
+                <p class="text-blue-600 font-extrabold mt-2">30.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Niveles, presión y luces</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Lavado Integral</h5>
+                <p class="text-blue-600 font-extrabold mt-2">50.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Tapicería + exterior</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Pasar ITV</h5>
+                <p class="text-blue-600 font-extrabold mt-2">60.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Llevamos el vehículo a inspección</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Detallado Pro</h5>
+                <p class="text-blue-600 font-extrabold mt-2">100.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Pulido y encerado</p>
+            </div>
+            <div class="bg-white p-4 border rounded-lg text-center hover:shadow-md transition">
+                <h5 class="font-bold text-gray-800">Repostaje</h5>
+                <p class="text-blue-600 font-extrabold mt-2">15.00 €</p>
+                <p class="text-xs text-gray-500 mt-1">Servicio (Combustible aparte)</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 py-12 border-t">
+        <h3 class="text-2xl font-bold text-center mb-2">¿Viajas muy a menudo?</h3>
+        <p class="text-center text-gray-600 mb-8">Pásate a nuestros planes de suscripción de larga duración.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-lg shadow border p-6 text-center">
+                <h4 class="font-bold text-xl text-gray-800">Plan Trimestral</h4>
+                <p class="text-3xl font-extrabold text-blue-600 my-4">270.00 €</p>
+                <p class="text-sm text-gray-600 mb-6">Acceso ilimitado durante 3 meses. Servicio ECO incluido.</p>
+                <button class="w-full border-2 border-blue-600 text-blue-600 font-bold py-2 rounded hover:bg-blue-50 transition">Suscribirse</button>
+            </div>
+            <div class="bg-white rounded-lg shadow border p-6 text-center border-blue-300">
+                <h4 class="font-bold text-xl text-gray-800">Plan Semestral</h4>
+                <p class="text-3xl font-extrabold text-blue-600 my-4">480.00 €</p>
+                <p class="text-sm text-gray-600 mb-6">Acceso ilimitado durante 6 meses. Servicio ECO incluido.</p>
+                <button class="w-full border-2 border-blue-600 text-blue-600 font-bold py-2 rounded hover:bg-blue-50 transition">Suscribirse</button>
+            </div>
+            <div class="bg-gray-900 rounded-lg shadow p-6 text-center text-white relative overflow-hidden">
+                <h4 class="font-bold text-xl text-yellow-400">Plan Anual VIP</h4>
+                <p class="text-3xl font-extrabold text-white my-4">840.00 €</p>
+                <p class="text-sm text-gray-300 mb-6">Acceso ilimitado todo el año. Plaza prioritaria garantizada.</p>
+                <button class="w-full bg-yellow-400 text-gray-900 font-bold py-2 rounded hover:bg-yellow-500 transition">Suscribirse</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-100 text-center py-6 text-sm text-gray-500">
+        &copy; 2026 PaparCapp. Todos los derechos reservados.
+    </footer>
+
+</body>
+</html>
