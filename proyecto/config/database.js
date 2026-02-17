@@ -40,5 +40,6 @@ pool.on('error',(err) =>{
 
 module.exports = {
     query: (text, params) => pool.query(text, params), // función que ejecute consultas SQL usando el pool. Permite usar db.query directamente
-    pool: pool // exportamos el pool completo por si necesitamos acceder a funcionalidades avanzadas
+    pool: pool, // exportamos el pool completo por si necesitamos acceder a funcionalidades avanzadas
+    connect: () => pool.connect() // función para obtener una conexión del pool, útil para transacciones
 };

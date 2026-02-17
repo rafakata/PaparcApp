@@ -23,4 +23,7 @@ router.get('/dashboard/parking', adminController.getParking);
 /* GET reservation details page */  
 router.get('/reservations/details/:id', adminController.getReservationInfo);
 
+/* POST /reservations/:id/edit */
+router.post('/reservations/:id/edit', adminController.updateReservation);
+
 module.exports = router;         
