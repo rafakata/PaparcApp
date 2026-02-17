@@ -1,34 +1,24 @@
 /**
- * RUTEADOR PARA LAS PÁGINAS PRINCIPALES
+ * RUTEADOR PARA LAS PÁGINAS PRINCIPALES (públicas)
 */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Valet Parking - Index' });
-});
+const mainController = require('../controllers/mainController');
+
+/* GET home page */
+router.get('/', mainController.renderIndex);
 
 /* GET Services page */
-router.get('/service', function(req, res, next) {
-  res.render('service', { title: 'Our Services' });
-});
+router.get('/service', mainController.renderServices);
 
 /* GET privacy page */
-router.get('/privacy', function(req, res, next) {
-  res.render('privacy', { title: 'Privacy Policy' });
-});
+router.get('/privacy', mainController.renderPrivacy);
 
 /* GET price page */
-router.get('/price', function(req, res, next) {
-  res.render('price', { title: 'Pricing' });
-});
+router.get('/price', mainController.renderPricing);
 
-// Página de reserva (frontend)
-router.get('/booking', function(req, res, next) {
-  res.render('booking', { title: 'Parking reservation' });
-});
-
-
+/* GET booking page (frontend) */
+router.get('/booking', mainController.renderBooking);
 
 module.exports = router;

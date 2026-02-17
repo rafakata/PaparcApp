@@ -39,7 +39,7 @@ router.get('/logout', authController.logout)
 
 /* -- RUTAS PRIVADAS (solo usuarios logueados) -- */
 
-/*GET profile page: muestra el perfil del usuario logueado */
+/*GET profile page: muestra el perfil del usuario logueado MIRAR MAS ADELANTE FUNCIONALIDAD Y LIMPIAR RUTA*/
 // usamos getLoggedIn. Si no está logueado, redirige a login
 router.get('/profile', isLoggedIn, function(req, res, next) {
   res.render('profile', { 
