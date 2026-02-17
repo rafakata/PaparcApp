@@ -9,13 +9,13 @@
 
 ## 🛠️ Tareas
 
-- [] Revisar código para mostrar errores de registro en la vista `register.ejs`. 
+- [] Pintar/Revisar código para mostrar errores de registro en la vista `register.ejs`. 
 
 - [✅] Revisar el código de registro exitoso en la página `login.ejs` (sugerencia: implementarlo con **SweetAlert**).
 
 - [✅] Revisar el código para mostrar errores en el login en `login.ejs`.
 
-- [ ] Diseñar cómo pintar el contenido en la página `reservation-details.ejs`:
+- [ ] Pintar el contenido en la página `reservation-details.ejs`:
   - Los campos de la reserva deben ser editables (inputs).
   - Añadir botones de acción:
     - Modificar reserva
@@ -34,14 +34,21 @@
 
 - [ ] Pulir rutas públicas, separar lógica entre el controlador y el enrutador.
 
-- [ ] Revisar los servicios mostrados en la landing-page para mostrarlos y que sean leídos desde el back-end (aún tengo que crear los métodos que te envían esa info al front.)
+- [ ] Pintar correctamente los servicios mostrados en index.ejs para mostrarlos y que sean leídos desde el back-end ( ya te he pasado el objeto con los datos lo tienes en la vista)
 
-- [ ] Página de precios donde se muestran muestran los servicios y precios de la forma correcta acorde a los servicios que tenemos en la base de datos, pintar los servicios leídos desde el back-end (te los tengo que pasar al front.)
+- [ ] Pintar y diseñar como mostrar los datos de la página price.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista, y tienes un ejemplo de como podrías pintarlo y usar el objetvo en la raiz del proyecto)
 
-- [ ] Crear el controlador y el enrutador para enviar los datos correspondientes en cuanto a servicios y precios en las vistas públicas de landing-page y de price.ejs
+- [ ] Pintar todos los servicios principales mostrados en service.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista)
+
+- [✅] Crear el controlador y el enrutador para enviar los datos correspondientes en cuanto a servicios y precios en las vistas públicas de landing-page y de price.ejs
 
 - [ ] Funcionalidad que permite editar correctamente cualquier dato de la reserva, update reservation*.
 
+- [ ] Pintar un acceso que retorne a la vista principal desde el login y desde la página de registro. Ahora mismo desde estas páginas no podemos volver a la página de inicio a no ser que usemos los botones del navegador.
+
+- [ ] EXTRA solo si quieres y te da tiempo. Pintar/diseñar la página del historial de reservas ya completadas
+
+- [ ] EXTRA solo si quieres y te da tiempo. Añadir la funcionalidad del registro de una cuenta a traves de una cuenta de google. Lo de facebook si ves que se complica ni te rayes quitalo y sin mas.
 
 
 ---

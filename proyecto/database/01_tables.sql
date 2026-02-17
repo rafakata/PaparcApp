@@ -139,7 +139,7 @@ CREATE TABLE contract_plan (
     tagline          VARCHAR(150), 
     features         TEXT,         
     is_active        BOOLEAN NOT NULL DEFAULT TRUE
-)
+);
 
 -- TABLA CONTRACT: controla las subscripciones o contratos activos de los clientes
 CREATE TABLE contract (
