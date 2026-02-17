@@ -32,7 +32,7 @@
 
 - [ ] Diseñar pruebas unitarias para algunos métodos clave.
 
-- [ ] Pulir rutas públicas, separar lógica entre el controlador y el enrutador.
+- [✅] Pulir rutas públicas, separar lógica entre el controlador y el enrutador.
 
 - [ ] Pintar correctamente los servicios mostrados en index.ejs para mostrarlos y que sean leídos desde el back-end ( ya te he pasado el objeto con los datos lo tienes en la vista)
 
@@ -42,13 +42,19 @@
 
 - [✅] Crear el controlador y el enrutador para enviar los datos correspondientes en cuanto a servicios y precios en las vistas públicas de landing-page y de price.ejs
 
-- [ ] Funcionalidad que permite editar correctamente cualquier dato de la reserva, update reservation*.
+- [✅] Funcionalidad que permite editar correctamente cualquier dato de la reserva, update reservation*.
 
 - [ ] Pintar un acceso que retorne a la vista principal desde el login y desde la página de registro. Ahora mismo desde estas páginas no podemos volver a la página de inicio a no ser que usemos los botones del navegador.
 
 - [ ] EXTRA solo si quieres y te da tiempo. Pintar/diseñar la página del historial de reservas ya completadas
 
 - [ ] EXTRA solo si quieres y te da tiempo. Añadir la funcionalidad del registro de una cuenta a traves de una cuenta de google. Lo de facebook si ves que se complica ni te rayes quitalo y sin mas.
+
+- [ ] Implementar sistema para que el servidor cargue/actualice los datos que se muestran en el servidor con cada cambio que se realice en el o en su defecto agregar un interval que  cada 2min por ejemplo refresque el dashboard.
+
+- [ ] Funcionalidad al botón de descartar cambios en la vista detalle de cada reserva.
+
+- [ ] Funcionalidad para crear una nueva reserva desde el dashboard
 
 
 ---

@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ 
   secret: process.env.SESSION_SECRET || 'clave_secreta', // clave secreta para firmar la cookie de sesión
   resave: false, // no guardar la sesión si no se ha modificado
-  saveUninitialized: true, //para no guardar sesiones vacías
+  saveUninitialized: false, //para no guardar sesiones vacías
   cookie: {
     maxAge: 1000*60*60, // duración de la cookie en milisegundos (aquí 1 hora)
     secure: process.env.NODE_ENV === 'production' // solo true si estamos en producción y usamos HTTPS

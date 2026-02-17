@@ -186,6 +186,102 @@ class ReservationDAO {
         }
 
     }
+
+    /**
+     * Actualiza una reserva y su vehículo asociado dentro de una transacción para asegurar la consistencia de los datos.
+     * Se abre una nueva transacción para asegurarnos que si ocurre algún error durante el proceso no se queden datos
+     * guardados a medias en la BD. 
+     * @param {number} id_reservation - ID de la reserva a actualizar 
+     * @param {Object} updateData - Objetodo con todos los datos validados
+     * @returns - Devuelve tru si todo fue bien, lanza error si hubo algún fallo y en todo caso se asegura de liberar la conexión del pool al finalizar la transacción
+    */
+    async updateReservationTransaction( id_reservation, updateData) {
+
+        // obtenemos una conexion del pool para realizar una transaccion
+        const client = await db.connect();
+
+        try {
+
+            await client.query('BEGIN'); // iniciamos la transaccion
+
+            // actualizamos primero los datos de la reserva
+            const updateReservationSql = `UPDATE reservation
+                                            SET entry_date = $1,
+                                                exit_date = $2,
+                                                id_main_service = $3,
+                                                total_price = $4
+                                            WHERE id_reservation = $5
+                                            RETURNING license_plate;
+            `;
+
+            // valores $ para la consulta de actualizacion de la reserva
+            const resValues = [
+                updateData.entry_date,
+                updateData.exit_date,
+                updateData.id_main_service,
+                updateData.total_price,
+                id_reservation
+            ];
+
+            const resResult = await client.query(updateReservationSql, resValues);
+
+            if (resResult.rowCount === 0) throw new Error('No se encontró la reserva para actualizar');
+            const license_plate = resResult.rows[0].license_plate;
+
+            // luego actualizamos los datos del vehiculo asociado a la reserva
+            const updateVehicleSql = `UPDATE vehicle
+                                        SET brand = $1,
+                                            model = $2,
+                                            color = $3,
+                                            type = $4
+                                        WHERE license_plate = $5;
+            `;
+
+            const vehValues = [
+                updateData.brand,
+                updateData.model,
+                updateData.color,
+                updateData.vehicle_type,
+                license_plate
+            ];
+            await client.query(updateVehicleSql, vehValues);
+
+            // para actualizar los extras primero borramos los servicios e insertamos los nuevos que han sido marcados
+            await client.query('DELETE FROM reservation_additional_service WHERE id_reservation = $1', [id_reservation]); // eliminamos los servicios adicionales actuales de la reserva
+
+            // insertamos los nuevos servicios adicionales seleccionados para la reserva
+            if (updateData.additional_services && updateData.additional_services.length > 0) {
+
+                const insertAdditionalServiceSql = `INSERT INTO reservation_additional_service
+                                                        (id_reservation, id_additional_service)
+                                                    VALUES
+                                                        ($1, $2)
+                `;
+
+                for (const id_additional_service of updateData.additional_services) {
+                    await client.query(insertAdditionalServiceSql, [id_reservation, id_additional_service]);
+                }
+
+            }
+
+            //confirmamos la transaccion si todo ha ido bien
+            await client.query('COMMIT');
+            return true;
+
+        } catch(error){
+
+            await client.query('ROLLBACK'); // si ocurre un error, hacemos rollback para no dejar la base de datos en un estado inconsistente
+            console.error('Error al actualizar la reserva:', error);
+            throw new Error('Error al actualizar la reserva en la BD', { cause: error });
+
+        } finally {
+
+            client.release(); // liberamos la conexion del pool
+
+        }
+
+
+    }
 }
 
 module.exports = new ReservationDAO();
