@@ -122,6 +122,42 @@ const adminController = {
             res.status(500).send('Error al actualizar la reserva');
         }
 
+    },
+
+    /**
+     * GET /admin/history
+     * Muestra el historial completo de reservas con filtros y paginación.
+     */
+    getHistory: async (req, res) => {
+
+        try {
+
+            const page = parseInt(req.query.page) || 1;
+            const limit = 15;
+            const offset = (page - 1) * limit;
+
+            const filters = {
+                status: req.query.status || '',
+                search: req.query.search || '',
+                dateFrom: req.query.dateFrom || '',
+                dateTo: req.query.dateTo || ''
+            };
+
+            const { reservations, totalCount } = await reservationDAO.getReservationsHistory(filters, limit, offset);
+            const totalPages = Math.ceil(totalCount / limit);
+
+            res.render('history', {
+                title: 'Historial de Reservas',
+                reservations,
+                filters,
+                pagination: { page, totalPages, totalCount }
+            });
+
+        } catch (error) {
+            console.error('Error al obtener el historial:', error);
+            res.status(500).send('Error al cargar el historial de reservas');
+        }
+
     }
 
 }

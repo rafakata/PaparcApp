@@ -55,9 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok || !data.success) throw new Error(data.message || 'Error devuelto por el servidor.');
 
             dynamicPriceDisplay.textContent = parseFloat(data.total_price).toFixed(2);
-            dynamicPriceDisplay.style.color = '#27ae60'; // verde para indicar que el precio se ha actualizado correctamente
-
-            setTimeout(() => { dynamicPriceDisplay.style.color = '' }, 2000); // después de 2 segundos volvemos al color original
             
         } catch (error) {
 

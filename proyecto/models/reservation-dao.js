@@ -282,6 +282,81 @@ class ReservationDAO {
 
 
     }
+    /**
+     * Obtiene el historial completo de reservas con paginación y filtros opcionales.
+     * @param {Object} filters - Filtros opcionales: status, search (nombre/matrícula), dateFrom, dateTo
+     * @param {number} limit - Número de resultados por página
+     * @param {number} offset - Desplazamiento para paginación
+     * @returns {Object} - { reservations: Array, totalCount: number }
+     */
+    async getReservationsHistory(filters = {}, limit = 15, offset = 0) {
+
+        let whereClauses = [];
+        let values = [];
+        let paramIndex = 1;
+
+        if (filters.status) {
+            whereClauses.push(`r.status = $${paramIndex++}`);
+            values.push(filters.status);
+        }
+
+        if (filters.search) {
+            whereClauses.push(`(c.full_name ILIKE $${paramIndex} OR v.license_plate ILIKE $${paramIndex})`);
+            values.push(`%${filters.search}%`);
+            paramIndex++;
+        }
+
+        if (filters.dateFrom) {
+            whereClauses.push(`r.entry_date >= $${paramIndex++}`);
+            values.push(filters.dateFrom);
+        }
+
+        if (filters.dateTo) {
+            whereClauses.push(`r.exit_date <= $${paramIndex++}`);
+            values.push(filters.dateTo);
+        }
+
+        const whereSQL = whereClauses.length > 0 ? 'WHERE ' + whereClauses.join(' AND ') : '';
+
+        const countSQL = `SELECT COUNT(*) AS total
+                          FROM reservation r
+                          JOIN vehicle v ON r.license_plate = v.license_plate
+                          JOIN customer c ON v.id_customer = c.id_customer
+                          ${whereSQL}`;
+
+        const dataSQL = `SELECT
+                            r.id_reservation, r.reservation_date, r.entry_date, r.exit_date,
+                            r.status, r.total_price, r.is_paid, r.payment_method,
+                            v.license_plate, v.brand, v.model, v.color, v.type AS vehicle_type,
+                            c.full_name AS customer_name, c.phone, c.email,
+                            ms.name AS service_name
+                         FROM reservation r
+                         JOIN vehicle v ON r.license_plate = v.license_plate
+                         JOIN customer c ON v.id_customer = c.id_customer
+                         JOIN main_service ms ON r.id_main_service = ms.id_main_service
+                         ${whereSQL}
+                         ORDER BY r.reservation_date DESC
+                         LIMIT $${paramIndex++} OFFSET $${paramIndex++}`;
+
+        try {
+
+            const countResult = await db.query(countSQL, values);
+            const totalCount = parseInt(countResult.rows[0].total);
+
+            const dataValues = [...values, limit, offset];
+            const dataResult = await db.query(dataSQL, dataValues);
+
+            return {
+                reservations: dataResult.rows,
+                totalCount
+            };
+
+        } catch (error) {
+            console.error('Error al obtener el historial de reservas:', error);
+            throw new Error('Error al obtener el historial de reservas', { cause: error });
+        }
+    }
+
 }
 
 module.exports = new ReservationDAO();
