@@ -595,7 +595,7 @@ h2 {
 
 /* ================== CONTENEDOR2 ================== */
 #contenedor2 {
-  height: 110vh;
+  min-height: 110vh;
   width: 100%;
   border-top: 4px solid white;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("/images/ryan-spencer-c-NEiPIxpYI-unsplash.jpg");
@@ -608,6 +608,7 @@ h2 {
   justify-content: space-evenly;
   flex-direction: column;
   gap: 1rem;
+  padding: 3rem 0;
 
   marquee {
     font-size: 1.4rem;
@@ -675,6 +676,16 @@ h2 {
   h3 {
     font-size: 1.5rem;
   }
+  .tagline {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    font-style: italic;
+    padding: 0.5rem 2.5rem;
+    text-align: center;
+    opacity: 0.85;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+  }
   .precio {
     font-size: 4rem;
     sup {
@@ -685,6 +696,12 @@ h2 {
     border: 1px solid;
     border-radius: 12px;
     padding: 1rem;
+    width: 85%;
+    padding-left: 20px;
+    li {
+      margin-bottom: 10px;
+      text-align: left;
+    }
   }
   button {
     padding: 0.5rem 3rem;
@@ -695,14 +712,6 @@ h2 {
     font-weight: bold;
   }
 
-  ul {
-    width: 300px;
-    padding-left: 20px;
-    li {
-      margin-bottom: 10px;
-      text-align: left;
-    }
-  }
   ul li::before {
     content: "✔️";
     margin-right: 8px;
@@ -758,16 +767,18 @@ h2 {
     filter: blur(1.5rem);
   }
 
-  ul {
-    width: 300px;
-    padding-left: 20px;
-    li {
-      margin-bottom: 10px;
-      text-align: left;
-    }
-  }
   h3 {
     font-size: 2rem;
+  }
+  .tagline {
+    font-size: 0.95rem;
+    color: #555;
+    font-style: italic;
+    padding: 0.6rem 3rem;
+    text-align: center;
+    opacity: 0.8;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
   }
   .precio {
     font-size: 6rem;
@@ -779,9 +790,13 @@ h2 {
     border: 1px solid;
     border-radius: 12px;
     padding: 1rem;
-  }
-  ul li {
-    font-size: 1.1rem;
+    width: 85%;
+    padding-left: 20px;
+    li {
+      margin-bottom: 10px;
+      text-align: left;
+      font-size: 1.1rem;
+    }
   }
   ul li::before {
     content: "✔️";

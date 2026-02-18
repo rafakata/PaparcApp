@@ -113,39 +113,27 @@
 
         <h2>Pricing Table</h2>
         <div class="tarifas">
-          <div class="tarifa">
-            <h3>STANDARD</h3>
-            <p class="precio">19.<sup>99€</sup></p>
-            <ul>
-              <li>Secure vehicle storage at our facility</li>
-              <li>24/7 surveillance and monitoring</li>
-              <li>Photo evidence on arrival</li>
-              <li>Email confirmations and reminders</li>
-            </ul>
-            <button>Book Now ></button>
-          </div>
-          <div class="tarifa_grande">
-            <h3>PREMIUM</h3>
-            <p class="precio">59.<sup>99€</sup></p>
-            <ul>
-              <li>Airport transfer service included</li>
-              <li>Vehicle pick-up at terminal</li>
-              <li>Basic exterior wash</li>
-              <li>Priority support and updates</li>
-            </ul>
-            <button>Book Now ></button>
-          </div>
-          <div class="tarifa">
-            <h3>ENTERPRISE</h3>
-            <p class="precio">99.<sup>99€</sup></p>
-            <ul>
-              <li>Extended stay parking</li>
-              <li>Multiple vehicle support</li>
-              <li>Custom service add-ons</li>
-              <li>Flexible reservation changes</li>
-            </ul>
-            <button>Book Now ></button>
-          </div>
+          <%
+            const sorted = [...mainServices].sort((a, b) => parseFloat(a.starting_price) - parseFloat(b.starting_price));
+            if (sorted.length >= 3) {
+              const highest = sorted.pop();
+              sorted.splice(Math.floor(sorted.length / 2), 0, highest);
+            }
+            const middleIndex = Math.floor(sorted.length / 2);
+          %>
+          <% sorted.forEach((service, index) => { %>
+            <div class="<%= index === middleIndex ? 'tarifa_grande' : 'tarifa' %>">
+              <h3><%= service.name %></h3>
+              <p class="precio"><%= service.starting_price %><sup>€/day</sup></p>
+              <p class="tagline"><%= service.tagline %></p>
+              <ul>
+                <% service.full_description.split('|').forEach(feature => { %>
+                  <li><%= feature.trim() %></li>
+                <% }) %>
+              </ul>
+              <button>Book Now ></button>
+            </div>
+          <% }) %>
         </div>
         <marquee behavior="alternate" direction="right">
           <span>Take advantage of our best parking offers!</span>
@@ -154,12 +142,6 @@
           <span>Take advantage of our best parking offers!</span>
         </marquee>
       </section>
-
-      <!-- OBJETO JSON PARA USAR EN FRONT END !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-        <div style="background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; margin: 20px; font-family: monospace; overflow-x: auto; border-left: 5px solid #61afef; width: 1300px">
-          <h3 style="color: #e5c07b; margin-top: 0;">📦 JSON para Frontend: index.ejs</h3>
-          <pre><%- JSON.stringify({ mainServices }, null, 2) %></pre>
-        </div>
 
       <section id="contenedor3">
         <!-- OPINIONES -->
