@@ -23,6 +23,9 @@ router.get('/dashboard/parking', adminController.getParking);
 /* GET reservation details page */  
 router.get('/reservations/details/:id', adminController.getReservationInfo);
 
+/* GET history page */
+router.get('/history', adminController.getHistory);
+
 /* POST /reservations/:id/edit */
 router.post('/reservations/:id/edit', adminController.updateReservation);
 
