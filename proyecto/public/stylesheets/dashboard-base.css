@@ -1,0 +1,275 @@
+/* =============================================
+   DASHBOARD BASE - Estilos comunes a todas las
+   vistas del panel de administración.
+   ============================================= */
+@import url("/stylesheets/root.css");
+
+:root {
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  --gradient-warning: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+  --gradient-danger: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+  --gradient-info: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+}
+
+main {
+  flex: 1;
+}
+
+/* ====== Navbar ====== */
+.bg-gradient-primary { background: var(--gradient-primary) !important; }
+.bg-gradient-secondary { background: var(--gradient-secondary) !important; }
+.bg-gradient-success { background: var(--gradient-success) !important; }
+.bg-gradient-warning { background: linear-gradient(135deg, #ffd200 0%, #f7971e 100%) !important; }
+.bg-gradient-info { background: var(--gradient-info) !important; }
+
+.navbar {
+  padding: 0.8rem 0;
+}
+
+.brand-text {
+  font-family: 'Zen Dots', cursive;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.avatar-circle {
+  width: 38px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.avatar-circle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.nav-link {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dropdown-menu {
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  transform: translateX(5px);
+}
+
+/* ====== Page / Welcome Header ====== */
+.page-header,
+.welcome-header {
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.page-header h1 {
+  color: #2d3748;
+}
+
+/* ====== Cards ====== */
+.card {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: none !important;
+}
+
+/* ====== Tables ====== */
+.table > :not(caption) > * > * {
+  padding: 0.85rem 0.75rem;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: rgba(102, 126, 234, 0.05) !important;
+}
+
+/* ====== License Plate Badge ====== */
+.license-plate {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.83rem;
+  letter-spacing: 0.03em;
+}
+
+.license-plate-completed {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+}
+
+/* ====== Empty State ====== */
+.empty-state {
+  padding: 2rem;
+}
+
+/* ====== Buttons ====== */
+.btn {
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary:hover {
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-outline-danger:hover {
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* ====== Form Controls (shared) ====== */
+.form-label {
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: #4a5568;
+  margin-bottom: 0.35rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  background-color: #fff;
+}
+
+/* ====== Status Badges (shared) ====== */
+.badge-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.badge-status-pendiente,
+.badge-pendiente { background: rgba(247, 151, 30, 0.12); color: #c27a0e; }
+
+.badge-status-confirmada,
+.badge-confirmada { background: rgba(102, 126, 234, 0.12); color: #4c5fcf; }
+
+.badge-status-encurso,
+.badge-en-curso { background: rgba(17, 153, 142, 0.12); color: #0d8c82; }
+
+.badge-status-finalizada,
+.badge-finalizada { background: rgba(56, 239, 125, 0.12); color: #1a8754; }
+
+.badge-status-cancelada,
+.badge-cancelada { background: rgba(235, 51, 73, 0.12); color: #c62839; }
+
+.status-badge-pill {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 50rem;
+  letter-spacing: 0.03em;
+}
+
+/* ====== Row States ====== */
+.row-cancelled td,
+.row-status-cancelled td,
+.row-status-cancelled > * {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.row-finished td,
+.row-status-finished td,
+.row-status-finished > * {
+  background-color: rgba(209, 231, 221, 0.2) !important;
+}
+
+/* ====== Responsive Base ====== */
+@media (max-width: 768px) {
+  .navbar .d-flex.align-items-center {
+    margin-left: auto;
+    justify-content: flex-end;
+    width: auto;
+  }
+
+  .navbar .navbar-brand {
+    margin-right: auto;
+  }
+
+  .brand-text {
+    font-size: 1.2rem;
+  }
+
+  .page-header h1,
+  .welcome-header h1 {
+    font-size: 1.3rem !important;
+  }
+
+  .license-plate {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .badge-status {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .table {
+    font-size: 0.82rem;
+  }
+}
