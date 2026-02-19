@@ -131,6 +131,30 @@ class ServiceCatalogDAO {
         
     }
 
+    /**
+     * Obtiene las tarifas por tramos de días de cada servicio principal.
+     * @returns {Promise<Array>} Array con id_main_service, min_days, max_days, daily_price.
+     */
+    async getServiceRates() {
+
+        const sql = `SELECT sr.id_main_service, sr.min_days, sr.max_days, sr.daily_price
+                     FROM service_rate sr
+                     ORDER BY sr.id_main_service ASC, sr.min_days ASC`;
+
+        try {
+
+            const result = await db.query(sql);
+            return result.rows;
+
+        } catch (error) {
+
+            console.error('Error al obtener las tarifas por tramos:', error);
+            throw new Error('Error al obtener las tarifas por tramos', { cause: error });
+
+        }
+
+    }
+
 }
 
 module.exports = new ServiceCatalogDAO();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,156 +20,213 @@
   <body>
     <%- include("partials/nav") %>
 
-    <div style="background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; margin: 20px; font-family: monospace; overflow-x: auto; border-left: 5px solid #98c379;">
-      <h3 style="color: #e5c07b; margin-top: 0;">📦 JSON para Frontend: price.ejs</h3>
-      <pre><%- JSON.stringify({ vehicleTypes, mainServices, additionalServices, contractPlans }, null, 2) %></pre>
-    </div>
-
-    <!-- TABLA COMPARATIVA -->
-    <section class="comparison-section">
-      <div class="comparison-table-wrapper">
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th class="feature-col">Features</th>
-              <th class="plan-col">
-                <i class="fas fa-car"></i>
-                <span>Basic</span>
-                <small>€4/hour</small>
-              </th>
-              <th class="plan-col plan-popular">
-                <div class="popular-tag">Most Popular</div>
-                <i class="fas fa-car-side"></i>
-                <span>Standard</span>
-                <small>€15/day</small>
-              </th>
-              <th class="plan-col plan-premium">
-                <i class="fas fa-gem"></i>
-                <span>Premium</span>
-                <small>€25/day</small>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Parking -->
-            <tr class="category-row"><td colspan="4"><i class="fas fa-warehouse"></i> Parking</td></tr>
-            <tr>
-              <td>Parking type</td>
-              <td>Outdoor covered</td>
-              <td>Indoor secured</td>
-              <td>VIP indoor garage</td>
-            </tr>
-            <tr>
-              <td>24/7 CCTV surveillance</td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Dedicated parking spot</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Climate-controlled area</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-
-            <!-- Booking -->
-            <tr class="category-row"><td colspan="4"><i class="fas fa-calendar-check"></i> Booking</td></tr>
-            <tr>
-              <td>Digital booking confirmation</td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Free cancellation</td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Flexible date changes</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-
-            <!-- Services -->
-            <tr class="category-row"><td colspan="4"><i class="fas fa-concierge-bell"></i> Services</td></tr>
-            <tr>
-              <td>Basic car wash</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Full detailing</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Valet parking</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>EV Charging</td>
-              <td>€6/h add-on</td>
-              <td>€4/h add-on</td>
-              <td><i class="fas fa-check tick"></i> Included</td>
-            </tr>
-
-            <!-- Support -->
-            <tr class="category-row"><td colspan="4"><i class="fas fa-headset"></i> Support</td></tr>
-            <tr>
-              <td>Email support</td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Phone support</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Priority 24/7 support</td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-times cross"></i></td>
-              <td><i class="fas fa-check tick"></i></td>
-            </tr>
-            <tr>
-              <td>Extra insurance available</td>
-              <td>€5/day add-on</td>
-              <td>€3/day add-on</td>
-              <td><i class="fas fa-check tick"></i> Included</td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td><a href="/booking" class="table-btn">Book Basic</a></td>
-              <td><a href="/booking" class="table-btn table-btn-popular">Book Standard</a></td>
-              <td><a href="/booking" class="table-btn table-btn-premium">Book Premium</a></td>
-            </tr>
-          </tfoot>
-        </table>
+    <!-- ================== HERO ================== -->
+    <section class="price-hero">
+      <div class="price-hero-overlay"></div>
+      <div class="price-hero-content">
+        <p class="hero-badge"><i class="fas fa-shield-halved"></i> Tarifas transparentes</p>
+        <h1>Encuentra el plan <span>perfecto</span></h1>
+        <p class="hero-desc">Sin letras pequeñas. Elige tu servicio, la duración y listo.</p>
       </div>
     </section>
 
+    <!-- ================== SERVICIOS PRINCIPALES (CARDS) ================== -->
+    <%
+      // Pre-procesar datos
+      const ratesByService = {};
+      serviceRates.forEach(function(r) {
+        if (!ratesByService[r.id_main_service]) ratesByService[r.id_main_service] = [];
+        ratesByService[r.id_main_service].push(r);
+      });
+
+      const svcIcons   = ['fa-car', 'fa-car-side', 'fa-gem'];
+      const svcColors  = ['eco', 'transfer', 'meet'];
+    %>
+    <section class="services-section">
+      <div class="section-header">
+        <h2>Nuestros servicios</h2>
+        <p>Elige el nivel de atención que mejor se adapte a tu viaje</p>
+      </div>
+
+      <div class="services-grid">
+        <% mainServices.forEach(function(svc, i) { %>
+          <%
+            const features = svc.full_description ? svc.full_description.split('|').map(f => f.trim()) : [];
+            const rates = ratesByService[svc.id_main_service] || [];
+            const isPopular = (i === 1);
+            const isPremium = (i === mainServices.length - 1);
+          %>
+          <div class="svc-card<%= isPopular ? ' svc-card--popular' : '' %><%= isPremium ? ' svc-card--premium' : '' %>">
+            <% if (isPopular) { %>
+              <div class="svc-badge"><i class="fas fa-star"></i> Más popular</div>
+            <% } %>
+            <% if (isPremium) { %>
+              <div class="svc-badge svc-badge--premium"><i class="fas fa-crown"></i> Premium</div>
+            <% } %>
+
+            <div class="svc-card-icon svc-card-icon--<%= svcColors[i] || 'eco' %>">
+              <i class="fas <%= svcIcons[i] || 'fa-car' %>"></i>
+            </div>
+
+            <h3 class="svc-card-name"><%= svc.name %></h3>
+            <p class="svc-card-tagline"><%= svc.tagline %></p>
+
+            <div class="svc-card-price">
+              <span class="svc-price-from">Desde</span>
+              <span class="svc-price-amount"><%= parseFloat(svc.starting_price).toFixed(0) %><small>€/día</small></span>
+            </div>
+
+            <ul class="svc-features">
+              <% features.forEach(function(f) { %>
+                <li><i class="fas fa-check-circle"></i> <%= f %></li>
+              <% }); %>
+            </ul>
+
+            <div class="svc-rates">
+              <p class="svc-rates-title"><i class="fas fa-tags"></i> Tarifas por duración</p>
+              <% rates.forEach(function(r) { %>
+                <div class="svc-rate-row">
+                  <span class="svc-rate-label">
+                    <% if (r.max_days >= 9999) { %>+<%= r.min_days %> días<% } else { %><%= r.min_days %>–<%= r.max_days %> días<% } %>
+                  </span>
+                  <span class="svc-rate-value"><%= parseFloat(r.daily_price).toFixed(2) %> €<small>/día</small></span>
+                </div>
+              <% }); %>
+            </div>
+
+            <a href="/booking" class="svc-btn<%= isPopular ? ' svc-btn--popular' : '' %><%= isPremium ? ' svc-btn--premium' : '' %>">
+              Reservar ahora <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <!-- ================== COEFICIENTES VEHÍCULO ================== -->
+    <section class="vehicles-section">
+      <div class="section-header">
+        <h2>Coeficiente por tipo de vehículo</h2>
+        <p>El precio base se multiplica según el tamaño de tu vehículo</p>
+      </div>
+      <div class="vehicles-grid">
+        <% 
+          const vtIcons = { 'Moto': 'fa-motorcycle', 'Coche': 'fa-car', 'SUV': 'fa-truck-monster', 'Furgoneta': 'fa-van-shuttle', 'Camión': 'fa-truck' };
+        %>
+        <% vehicleTypes.forEach(function(vt) { %>
+          <div class="vehicle-chip">
+            <i class="fas <%= vtIcons[vt.type] || 'fa-car' %>"></i>
+            <span class="vehicle-chip-type"><%= vt.type %></span>
+            <span class="vehicle-chip-mult">×<%= parseFloat(vt.multiplier).toFixed(2) %></span>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <!-- ================== SERVICIOS ADICIONALES ================== -->
+    <section class="extras-section">
+      <div class="section-header">
+        <h2>Servicios adicionales</h2>
+        <p>Añade extras a tu reserva y viaja sin preocupaciones</p>
+      </div>
+
+      <div class="extras-grid">
+        <%
+          const catIcons = { 'LIMPIEZA': 'fa-broom', 'GESTIÓN': 'fa-clipboard-list', 'MANTENIMIENTO': 'fa-wrench', 'ENERGÍA': 'fa-bolt' };
+          const limpiezaExtras = additionalServices.filter(s => s.category === 'LIMPIEZA');
+          const otherExtras = additionalServices.filter(s => s.category !== 'LIMPIEZA');
+        %>
+
+        <!-- LIMPIEZA en su propia fila de 4 -->
+        <% if (limpiezaExtras.length > 0) { %>
+        <div class="extras-category">
+          <h3 class="extras-category-title">
+            <i class="fas fa-broom"></i> LIMPIEZA
+          </h3>
+          <% const limpColors = ['blue', 'emerald', 'violet', 'amber']; %>
+          <div class="extras-cards">
+            <% limpiezaExtras.forEach(function(extra, idx) { %>
+              <div class="extra-card extra-card--<%= limpColors[idx % limpColors.length] %>">
+                <div class="extra-card-header">
+                  <span class="extra-name"><%= extra.name %></span>
+                  <span class="extra-price"><%= parseFloat(extra.price).toFixed(0) %>€</span>
+                </div>
+                <p class="extra-tagline"><%= extra.tagline %></p>
+                <ul class="extra-features">
+                  <% if (extra.features) { extra.features.split('|').forEach(function(f) { %>
+                    <li><i class="fas fa-check"></i> <%= f.trim() %></li>
+                  <% }); } %>
+                </ul>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+
+        <!-- GESTIÓN + MANTENIMIENTO + ENERGÍA juntos en una fila -->
+        <% if (otherExtras.length > 0) { %>
+        <div class="extras-category">
+          <h3 class="extras-category-title">
+            <i class="fas fa-clipboard-list"></i> Gestión · Mantenimiento · Energía
+          </h3>
+          <% const otherColors = ['rose', 'cyan', 'orange', 'indigo']; %>
+          <div class="extras-cards">
+            <% otherExtras.forEach(function(extra, idx) { %>
+              <div class="extra-card extra-card--<%= otherColors[idx % otherColors.length] %>">
+                <div class="extra-card-header">
+                  <span class="extra-name"><%= extra.name %></span>
+                  <span class="extra-price"><%= parseFloat(extra.price).toFixed(0) %>€</span>
+                </div>
+                <p class="extra-tagline"><%= extra.tagline %></p>
+                <ul class="extra-features">
+                  <% if (extra.features) { extra.features.split('|').forEach(function(f) { %>
+                    <li><i class="fas fa-check"></i> <%= f.trim() %></li>
+                  <% }); } %>
+                </ul>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </section>
+
+    <!-- ================== PLANES DE SUSCRIPCIÓN ================== -->
+    <% if (contractPlans && contractPlans.length > 0) { %>
+    <section class="plans-section">
+      <div class="section-header section-header--light">
+        <h2>Planes de suscripción</h2>
+        <p>Ahorra con nuestros planes para viajeros frecuentes</p>
+      </div>
+
+      <div class="plans-grid">
+        <% contractPlans.forEach(function(plan, i) { %>
+          <div class="plan-card<%= i === contractPlans.length - 1 ? ' plan-card-featured' : '' %>">
+            <% if (i === contractPlans.length - 1) { %>
+              <div class="plan-featured-tag"><i class="fas fa-crown"></i> Mejor valor</div>
+            <% } %>
+            <h3 class="plan-name"><%= plan.name %></h3>
+            <div class="plan-price">
+              <span class="plan-price-amount"><%= parseFloat(plan.price).toFixed(0) %>€</span>
+              <span class="plan-price-period">/ <%= plan.duration_months %> meses</span>
+            </div>
+            <p class="plan-tagline"><%= plan.tagline %></p>
+            <ul class="plan-features">
+              <% if (plan.features) { plan.features.split('|').forEach(function(f) { %>
+                <li><i class="fas fa-check-circle"></i> <%= f.trim() %></li>
+              <% }); } %>
+            </ul>
+            <a href="/booking" class="plan-btn<%= i === contractPlans.length - 1 ? ' plan-btn-featured' : '' %>">Suscribirme</a>
+          </div>
+        <% }); %>
+      </div>
+    </section>
+    <% } %>
+
     <!-- CTA -->
     <section class="price-cta">
-      <h2>Ready to park with us?</h2>
-      <p>Book your spot now and enjoy a hassle-free parking experience</p>
-      <a href="/booking" class="cta-btn"><i class="fas fa-calendar-check"></i> Reserve Now</a>
+      <h2>¿Listo para aparcar con nosotros?</h2>
+      <p>Reserva tu plaza ahora y disfruta de una experiencia de parking sin preocupaciones</p>
+      <a href="/booking" class="cta-btn"><i class="fas fa-calendar-check"></i> Reservar ahora</a>
     </section>
 
     <%- include("partials/footer") %>

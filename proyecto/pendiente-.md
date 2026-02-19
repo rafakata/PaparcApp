@@ -15,7 +15,7 @@
 
 - [✅] Revisar el código para mostrar errores en el login en `login.ejs`.
 
-- [ ] Pintar el contenido en la página `reservation-details.ejs`:
+- [✅] Pintar el contenido en la página `reservation-details.ejs`:
   - Los campos de la reserva deben ser editables (inputs).
   - Añadir botones de acción:
     - Modificar reserva
@@ -34,9 +34,9 @@
 
 - [✅] Pulir rutas públicas, separar lógica entre el controlador y el enrutador.
 
-- [ ] Pintar correctamente los servicios mostrados en index.ejs para mostrarlos y que sean leídos desde el back-end ( ya te he pasado el objeto con los datos lo tienes en la vista)
+- [✅] Pintar correctamente los servicios mostrados en index.ejs para mostrarlos y que sean leídos desde el back-end ( ya te he pasado el objeto con los datos lo tienes en la vista)
 
-- [ ] Pintar y diseñar como mostrar los datos de la página price.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista, y tienes un ejemplo de como podrías pintarlo y usar el objetvo en la raiz del proyecto)
+- [✅] Pintar y diseñar como mostrar los datos de la página price.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista, y tienes un ejemplo de como podrías pintarlo y usar el objetvo en la raiz del proyecto)
 
 - [ ] Pintar todos los servicios principales mostrados en service.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista)
 
@@ -44,9 +44,9 @@
 
 - [✅] Funcionalidad que permite editar correctamente cualquier dato de la reserva, update reservation*.
 
-- [ ] Pintar un acceso que retorne a la vista principal desde el login y desde la página de registro. Ahora mismo desde estas páginas no podemos volver a la página de inicio a no ser que usemos los botones del navegador.
+- [✅] Pintar un acceso que retorne a la vista principal desde el login y desde la página de registro. Ahora mismo desde estas páginas no podemos volver a la página de inicio a no ser que usemos los botones del navegador.
 
-- [ ] EXTRA solo si quieres y te da tiempo. Pintar/diseñar la página del historial de reservas ya completadas
+- [✅] EXTRA solo si quieres y te da tiempo. Pintar/diseñar la página del historial de reservas ya completadas
 
 - [ ] EXTRA solo si quieres y te da tiempo. Añadir la funcionalidad del registro de una cuenta a traves de una cuenta de google. Lo de facebook si ves que se complica ni te rayes quitalo y sin mas.
 

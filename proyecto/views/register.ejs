@@ -9,6 +9,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
     <link rel="stylesheet" href="/stylesheets/register.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   </head>
   <body>
     <div class="contenedor_general">
@@ -66,14 +70,14 @@
         </form>
         <hr />
         <div class="botones">
-          <button>
+          <button type="button" onclick="loginWithGoogle()">
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="Google logo"
             />
             <span>Continue with Google</span>
           </button>
-          <button>
+          <button type="button" onclick="loginWithFacebook()">
             <img
               src="https://www.svgrepo.com/show/475647/facebook-color.svg"
               alt="Facebook logo"
@@ -81,6 +85,10 @@
             <span>Continue with Facebook</span>
           </button>
         </div>
+        <a href="/" class="back-home">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg>
+          Volver a inicio
+        </a>
       </div>
       <div class="imagen">
         <img
@@ -89,5 +97,8 @@
         />
       </div>
     </div>
+    <!-- Firebase Auth -->
+    <script src="/javascripts/firebase-config.js"></script>
+    <script src="/javascripts/firebase-auth.js"></script>
   </body>
 </html>
