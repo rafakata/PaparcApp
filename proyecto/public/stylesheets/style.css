@@ -1269,6 +1269,13 @@ footer {
   .logo {
     z-index: 1001;
   }
+  /*Necesito que la cuenta esté a la derecho no la izquierda*/
+  .acceso{
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 100%;
+  }
 
   .lista ul,
   .acceso ul {
@@ -1332,7 +1339,7 @@ footer {
     margin-left: 0;
     display: block;
     pointer-events: none;
-    color: var(--color-primary);
+    color: var(--color-secondary);
     -webkit-text-stroke: 0;
   }
 
