@@ -33,11 +33,12 @@ const mainController = {
 
         try {
 
-            const [ vehicleTypes, mainServices, additionalServices, contractPlans] = await Promise.all([
+            const [ vehicleTypes, mainServices, additionalServices, contractPlans, serviceRates] = await Promise.all([
                 serviceCatalogDAO.getVehicleTypes(),
                 serviceCatalogDAO.getMainServices(true),
                 serviceCatalogDAO.getAllAdditionalServices(true),
-                serviceCatalogDAO.getContractPlans(true)
+                serviceCatalogDAO.getContractPlans(true),
+                serviceCatalogDAO.getServiceRates()
             ]);
 
             res.render('price', {
@@ -45,7 +46,8 @@ const mainController = {
                 vehicleTypes,
                 mainServices,
                 additionalServices,
-                contractPlans
+                contractPlans,
+                serviceRates
             });
 
         } catch (error) {
