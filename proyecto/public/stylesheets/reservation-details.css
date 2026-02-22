@@ -20,20 +20,20 @@
 
 .detail-card .card-header {
   border-bottom: none;
-  padding: 1.1rem 1.5rem;
+  padding: 0.55rem 1rem;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .detail-card .card-header i {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
 }
 
 .detail-card .card-body {
-  padding: 1.5rem;
+  padding: 0.85rem 1rem;
 }
 
 /* ====== Checkbox Extras ====== */
@@ -99,13 +99,13 @@
 }
 
 .price-amount {
-  font-size: 3rem;
+  font-size: 2.2rem;
   font-weight: 700;
   line-height: 1;
 }
 
 .price-currency {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 400;
   opacity: 0.85;
 }
@@ -202,8 +202,8 @@
   background: rgba(247, 151, 30, 0.08);
   border: 1.5px solid rgba(247, 151, 30, 0.25);
   border-radius: 10px;
-  padding: 1rem 1.25rem;
-  font-size: 0.88rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.82rem;
   color: #744210;
 }
 
@@ -238,14 +238,20 @@
 }
 
 /* ====== Responsive (reservation-specific) ====== */
-@media (max-width: 768px) {
-  .price-amount { font-size: 2.2rem; }
+@media (max-width: 991.98px) {
+  .sidebar-wrapper { position: static !important; }
+}
 
-  .detail-card .card-body { padding: 1rem; }
+@media (max-width: 768px) {
+  .price-amount { font-size: 1.8rem; }
+
+  .detail-card .card-body { padding: 0.7rem; }
 
   .btn-save-main,
   .btn-cancel-main {
     width: 100%;
     text-align: center;
   }
+
+  .page-header { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
 }
