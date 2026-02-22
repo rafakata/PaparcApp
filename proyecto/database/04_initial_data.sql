@@ -1,5 +1,5 @@
 -- ==========================================================
--- 05_INITIAL_DATA.SQL - ESCENARIO DE CARGA (REF: 16/02/2026)
+-- 05_INITIAL_DATA.SQL - ESCENARIO DE CARGA (REF: 22/02/2026)
 -- ==========================================================
 
 -- 1. LIMPIEZA TOTAL Y REINICIO DE CONTADORES
@@ -192,67 +192,67 @@ INSERT INTO vehicle (license_plate, brand, model, color, type, id_customer) VALU
 -- ----------------------------------------------------------
 INSERT INTO contract (start_date, end_date, is_active, id_customer, license_plate, id_plan) VALUES
 -- Carlos Sainz (Ferrari)
-('2026-01-04 00:00:00', '2027-01-04 00:00:00', TRUE, 2, '2222-BBB', 3),
+('2026-01-10 00:00:00', '2027-01-10 00:00:00', TRUE, 2, '2222-BBB', 3),
 
 -- Lucia Villalon (Mercedes Viano)
-('2026-01-18 00:00:00', '2026-04-18 00:00:00', TRUE, 5, '6666-GGG', 1);
+('2026-01-24 00:00:00', '2026-04-24 00:00:00', TRUE, 5, '6666-GGG', 1);
 
 -- ----------------------------------------------------------
--- 8. RESERVAS (FECHA REFERENCIA: 16/02/2026 - LUNES)
+-- 8. RESERVAS (FECHA REFERENCIA: 22/02/2026 - DOMINGO)
 -- ----------------------------------------------------------
 
 -- A. HISTÓRICO (Pasadas)
 
--- 1. FINALIZADA: (26 Ene - 31 Ene)
+-- 1. FINALIZADA: (01 Feb - 06 Feb)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-01-26 10:00:00', '2026-01-31 10:00:00', 'FINALIZADA', 50.00, TRUE, 'TARJETA', '1111-AAA', 1, 'A-001');
+VALUES ('2026-02-01 10:00:00', '2026-02-06 10:00:00', 'FINALIZADA', 50.00, TRUE, 'TARJETA', '1111-AAA', 1, 'A-001');
 
--- 2. FINALIZADA: (07 Feb - 11 Feb)
+-- 2. FINALIZADA: (13 Feb - 17 Feb)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-07 08:00:00', '2026-02-11 20:00:00', 'FINALIZADA', 45.00, TRUE, 'EFECTIVO', '3333-CCC', 2, 'A-002');
+VALUES ('2026-02-13 08:00:00', '2026-02-17 20:00:00', 'FINALIZADA', 45.00, TRUE, 'EFECTIVO', '3333-CCC', 2, 'A-002');
 
--- 3. CANCELADA: (11 Feb - 16 Feb) - Tenía que salir hoy pero canceló antes
+-- 3. CANCELADA: (17 Feb - 22 Feb) - Tenía que salir hoy pero canceló antes
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-11 12:00:00', '2026-02-16 12:00:00', 'CANCELADA', 0.00, FALSE, '8888-JJJ', 1, NULL);
+VALUES ('2026-02-17 12:00:00', '2026-02-22 12:00:00', 'CANCELADA', 0.00, FALSE, '8888-JJJ', 1, NULL);
 
--- B. MOVIMIENTOS DE "HOY" (16/02/2026)
+-- B. MOVIMIENTOS DE "HOY" (22/02/2026)
 
 -- 4. ENTRADA DE HOY (Ya ha llegado esta mañana -> EN CURSO)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-16 08:00:00', '2026-02-21 08:00:00', 'EN CURSO', 60.00, FALSE, '4444-DDD', 3, 'B-001');
+VALUES ('2026-02-22 08:00:00', '2026-02-27 08:00:00', 'EN CURSO', 60.00, FALSE, '4444-DDD', 3, 'B-001');
 
 -- 5. ENTRADA DE HOY (Pendiente de llegar esta noche -> ENTRADA CONFIRMADA)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-16 20:00:00', '2026-02-18 10:00:00', 'ENTRADA CONFIRMADA', 30.00, TRUE, '5555-FFF', 1, NULL);
+VALUES ('2026-02-22 20:00:00', '2026-02-24 10:00:00', 'ENTRADA CONFIRMADA', 30.00, TRUE, '5555-FFF', 1, NULL);
 
 -- 6. SALIDA DE HOY (Ya se ha ido esta mañana -> FINALIZADA)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-07 09:00:00', '2026-02-16 09:00:00', 'FINALIZADA', 120.00, TRUE, 'TARJETA', '6666-GGG', 2, 'C-001');
+VALUES ('2026-02-13 09:00:00', '2026-02-22 09:00:00', 'FINALIZADA', 120.00, TRUE, 'TARJETA', '6666-GGG', 2, 'C-001');
 
 -- 7. SALIDA DE HOY (Pendiente de salir esta tarde -> EN CURSO)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-11 18:00:00', '2026-02-16 18:00:00', 'EN CURSO', 75.00, FALSE, '7777-HHH', 2, 'C-002');
+VALUES ('2026-02-17 18:00:00', '2026-02-22 18:00:00', 'EN CURSO', 75.00, FALSE, '7777-HHH', 2, 'C-002');
 
 -- C. LARGA ESTANCIA
 
--- 8. COCHE EN EL PARKING (Entró el 14, sale el 26)
+-- 8. COCHE EN EL PARKING (Entró el 20, sale el 04/03)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-14 15:00:00', '2026-02-26 15:00:00', 'EN CURSO', 150.00, TRUE, '9999-KKK', 3, 'D-005');
+VALUES ('2026-02-20 15:00:00', '2026-03-04 15:00:00', 'EN CURSO', 150.00, TRUE, '9999-KKK', 3, 'D-005');
 
--- 9. COCHE SIN FECHA DE SALIDA (Entró el 15)
+-- 9. COCHE SIN FECHA DE SALIDA (Entró el 21)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot, notes) 
-VALUES ('2026-02-15 10:00:00', NULL, 'EN CURSO', 0.00, FALSE, '1122-SSS', 1, 'E-001', 'Pendiente de grúa');
+VALUES ('2026-02-21 10:00:00', NULL, 'EN CURSO', 0.00, FALSE, '1122-SSS', 1, 'E-001', 'Pendiente de grúa');
 
 -- D. FUTURO (Reservas para Marzo)
 
 -- 10, 11, 12, 13, 14. Reservas Futuras 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, license_plate, id_main_service, cod_parking_spot) 
 VALUES 
-('2026-03-03 09:00:00', '2026-03-07 09:00:00', 'ENTRADA CONFIRMADA', 55.00, TRUE, '1234-LLL', 2, NULL),
-('2026-03-03 10:00:00', '2026-03-11 10:00:00', 'PENDIENTE', 80.00, FALSE, '5678-MMM', 1, NULL),
-('2026-03-03 12:30:00', '2026-03-05 12:30:00', 'ENTRADA CONFIRMADA', 40.00, FALSE, '9012-NNN', 3, NULL),
-('2026-03-04 08:00:00', '2026-03-08 08:00:00', 'PENDIENTE', 60.00, FALSE, '3456-PPP', 1, NULL),
-('2026-03-06 15:00:00', '2026-03-16 15:00:00', 'ENTRADA CONFIRMADA', 120.00, TRUE, '7890-RRR', 2, NULL);
+('2026-03-09 09:00:00', '2026-03-13 09:00:00', 'ENTRADA CONFIRMADA', 55.00, TRUE, '1234-LLL', 2, NULL),
+('2026-03-09 10:00:00', '2026-03-17 10:00:00', 'PENDIENTE', 80.00, FALSE, '5678-MMM', 1, NULL),
+('2026-03-09 12:30:00', '2026-03-11 12:30:00', 'ENTRADA CONFIRMADA', 40.00, FALSE, '9012-NNN', 3, NULL),
+('2026-03-10 08:00:00', '2026-03-14 08:00:00', 'PENDIENTE', 60.00, FALSE, '3456-PPP', 1, NULL),
+('2026-03-12 15:00:00', '2026-03-22 15:00:00', 'ENTRADA CONFIRMADA', 120.00, TRUE, '7890-RRR', 2, NULL);
 
 -- ----------------------------------------------------------
 -- 9. SERVICIOS ADICIONALES
@@ -284,26 +284,26 @@ INSERT INTO photo_evidence (file_path, id_reservation) VALUES
 
 -- RESERVA 1 (FINALIZADA)
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
-('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva...', '2026-01-21 10:00:00', 1),
-('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde...', '2026-01-25 10:00:00', 1),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Coche seguro...', '2026-01-26 10:15:00', 1),
-('RECORDATORIO_SALIDA', 'Preparando su salida', 'Reserva finaliza...', '2026-01-30 10:00:00', 1),
-('RECIBO_PAGO', 'Factura Simplificada', 'Adjuntamos recibo.', '2026-01-31 10:30:00', 1);
+('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva...', '2026-01-27 10:00:00', 1),
+('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde...', '2026-01-31 10:00:00', 1),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Coche seguro...', '2026-02-01 10:15:00', 1),
+('RECORDATORIO_SALIDA', 'Preparando su salida', 'Reserva finaliza...', '2026-02-05 10:00:00', 1),
+('RECIBO_PAGO', 'Factura Simplificada', 'Adjuntamos recibo.', '2026-02-06 10:30:00', 1);
 
--- RESERVA 4 (EN CURSO - Entró HOY 16/02)
+-- RESERVA 4 (EN CURSO - Entró HOY 22/02)
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
-('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva...', '2026-02-07 09:00:00', 4),
-('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde para mañana 16/02...', '2026-02-15 09:00:00', 4),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Tesla seguro.', '2026-02-16 08:15:00', 4);
+('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva...', '2026-02-13 09:00:00', 4),
+('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde para hoy 22/02...', '2026-02-21 09:00:00', 4),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Tesla seguro.', '2026-02-22 08:15:00', 4);
 
--- RESERVA 5 (ENTRADA CONFIRMADA - Entra hoy tarde 16/02)
+-- RESERVA 5 (ENTRADA CONFIRMADA - Entra hoy tarde 22/02)
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
-('TICKET_RESERVA', 'Reserva Confirmada #5', 'Su reserva...', '2026-02-07 10:00:00', 5),
-('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde para mañana 16/02 tarde...', '2026-02-15 20:00:00', 5);
+('TICKET_RESERVA', 'Reserva Confirmada #5', 'Su reserva...', '2026-02-13 10:00:00', 5),
+('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde para hoy 22/02 tarde...', '2026-02-21 20:00:00', 5);
 
--- RESERVA 6 (FINALIZADA - Salió hoy 16/02)
+-- RESERVA 6 (FINALIZADA - Salió hoy 22/02)
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
-('TICKET_RESERVA', 'Reserva Confirmada #6', 'Reserva registrada...', '2026-01-31 09:00:00', 6),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Coche aparcado.', '2026-02-07 09:30:00', 6),
-('RECORDATORIO_SALIDA', 'Su salida es hoy', 'Confirmar hora...', '2026-02-15 09:00:00', 6),
-('RECIBO_PAGO', 'Pago Realizado', 'Adjunto recibo...', '2026-02-16 09:15:00', 6);
+('TICKET_RESERVA', 'Reserva Confirmada #6', 'Reserva registrada...', '2026-02-06 09:00:00', 6),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Coche aparcado.', '2026-02-13 09:30:00', 6),
+('RECORDATORIO_SALIDA', 'Su salida es hoy', 'Confirmar hora...', '2026-02-21 09:00:00', 6),
+('RECIBO_PAGO', 'Pago Realizado', 'Adjunto recibo...', '2026-02-22 09:15:00', 6);

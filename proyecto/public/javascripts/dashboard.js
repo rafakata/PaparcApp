@@ -8,10 +8,11 @@
 $(document).ready(function() {
 
     console.log('Iniciando dashboard.js');
-
     initCalendar(); //configuramos el calendario visual
 
-    const today = new Date().toISOString().split('T')[0];
+    const localDate = new Date();
+    localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset()); // Ajustamos la fecha a la zona horaria local 
+    const today = localDate.toISOString().split('T')[0]; // Obtenemos la fecha en formato YYYY-MM-DD para usarla en la API
 
     // Cargamos los datos para la fecha actual al iniciar la página
     updateHeaderDate(today);
@@ -158,6 +159,7 @@ function renderTable(table,data,type) {
 
         btn.href = `/admin/reservations/details/${reservation.id_reservation}`; // Enlace a la página de detalles de la reserva
         btn.target = '_blank'; // Abrir en nueva pestaña
+        btn.rel = 'opener'; // Permitir que la nueva pestaña acceda a la página original
 
         tbody.appendChild(useTemplate); // Agregamos la nueva fila al cuerpo de la tabla
     })

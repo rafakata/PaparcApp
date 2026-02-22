@@ -9,7 +9,7 @@
 
 ## 🛠️ Tareas
 
-- [] Pintar/Revisar código para mostrar errores de registro en la vista `register.ejs`. 
+- [✅] Pintar/Revisar código para mostrar errores de registro en la vista `register.ejs`. 
 
 - [✅] Revisar el código de registro exitoso en la página `login.ejs` (sugerencia: implementarlo con **SweetAlert**).
 
@@ -38,8 +38,6 @@
 
 - [✅] Pintar y diseñar como mostrar los datos de la página price.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista, y tienes un ejemplo de como podrías pintarlo y usar el objetvo en la raiz del proyecto)
 
-- [ ] Pintar todos los servicios principales mostrados en service.ejs leídos desde el back-end (ya te he pasado el objeto con los datos, lo tienes en la vista)
-
 - [✅] Crear el controlador y el enrutador para enviar los datos correspondientes en cuanto a servicios y precios en las vistas públicas de landing-page y de price.ejs
 
 - [✅] Funcionalidad que permite editar correctamente cualquier dato de la reserva, update reservation*.
@@ -48,13 +46,15 @@
 
 - [✅] EXTRA solo si quieres y te da tiempo. Pintar/diseñar la página del historial de reservas ya completadas
 
-- [ ] EXTRA solo si quieres y te da tiempo. Añadir la funcionalidad del registro de una cuenta a traves de una cuenta de google. Lo de facebook si ves que se complica ni te rayes quitalo y sin mas.
+- [✅] EXTRA solo si quieres y te da tiempo. Añadir la funcionalidad del registro de una cuenta a traves de una cuenta de google. Lo de facebook si ves que se complica ni te rayes quitalo y sin mas.
 
 - [ ] Implementar sistema para que el servidor cargue/actualice los datos que se muestran en el servidor con cada cambio que se realice en el o en su defecto agregar un interval que  cada 2min por ejemplo refresque el dashboard.
 
-- [ ] Funcionalidad al botón de descartar cambios en la vista detalle de cada reserva.
+- [✅] Funcionalidad al botón de descartar cambios en la vista detalle de cada reserva.
 
 - [ ] Funcionalidad para crear una nueva reserva desde el dashboard
+
+- [ ] Funcionalidad para eliminar reservas desde el dashboard en la vista reservation-details.ejs
 
 
 ---

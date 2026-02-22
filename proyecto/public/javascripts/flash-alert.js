@@ -25,4 +25,22 @@ function showFlashAlert() {
   }
 }
 
+// mostrar mensajes de alerta para las opciones de editar/eliminar
+function showInteractiveAlert(type, title, text, confirmText) {
+  let bgColor = type === 'success' ? '#eafaf1' : '#fdecea';
+  let textColor = type === 'success' ? '#2e7d32' : '#c62828';
+
+  return Swal.fire ({
+    icon: type,
+    title: title,
+    text: text,
+    background: bgColor,
+    color: textColor,
+    showConfirmButton: true,
+    confirmButtonText: confirmText,
+    confirmButtonColor : textColor,
+    allowOutsideClick: false // obliga al usuario a interactuar con la alerta antes de cerrar
+  });
+}
+
 document.addEventListener('DOMContentLoaded', showFlashAlert);
