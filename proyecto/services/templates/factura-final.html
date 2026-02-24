@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Poppins:wght@400;700&display=swap');
+        .logo-font { font-family: 'Zen Dots', 'Arial Black', sans-serif !important; }
+        .main-font { font-family: 'Poppins', 'Segoe UI', sans-serif !important; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f9f9f9;" class="main-font">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; border-bottom: 8px solid #7DDF8B;">
+                    <tr>
+                        <td align="center" style="background-color: #0968EF; padding: 35px 0;">
+                            <h1 class="logo-font" style="margin: 0; color: #7DDF8B; font-size: 28px; font-weight: normal; font-family: 'Zen Dots', sans-serif;">PaparcApp</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px; color: #333333; line-height: 1.6; font-family: 'Poppins', sans-serif; text-align: center;">
+                            <h2 style="margin-top: 0; color: #7DDF8B; font-size: 24px; font-weight: 700;">¡Gracias por confiar en PaparcApp!</h2>
+                            <p style="font-size: 16px;">Hola <strong>{{ $json.cliente.nombre }}</strong>,</p>
+                            <p>Confirmamos que tu estancia ha finalizado correctamente. Esperamos que hayas quedado satisfecho con nuestro servicio de custodia para tu vehículo con matrícula <strong>{{ $json.reserva.matricula }}</strong>.</p>
+                            
+                            <div style="margin: 30px 0; padding: 20px; border: 2px dashed #0968EF; border-radius: 8px; background-color: #ffffff;">
+                                <p style="margin: 0; color: #0968EF; font-weight: 600;">Ya puedes descargar tu factura definitiva adjunta en este correo electrónico.</p>
+                            </div>
+
+                            <p style="margin-bottom: 25px;">Para nosotros tu opinión es fundamental. ¿Nos ayudas a mejorar?</p>
+                            
+                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                <tr>
+                                    <td align="center" bgcolor="#0968EF" style="border-radius: 5px;">
+                                        <a href="https://paparcapp.com/valorar" target="_blank" style="padding: 15px 30px; color: #ffffff; text-decoration: none; font-weight: 600; display: inline-block; font-size: 16px; font-family: 'Poppins', sans-serif;">
+                                            VALORAR MI EXPERIENCIA
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f4f4f4; padding: 30px; text-align: center; color: #777777; font-size: 12px; font-family: 'Poppins', sans-serif;">
+                            <p style="margin: 0; font-weight: 600; color: #0968EF;">PaparcApp - Tu coche, seguro.</p>
+                            <p style="margin: 5px 0;">Si tienes alguna duda con tu factura, contáctanos en soporte@paparcapp.com</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
