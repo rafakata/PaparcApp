@@ -34,9 +34,9 @@ INSERT INTO vehicle_coefficient (vehicle_type, multiplier) VALUES
 
 -- 2.2 CATÁLOGO DE SERVICIOS
 INSERT INTO main_service (name, tagline, full_description) VALUES 
-('ECO', 'Llega, entrega tus llaves y camina directo a tu vuelo.', 'Recepción de vehículo por nuestro personal|Aparcamiento profesional garantizado|Custodia de llaves en caja fuerte|Acceso a pie inmediato (2 min a terminal)|La opción más económica y rápida'),
-('TRANSFER', 'Entrega tu coche y te llevamos a la terminal en minibus.', 'Aparcamiento realizado por trabajadores|Traslado VIP en minibus de cortesía|Ayuda completa con el equipaje|Recogida inmediata a tu regreso|Vigilancia 24h mientras viajas'),
-('MEET', 'Servicio Premium: Recogida y entrega en la misma terminal.', 'Chófer profesional te espera en la terminal|Recogida de llaves y coche a pie de pista|Entrega de vehículo en la puerta de llegadas|Cero desplazamientos para el cliente|Ideal para viajes de negocios o máxima comodidad');
+('ECO', 'Arrive, hand over your keys and walk straight to your flight.', 'Vehicle reception by our staff|Professional parking guaranteed|Key custody in a safe box|Immediate walking access (2 min to terminal)|The fastest and most economical option'),
+('TRANSFER', 'Hand over your car and we take you to the terminal by minibus.', 'Parking performed by staff|VIP transfer in courtesy minibus|Full assistance with luggage|Immediate pick-up on your return|24h surveillance while you travel'),
+('MEET', 'Premium Service: Pick-up and drop-off at the terminal.', 'Professional chauffeur awaits you at the terminal|Key and car pick-up at the gate|Vehicle delivery at the arrivals door|Zero walking for the client|Ideal for business trips or maximum comfort');
 
 -- 2.3 TARIFAS POR TRAMOS
 INSERT INTO service_rate (id_main_service, min_days, max_days, daily_price) VALUES
@@ -46,22 +46,22 @@ INSERT INTO service_rate (id_main_service, min_days, max_days, daily_price) VALU
 
 -- 2.4 PLANES DE SUSCRIPCIÓN
 INSERT INTO contract_plan (name, duration_months, price, tagline, features) VALUES
-('Trimestral', 3, 325.00, 'La solución perfecta para tus viajes de temporada.', 'Servicios ECO y TRANSFER incluidos|Plaza prioritaria garantizada 100%|1 Lavado exterior de cortesía|Acceso ilimitado 24/7 sin reserva previa|Gestión de llaves profesional'),
-('Semestral', 6, 590.00, 'Ahorra y viaja con total libertad durante medio año.', 'Servicios ECO y TRANSFER incluidos|Plaza prioritaria garantizada 100%|1 Lavado integral de cortesía|Prioridad en servicios adicionales|Sin compromiso de permanencia tras los 6 meses'),
-('Anual', 12, 999.00, 'Máxima tranquilidad y ahorro para viajeros expertos.', 'Servicios ECO y TRANSFER incluidos|Plaza VIP fija y garantizada|2 Lavados integrales al año|Descuento del 10% en servicios extra|Facturación mensual o anual simplificada');
+('Quarterly', 3, 325.00, 'The perfect solution for your seasonal trips.', 'ECO and TRANSFER services included|100% guaranteed priority spot|1 complimentary exterior wash|Unlimited 24/7 access without prior booking|Professional key management'),
+('Semiannual', 6, 590.00, 'Save and travel with total freedom for half a year.', 'ECO and TRANSFER services included|100% guaranteed priority spot|1 complimentary full wash|Priority for additional services|No commitment after 6 months'),
+('Annual', 12, 999.00, 'Maximum peace of mind and savings for expert travelers.', 'ECO and TRANSFER services included|Fixed VIP spot guaranteed|2 full washes per year|10% discount on extra services|Simplified monthly or annual billing');
 
 -- ----------------------------------------------------------
 -- 3. SERVICIOS ADICIONALES
 -- ----------------------------------------------------------
 INSERT INTO additional_service (name, category, tagline, price, features) VALUES 
-('Lavado Básico', 'LIMPIEZA', 'Reluce por fuera.', 15.00, 'Lavado a mano exterior|Secado con microfibra|Limpieza de llantas y neumáticos'),
-('Lavado Interior', 'LIMPIEZA', 'Higiene y frescura en el habitáculo.', 25.00, 'Aspirado profundo de alfombrillas|Limpieza técnica de salpicadero|Desinfección de conductos de aire'),
-('Lavado Integral', 'LIMPIEZA', 'Tu coche, como si fuera nuevo.', 50.00, 'Limpieza de tapicería (asientos y suelo)|Lavado exterior premium|Eliminación de olores con ozono'),
-('Detallado Pro', 'LIMPIEZA', 'El cuidado definitivo para entusiastas.', 100.00, 'Pulido de carrocería artesanal|Encerado de alta protección|Tratamiento de plásticos y gomas'),
-('Repostaje', 'GESTIÓN', 'Sin paradas al salir del parking.', 15.00, 'Llenado del depósito antes de la entrega|Ahorro de tiempo al recoger|Combustible a precio de mercado (tique aparte)'),
-('Pasar ITV', 'GESTIÓN', 'Nosotros nos encargamos de las colas.', 60.00, 'Revisión pre-ITV de puntos clave|Traslado a estación oficial|Trámite administrativo completo|Tasas ITV no incluidas'),
-('Mecánica Rápida', 'MANTENIMIENTO', 'Viaja con total seguridad.', 30.00, 'Revisión de niveles (aceite y refrigerante)|Presión de neumáticos|Comprobación del sistema de luces'),
-('Carga EV', 'ENERGÍA', 'Batería al 100% al aterrizar.', 25.00, 'Carga eléctrica completa garantizada|Compatible con todos los modelos (Type 2/Tesla)|Sin colas en cargadores públicos');
+('Basic Wash', 'CLEANING', 'Shine on the outside.', 15.00, 'Hand exterior wash|Microfiber drying|Wheel and tire cleaning'),
+('Interior Cleaning', 'CLEANING', 'Hygiene and freshness inside.', 25.00, 'Deep vacuuming of mats|Technical dashboard cleaning|Air duct disinfection'),
+('Full Wash', 'CLEANING', 'Your car, as good as new.', 50.00, 'Upholstery cleaning (seats and floor)|Premium exterior wash|Odor removal with ozone'),
+('Pro Detailing', 'CLEANING', 'The ultimate care for enthusiasts.', 100.00, 'Handcrafted body polishing|High-protection waxing|Plastic and rubber treatment'),
+('Refueling', 'MANAGEMENT', 'No stops when leaving the parking.', 15.00, 'Tank filled before delivery|Time saving at pick-up|Fuel at market price (ticket separate)'),
+('MOT Service', 'MANAGEMENT', 'We handle the queues for you.', 60.00, 'Pre-MOT key points check|Transfer to official station|Full administrative procedure|MOT fees not included'),
+('Quick Maintenance', 'MAINTENANCE', 'Travel with total safety.', 30.00, 'Fluid levels check (oil and coolant)|Tire pressure|Lights system check'),
+('EV Charging', 'ENERGY', '100% battery upon landing.', 25.00, 'Full electric charge guaranteed|Compatible with all models (Type 2/Tesla)|No queues at public chargers');
 
 -- ----------------------------------------------------------
 -- 4. INFRAESTRUCTURA (70 PLAZAS: A-G)
