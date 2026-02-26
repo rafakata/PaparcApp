@@ -417,77 +417,48 @@ h1 {
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
 }
 /*================== REDES SOCIALES ==================*/
-.contenedor_redes {
+
+/* Redes sociales flotantes: solo iconos circulares */
+.redes-flotantes {
   position: fixed;
-  width: 100px;
-  height: 50px;
-  right: -2rem;
-  bottom: 10rem;
-  transform: rotate(-90deg) skewX(-15deg);
-  font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  right: 2.2rem;
+  bottom: 8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
   z-index: 9999;
 }
 
-/* Íconos dentro */
-.contenedor_redes i {
-  font-size: 2rem;
+.red-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  color: #fff;
+  font-size: 2.2rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  border: none;
 }
 
-/* WhatsApp */
-.contenedor_redes .whatsapp {
+.red-icon.whatsapp {
   background-color: rgb(64, 208, 119);
 }
-.contenedor_redes .whatsapp {
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.contenedor_redes .whatsapp:hover {
-  transform: translateY(-0.8rem);
-}
-
-/* Instagram */
-.contenedor_redes .instagram {
+.red-icon.instagram {
   background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
 }
-.contenedor_redes .instagram {
-  position: relative;
-  transition: transform 0.3s ease;
+
+.red-icon:hover {
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.22);
 }
 
-.contenedor_redes .instagram:hover {
-  transform: translateY(-0.8rem);
-}
-
-/* Lista contenedora */
-.contenedor_redes .enlaces_redes {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  font-weight: bold;
-  color: white;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* Enlaces individuales */
-.contenedor_redes .enlaces_redes li a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  padding: 1rem;
-  color: white;
-  text-decoration: none;
-  gap: 0.5rem;
-}
-.contenedor_redes span {
-  color: white;
+.red-icon i {
+  font-size: 2.2rem;
+  color: #fff;
 }
 
 /* ================== CONTENEDOR1 ================== */
@@ -503,16 +474,9 @@ h1 {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  &::before {
-    content: "";
-    width: 100%;
-    height: 10rem;
-    z-index: 0;
-    position: absolute;
-    background-color: var(--color-secondary);
-    opacity: 0.5;
-    bottom: 0;
-  }
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 .insets {
   display: flex;
@@ -578,8 +542,9 @@ h2 {
 .camino {
   position: relative;
   width: 100%;
-  height: 10rem;
+  height: 13rem;
   overflow: hidden;
+  margin-bottom: -2px;
 }
 .coche_contenedor {
   position: absolute;
@@ -597,8 +562,8 @@ h2 {
 #contenedor2 {
   min-height: 110vh;
   width: 100%;
-  border-top: 4px solid white;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("/images/ryan-spencer-c-NEiPIxpYI-unsplash.jpg");
+  /* border-top: 4px solid white; */
+  background: var(--color-primary);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -612,7 +577,7 @@ h2 {
 
   marquee {
     font-size: 1.4rem;
-    color: rgb(255, 237, 36);
+    color: var(--color-secondary);
     font-weight: bold;
   }
   h2 {
@@ -760,7 +725,7 @@ h2 {
     background-image: conic-gradient(
       from var(--angulo_grande),
       transparent,
-      var(--color-primary)
+      var(--color-secondary)
     );
     animation: 3s spinner linear infinite;
   }
@@ -944,14 +909,35 @@ marquee span {
     z-index: 0;
   }
 
-  video {
+  .video-bg-wrapper {
     position: absolute;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .video-bg-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    z-index: -1;
+    z-index: 0;
+  }
+  .video-tint-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-secondary);
+    opacity: 0.95;
+    backdrop-filter: blur(8px);
+    z-index: 1;
+    pointer-events: none;
   }
 
   .ubicacion {
