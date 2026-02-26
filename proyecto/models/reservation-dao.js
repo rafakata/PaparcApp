@@ -25,8 +25,8 @@ class ReservationDAO {
                         c.full_name AS customer_name,c.phone,
                         s.name AS service_name
                     FROM reservation r
-                    JOIN vehicle v ON r.license_plate = v.license_plate
-                    JOIN customer c ON v.id_customer = c.id_customer
+                    JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+                    JOIN customer c ON r.id_customer = c.id_customer
                     JOIN main_service s ON r.id_main_service = s.id_main_service
                     WHERE
                         r.entry_date::date = $1::date
@@ -72,8 +72,8 @@ class ReservationDAO {
                                     c.full_name AS customer_name, c.phone, c.email,
                                     ms.id_main_service, ms.name AS main_service_name
                                 FROM reservation r
-                                JOIN vehicle v ON r.license_plate = v.license_plate
-                                JOIN customer c ON v.id_customer = c.id_customer
+                                JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+                                JOIN customer c ON r.id_customer = c.id_customer
                                 JOIN main_service ms ON r.id_main_service = ms.id_main_service
                                 WHERE r.id_reservation = $1; 
         `;
@@ -150,8 +150,8 @@ class ReservationDAO {
                     LEFT JOIN reservation r 
                         ON r.cod_parking_spot = ps.cod_parking_spot
                         AND r.status IN ('EN CURSO', 'CONFIRMADA', 'PENDIENTE')
-                    LEFT JOIN vehicle v ON r.license_plate = v.license_plate
-                    LEFT JOIN customer c ON v.id_customer = c.id_customer
+                    LEFT JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+                    LEFT JOIN customer c ON r.id_customer = c.id_customer
                     ORDER BY ps.cod_parking_spot ASC;
         `;
 
@@ -211,7 +211,7 @@ class ReservationDAO {
                                                 id_main_service = $3,
                                                 total_price = $4
                                             WHERE id_reservation = $5
-                                            RETURNING license_plate;
+                                            RETURNING id_vehicle;
             `;
 
             // valores $ para la consulta de actualizacion de la reserva
@@ -226,7 +226,7 @@ class ReservationDAO {
             const resResult = await client.query(updateReservationSql, resValues);
 
             if (resResult.rowCount === 0) throw new Error('No se encontró la reserva para actualizar');
-            const license_plate = resResult.rows[0].license_plate;
+            const id_vehicle = resResult.rows[0].id_vehicle;
 
             // luego actualizamos los datos del vehiculo asociado a la reserva
             const updateVehicleSql = `UPDATE vehicle
@@ -234,7 +234,7 @@ class ReservationDAO {
                                             model = $2,
                                             color = $3,
                                             type = $4
-                                        WHERE license_plate = $5;
+                                        WHERE id_vehicle = $5;
             `;
 
             const vehValues = [
@@ -242,7 +242,7 @@ class ReservationDAO {
                 updateData.model,
                 updateData.color,
                 updateData.vehicle_type,
-                license_plate
+                id_vehicle
             ];
             await client.query(updateVehicleSql, vehValues);
 
@@ -280,6 +280,76 @@ class ReservationDAO {
 
         }
 
+
+    }
+
+    /**
+     * Crea una nueva reserva y sus servicios adicionales asociados usando una transacción.
+     * @param {Object} reservationData - Objeto con todos los datos necesarios para la reserva.
+     * @returns {number} - El ID de la reserva recién creada.
+    */
+    async createReservationTransaction(reservationData) {
+
+        const client = await db.connect();
+
+        try {
+
+            await client.query('BEGIN');
+
+            const insertReservationSql = `INSERT INTO reservation (
+                                            entry_date, exit_date, status, total_price, is_paid, payment_method,
+                                            notes, id_customer, id_vehicle, id_main_service, cod_parking_spot
+                                        ) VALUES (
+                                            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
+                                        ) RETURNING id_reservation;
+            `;
+
+            const reservationValues = [
+                reservationData.entry_date,
+                reservationData.exit_date,
+                reservationData.status || 'PENDIENTE',
+                reservationData.total_price,
+                reservationData.is_paid || false,
+                reservationData.payment_method || null,
+                reservationData.notes || null,
+                reservationData.id_customer,
+                reservationData.id_vehicle,
+                reservationData.id_main_service,
+                reservationData.cod_parking_spot || null
+            ];
+
+            const result = await client.query(insertReservationSql, reservationValues);
+            const newReservationId = result.rows[0].id_reservation;
+
+            if ( reservationData.additional_services && reservationData.additional_services.length > 0) {
+
+                const insertAdditionalServiceSql = `INSERT INTO reservation_additional_service (
+                                                        id_reservation, id_additional_service
+                                                    ) VALUES (
+                                                        $1, $2
+                                                    )
+                `;
+
+
+                for (const id_additional_service of reservationData.additional_services) {
+                    await client.query(insertAdditionalServiceSql, [newReservationId, id_additional_service]);
+                }
+            }
+
+            await client.query('COMMIT');
+            return newReservationId;
+
+        } catch (error) {
+
+            await client.query('ROLLBACK');
+            console.error('Error al crear la nueva reserva:', error);
+            throw new Error('Error al crear la reserva en la BD', { cause: error });
+
+        } finally {
+
+            client.release();
+
+        }
 
     }
     
@@ -321,8 +391,8 @@ class ReservationDAO {
 
         const countSQL = `SELECT COUNT(*) AS total
                           FROM reservation r
-                          JOIN vehicle v ON r.license_plate = v.license_plate
-                          JOIN customer c ON v.id_customer = c.id_customer
+                          JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+                          JOIN customer c ON r.id_customer = c.id_customer
                           ${whereSQL}`;
 
         const dataSQL = `SELECT
@@ -332,8 +402,8 @@ class ReservationDAO {
                             c.full_name AS customer_name, c.phone, c.email,
                             ms.name AS service_name
                          FROM reservation r
-                         JOIN vehicle v ON r.license_plate = v.license_plate
-                         JOIN customer c ON v.id_customer = c.id_customer
+                         JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+                         JOIN customer c ON r.id_customer = c.id_customer
                          JOIN main_service ms ON r.id_main_service = ms.id_main_service
                          ${whereSQL}
                          ORDER BY r.reservation_date DESC

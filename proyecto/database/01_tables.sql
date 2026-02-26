@@ -22,7 +22,7 @@ CREATE TABLE customer (
     id_customer       SERIAL PRIMARY KEY,
     full_name         VARCHAR(100) NOT NULL,
     email             VARCHAR(150) UNIQUE,
-    phone             VARCHAR(20) NOT NULL UNIQUE,
+    phone             VARCHAR(20) UNIQUE,
     password_hash     VARCHAR(255),
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     type              VARCHAR(30), 
