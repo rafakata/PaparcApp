@@ -5,8 +5,8 @@
 -- Las columnas que son PK o tienen UNIQUE ya cuentan con índices implícitos, por tanto no sera necesario crearlos
 
 
--- BUSQUEDA DE RESERVA POR MATRICULA.
-CREATE INDEX idx_search_reservation_by_license_plate ON reservation(license_plate);
+-- BUSQUEDA DE RESERVA POR ID DE VEHICULO.
+CREATE INDEX idx_search_reservation_by_vehicle_id ON reservation(id_vehicle);
 -- usado mucho en la operativa diaria para localizar reservas de un vehiculo concreto
 
 -- BUSQUEDA DE RESERVA POR FECHA DE ENTRADA.
@@ -17,9 +17,13 @@ CREATE INDEX idx_search_reservation_by_entry_date ON reservation(entry_date);
 CREATE INDEX idx_search_reservation_by_exit_date ON reservation(exit_date);
 -- usado para gestionar las reservas que salen en un dia concreto
 
--- BUSQUEDA DE VEHICULO POR ID DE CLIENTE.
-CREATE INDEX idx_search_vehicle_by_customer_id ON vehicle(id_customer);
--- usado para listar los vehiculos de un cliente concreto
+-- BUSQUEDA DE RESERVA POR ID DE CLIENTE.
+CREATE INDEX idx_search_reservation_by_customer_id ON reservation(id_customer);
+-- usado para listar las reservas de un cliente concreto
+
+-- BUSQUEDA DE CUSTOMERS POR ID DE VEHICULO.
+CREATE INDEX idx_search_owners_by_vehicle_id ON customer_vehicle(id_vehicle);
+-- usado para recuperar los clientes asociados a un vehiculo concreto (propietarios, conductores habituales, etc)
 
 -- BUSQUEDA DE FOTOS DE EVIDENCIA POR ID DE RESERVA.
 CREATE INDEX idx_search_photo_by_reservation_id ON photo_evidence(id_reservation);
