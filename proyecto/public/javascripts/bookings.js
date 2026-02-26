@@ -1,0 +1,133 @@
+// Script para la página de reserva (vista en columnas)
+window.addEventListener('DOMContentLoaded', () => {
+  // Leer parámetros de la URL (si vienen del index)
+  const params = new URLSearchParams(window.location.search);
+  const entradaParam = params.get('entrada');
+  const salidaParam = params.get('salida');
+
+  if (entradaParam) document.getElementById('book-entrada').value = entradaParam;
+  if (salidaParam) document.getElementById('book-salida').value = salidaParam;
+
+  // Calcular precio y resumen si ya hay fechas
+  calcPrice();
+  updateSummary();
+
+  // Listeners para actualizar precio y resumen en tiempo real
+  const fields = ['book-entrada', 'book-salida', 'book-nombre', 'book-email', 'book-telefono', 'book-matricula', 'book-marca', 'book-modelo'];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateSummary);
+      el.addEventListener('change', () => { calcPrice(); updateSummary(); });
+    }
+  });
+});
+
+/* ========== CÁLCULO DE PRECIO ========== */
+function calcPrice() {
+  const entradaVal = document.getElementById('book-entrada').value;
+  const salidaVal = document.getElementById('book-salida').value;
+  const preview = document.getElementById('booking-price-preview');
+
+  if (entradaVal && salidaVal) {
+    const entrada = new Date(entradaVal);
+    const salida = new Date(salidaVal);
+    if (salida > entrada) {
+      const dias = Math.ceil((salida - entrada) / (1000 * 60 * 60 * 24));
+      const precio = (dias * 8.50).toFixed(2);
+      preview.innerHTML = '<i class="bi bi-tag-fill text-primary me-2 fs-5"></i> <span>' + dias + ' día(s) — <strong>' + precio + ' €</strong> (IVA incl.)</span>';
+      preview.classList.add('has-price');
+      return;
+    }
+  }
+  preview.innerHTML = '<i class="bi bi-tag-fill text-primary me-2 fs-5"></i> <span>Selecciona las fechas para ver el precio</span>';
+  preview.classList.remove('has-price');
+}
+
+/* ========== RESUMEN EN TIEMPO REAL ========== */
+function updateSummary() {
+  const entrada = document.getElementById('book-entrada').value;
+  const salida = document.getElementById('book-salida').value;
+  const nombre = document.getElementById('book-nombre') ? document.getElementById('book-nombre').value : '';
+  const email = document.getElementById('book-email') ? document.getElementById('book-email').value : '';
+  const matricula = document.getElementById('book-matricula').value;
+  const marca = document.getElementById('book-marca').value;
+  const modelo = document.getElementById('book-modelo').value;
+  const telefono = document.getElementById('book-telefono') ? document.getElementById('book-telefono').value : '';
+
+  document.getElementById('sum-entrada').textContent = entrada ? new Date(entrada).toLocaleString('es-ES') : '-';
+  document.getElementById('sum-salida').textContent = salida ? new Date(salida).toLocaleString('es-ES') : '-';
+  document.getElementById('sum-nombre').textContent = nombre || '-';
+  document.getElementById('sum-email').textContent = email || '-';
+  document.getElementById('sum-matricula').textContent = matricula || '-';
+  document.getElementById('sum-vehiculo').textContent = (marca + ' ' + modelo).trim() || '-';
+  document.getElementById('sum-telefono').textContent = telefono || '-';
+
+  const e = new Date(entrada), s = new Date(salida);
+  if (e && s && s > e) {
+    const dias = Math.ceil((s - e) / (1000 * 60 * 60 * 24));
+    document.getElementById('sum-precio').textContent = (dias * 8.50).toFixed(2) + ' €';
+  } else {
+    document.getElementById('sum-precio').textContent = '0.00 €';
+  }
+}
+
+/* ========== CONFIRMACIÓN ========== */
+function generarCodigoReserva() {
+  const letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const numeros = '0123456789';
+  let codigo = '';
+  for (let i = 0; i < 3; i++) codigo += letras.charAt(Math.floor(Math.random() * letras.length));
+  for (let i = 0; i < 3; i++) codigo += numeros.charAt(Math.floor(Math.random() * numeros.length));
+  const chars = letras + numeros;
+  for (let i = 0; i < 2; i++) codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+  return codigo.split('').sort(() => Math.random() - 0.5).join('');
+}
+
+function generarQR(texto) {
+  const colorHex = '0968ef';
+  return `<img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(texto)}&color=${colorHex}&bgcolor=ffffff' alt='QR Reserva'/>`;
+}
+
+function confirmBooking() {
+  // Validar campos obligatorios
+  const entrada = document.getElementById('book-entrada').value;
+  const salida = document.getElementById('book-salida').value;
+  const nombre = document.getElementById('book-nombre') ? document.getElementById('book-nombre').value : '';
+  const email = document.getElementById('book-email') ? document.getElementById('book-email').value : '';
+  const telefono = document.getElementById('book-telefono') ? document.getElementById('book-telefono').value : '';
+  const matricula = document.getElementById('book-matricula').value;
+  const marca = document.getElementById('book-marca').value;
+  const modelo = document.getElementById('book-modelo').value;
+
+  if (!entrada || !salida) {
+    alert('Por favor, selecciona las fechas de entrada y salida.');
+    return;
+  }
+  if (new Date(salida) <= new Date(entrada)) {
+    alert('La fecha de salida debe ser posterior a la de entrada.');
+    return;
+  }
+  if (!matricula || !marca || !modelo) {
+    alert('Por favor, completa todos los datos del vehículo.');
+    return;
+  }
+  if (!email) {
+    alert('Por favor, introduce un correo electrónico válido.');
+    return;
+  }
+
+  const codigo = generarCodigoReserva();
+
+  document.getElementById('codigo-reserva').textContent = codigo;
+  document.getElementById('qr-reserva').innerHTML = generarQR(codigo);
+  document.getElementById('conf-nombre').textContent = nombre;
+  document.getElementById('conf-email').textContent = email;
+  document.getElementById('conf-telefono').textContent = telefono;
+  document.getElementById('conf-matricula').textContent = matricula;
+  document.getElementById('conf-vehiculo').textContent = marca + ' ' + modelo;
+
+  // Ocultar formulario y mostrar éxito
+  document.getElementById('booking-form-section').querySelector('.row.g-4').style.display = 'none';
+  document.getElementById('booking-step-success').style.display = 'flex';
+}

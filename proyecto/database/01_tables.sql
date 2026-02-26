@@ -15,13 +15,14 @@ DROP TABLE IF EXISTS parking_spot CASCADE;
 DROP TABLE IF EXISTS vehicle CASCADE;
 DROP TABLE IF EXISTS vehicle_coefficient CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
+DROP TABLE IF EXISTS customer_vehicle CASCADE;
 
 -- TABLA CUSTOMER: Clientes de la aplicación
 CREATE TABLE customer (
     id_customer       SERIAL PRIMARY KEY,
     full_name         VARCHAR(100) NOT NULL,
-    email             VARCHAR(150) NOT NULL UNIQUE,
-    phone             VARCHAR(20),
+    email             VARCHAR(150) UNIQUE,
+    phone             VARCHAR(20) NOT NULL UNIQUE,
     password_hash     VARCHAR(255),
     registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     type              VARCHAR(30), 
@@ -31,13 +32,22 @@ CREATE TABLE customer (
 
 -- TABLA VEHICLE: Vehículos registrados
 CREATE TABLE vehicle (
-    license_plate     VARCHAR(15) PRIMARY KEY,
-    brand             VARCHAR(50) NOT NULL,
-    model             VARCHAR(50) NOT NULL,
-    color             VARCHAR(30) NOT NULL, 
-    type              VARCHAR(30) NOT NULL, 
-    registration_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    id_customer       INT NOT NULL -- FK
+    id_vehicle         SERIAL PRIMARY KEY,
+    license_plate      VARCHAR(15) NOT NULL UNIQUE,
+    brand              VARCHAR(50) NOT NULL,
+    model              VARCHAR(50) NOT NULL,
+    color              VARCHAR(30) NOT NULL, 
+    type               VARCHAR(30) NOT NULL, 
+    registration_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- TABLA CUSTOMER_VEHICLE: Relación Muchos a Muchos (Clientes <-> Vehículos)
+CREATE TABLE customer_vehicle (
+    id_customer     INT NOT NULL,
+    id_vehicle      INT NOT NULL,
+    linked_at       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_customer, id_vehicle)
 );
 
 
@@ -76,12 +86,13 @@ CREATE TABLE reservation (
     reservation_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     entry_date        TIMESTAMP NOT NULL,
     exit_date         TIMESTAMP,
-    status            VARCHAR(30) NOT NULL DEFAULT 'PENDIENTE', -- Simplificado
+    status            VARCHAR(30) NOT NULL DEFAULT 'PENDIENTE',
     total_price       NUMERIC(10,2) NOT NULL,
-    is_paid          BOOLEAN NOT NULL DEFAULT FALSE,
+    is_paid           BOOLEAN NOT NULL DEFAULT FALSE,
     payment_method    VARCHAR(30),
     notes             TEXT,
-    license_plate     VARCHAR(15) NOT NULL, -- FK
+    id_customer       INT NOT NULL, -- FK
+    id_vehicle        INT NOT NULL, -- FK
     id_main_service   INT NOT NULL, -- FK
     cod_parking_spot  VARCHAR(20)  -- FK
 );
@@ -117,16 +128,16 @@ CREATE TABLE reservation_additional_service (
 
 -- TABLA VEHICLE_COEFFICIENT: tabla maestra para tipos de vehículos y su multiplicador de precio según el tipo de vehículo
 CREATE TABLE vehicle_coefficient (
-    vehicle_type VARCHAR(30) PRIMARY KEY,
-    multiplier NUMERIC(4,2) NOT NULL DEFAULT 1.00
+    vehicle_type    VARCHAR(30) PRIMARY KEY,
+    multiplier      NUMERIC(4,2) NOT NULL DEFAULT 1.00
 );
 
 -- TABLA SERVICE_RATE: tabla que controla los diferentes tipos de tarifas por tramos de días y servicios
 CREATE TABLE service_rate (
-    id_rate SERIAL PRIMARY KEY,
-    min_days INT NOT NULL,
-    max_days INT NOT NULL,
-    daily_price NUMERIC(8,2) NOT NULL,
+    id_rate         SERIAL PRIMARY KEY,
+    min_days        INT NOT NULL,
+    max_days        INT NOT NULL,
+    daily_price     NUMERIC(8,2) NOT NULL,
     id_main_service INT NOT NULL -- FK
 );
 
@@ -143,11 +154,11 @@ CREATE TABLE contract_plan (
 
 -- TABLA CONTRACT: controla las subscripciones o contratos activos de los clientes
 CREATE TABLE contract (
-    id_contract SERIAL PRIMARY KEY,
-    start_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    end_date TIMESTAMP NOT NULL,
-    is_active BOOLEAN NOT NULL DEFAULT TRUE,
-    id_customer INT NOT NULL, -- FK
-    license_plate VARCHAR(15) NOT NULL, -- FK el contrato pertenece a un coche específico
-    id_plan INT NOT NULL -- FK 
+    id_contract     SERIAL PRIMARY KEY,
+    start_date      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    end_date        TIMESTAMP NOT NULL,
+    is_active       BOOLEAN NOT NULL DEFAULT TRUE,
+    id_customer     INT NOT NULL, -- FK quien firma el contrato
+    id_vehicle      INT NOT NULL, -- FK el contrato pertenece a un coche específico
+    id_plan         INT NOT NULL -- FK 
 );

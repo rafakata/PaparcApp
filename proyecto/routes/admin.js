@@ -12,10 +12,8 @@ router.use(isAdmin); // usar el middleware para proteger todas las rutas de este
 /* GET dashboard page */
 router.get('/dashboard', adminController.getDashboard);
 
-/* GET booking page (dentro del panel dashboard) LIMPIAR RUTA MAS ADELANTE CUANDO TOQUE*/
-router.get('/dashboard/dashboard_booking', function(req, res) {
-  res.render('dashboard_booking', { title: 'Nueva Reserva' });
-});
+/* GET booking page (formulario para crear nueva reserva desde el dashboard) */
+router.get('/dashboard/dashboard_booking', adminController.getNewReservationForm);
 
 /* GET parking real-time page MIRAR MAS ADELANTE ESTA FUNCIONALIDAD*/
 router.get('/dashboard/parking', adminController.getParking);

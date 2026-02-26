@@ -19,6 +19,14 @@ const adminController = {
         res.render('dashboard_parking', { title: 'Parking en Tiempo Real' });
     },
 
+    /**
+     * Busca la información de una reserva específica por su ID y la muestra en una página de detalles.
+     * + trae también la información de los tipos de vehículos, servicios principales y servicios adicionales 
+     * para mostrarla en la página de detalles de la reserva.
+     * @param {*} req 
+     * @param {*} res 
+     * @returns renderiza la página de detalles de la reserva o redirige al dashboard si no se encuentra la reserva
+    */
     getReservationInfo: async (req, res) => {
 
         try {
@@ -156,6 +164,40 @@ const adminController = {
         } catch (error) {
             console.error('Error al obtener el historial:', error);
             res.status(500).send('Error al cargar el historial de reservas');
+        }
+
+    },
+
+    /**
+     * Renderiza el formulario para crear una nueva reserva desde el dashboard de administración.
+     * Trae la información de los tipos de vehículos, servicios principales y servicios adicionales 
+     * para mostrarla en el formulario.
+     * @param {*} req 
+     * @param {*} res 
+    */
+    getNewReservationForm: async (req, res) => {
+
+        try {
+
+            const [vehicleTypes, mainServices, additionalServices] = await Promise.all([
+                serviceCatalogDAO.getVehicleTypes(),
+                serviceCatalogDAO.getMainServices(),
+                serviceCatalogDAO.getAllAdditionalServices()
+            ]);
+
+            res.render('dashboard_booking', {
+                title: 'Nueva Reserva',
+                user: req.session.user,
+                vehicleTypes,
+                mainServices,
+                additionalServices
+            })
+
+        } catch (error) {
+
+            console.error('Error al cargar el formulario de nueva reserva:', error);
+            res.status(500).send('Error al cargar el formulario de nueva reserva');
+
         }
 
     }

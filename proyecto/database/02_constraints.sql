@@ -5,20 +5,20 @@
 ---
 --- DEFINICIÓN DE RESTRICCIONES (CONSTRAINTS) - PROYECTO PARKING
 ---
-
--- RELACIÓN: VEHICLE -> CUSTOMER
-ALTER TABLE vehicle
-    ADD CONSTRAINT fk_vehicle_customer
-    FOREIGN KEY (id_customer)
-    REFERENCES customer(id_customer)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
-
+    
 -- RELACIÓN: RESERVATION -> VEHICLE
 ALTER TABLE reservation
     ADD CONSTRAINT fk_reservation_vehicle
-    FOREIGN KEY (license_plate)
-    REFERENCES vehicle(license_plate)
+    FOREIGN KEY (id_vehicle)
+    REFERENCES vehicle(id_vehicle)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
+-- RELACIÓN: RESERVATION -> CUSTOMER
+ALTER TABLE reservation
+    ADD CONSTRAINT fk_reservation_customer
+    FOREIGN KEY (id_customer)
+    REFERENCES customer(id_customer)
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
 
@@ -98,8 +98,8 @@ ALTER TABLE contract
 -- RELACION CONTRACT -> VEHICLE
 ALTER TABLE contract
     ADD CONSTRAINT fk_contract_vehicle
-    FOREIGN KEY (license_plate)
-    REFERENCES vehicle(license_plate)
+    FOREIGN KEY (id_vehicle)
+    REFERENCES vehicle(id_vehicle)
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
 
@@ -109,6 +109,22 @@ ALTER TABLE contract
     FOREIGN KEY (id_plan)
     REFERENCES contract_plan(id_plan)
     ON DELETE RESTRICT
+    ON UPDATE CASCADE;
+
+-- RELACION CUSTOMER_VEHICLE -> CUSTOMER
+ALTER TABLE customer_vehicle
+    ADD CONSTRAINT fk_cv_customer
+    FOREIGN KEY (id_customer)
+    REFERENCES customer(id_customer)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+-- RELACION CUSTOMER_VEHICLE -> VEHICLE
+ALTER TABLE customer_vehicle
+    ADD CONSTRAINT fk_cv_vehicle
+    FOREIGN KEY (id_vehicle)
+    REFERENCES vehicle(id_vehicle)
+    ON DELETE CASCADE
     ON UPDATE CASCADE;
 
 -- CONSTRAINTS ADICIONALES
@@ -159,12 +175,12 @@ ALTER TABLE reservation
 -- VALIDACION DE MAIL BASICO: Asegura que el formato del correo electrónico sea válido
 ALTER TABLE customer
     ADD CONSTRAINT chk_customer_email_format
-    CHECK (email LIKE '%_@__%.__%');
+    CHECK (email IS NULL OR email LIKE '%_@__%.__%');
 
 -- VALIDACION DE TELEFONO BASICO: Asegura que  tenga un minimo de dígitos si se proporciona
 ALTER TABLE customer
     ADD CONSTRAINT chk_customer_phone_format
-    CHECK (LENGTH(phone) >= 7 OR phone IS NULL);
+    CHECK (LENGTH(phone) >= 7);
 
 -- VALIDACION DE PRECIO EN SERVICIOS ADICIONALES: Asegura que el precio sea positivo
 ALTER TABLE additional_service

@@ -282,6 +282,7 @@ class ReservationDAO {
 
 
     }
+    
     /**
      * Obtiene el historial completo de reservas con paginación y filtros opcionales.
      * @param {Object} filters - Filtros opcionales: status, search (nombre/matrícula), dateFrom, dateTo

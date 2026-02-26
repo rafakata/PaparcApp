@@ -16,16 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const additonalServicesCheckboxes = document.querySelectorAll('.calc_extra_service');
     const dynamicPriceDisplay = document.querySelector('#dynamic_total_price');
     const spiner = document.querySelector('#recalculating_indicator');
-    const btnSave = document.querySelector('#btn_save_changes');
+    const btnSave = document.querySelector('.btn-submit-dynamic');
 
     async function updatePrice() {
 
-        if (!entryDateInput.value || !exitDateInput.value) return;
+        // validamos que existan todos los datos minimos el calculo. (fecha de entrada y salida + mainservice)
+        if (!entryDateInput.value || !exitDateInput.value || !mainServiceSelect.value) {
+            dynamicPriceDisplay.textContent = '0.00';
+            return;
+        }
 
+        // bloqueamos la interfaz mientras se realiza el cálculo
         spiner.style.display = 'inline';
         btnSave.disabled = true;
         dynamicPriceDisplay.style.opacity = '0.5';
 
+        // recorremos los checkboxes de servicios adicionales para ver cuales están seleccionados y los añadimos a un array que enviaremos al servidor
         const selectedAdditionalServices = Array.from(document.querySelectorAll('.calc_extra_service:checked'))
                                             .map(checkbox => parseInt(checkbox.value));
 
