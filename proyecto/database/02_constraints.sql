@@ -180,7 +180,7 @@ ALTER TABLE customer
 -- VALIDACION DE TELEFONO BASICO: Asegura que  tenga un minimo de dígitos si se proporciona
 ALTER TABLE customer
     ADD CONSTRAINT chk_customer_phone_format
-    CHECK (LENGTH(phone) >= 7);
+    CHECK (LENGTH(phone) >= 7 OR phone IS NULL);
 
 -- VALIDACION DE PRECIO EN SERVICIOS ADICIONALES: Asegura que el precio sea positivo
 ALTER TABLE additional_service

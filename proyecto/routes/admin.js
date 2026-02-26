@@ -27,4 +27,7 @@ router.get('/history', adminController.getHistory);
 /* POST /reservations/:id/edit */
 router.post('/reservations/:id/edit', adminController.updateReservation);
 
+/* POST /reservations/new */
+router.post('/reservations/new', adminController.createNewReservation);
+
 module.exports = router;         

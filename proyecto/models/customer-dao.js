@@ -107,6 +107,68 @@ class CustomerDAO {
         }
     }
 
+    /**
+     * Obtiene un cliente por su teléfono, útil para el proceso de reserva sin registro, donde el cliente solo proporciona su teléfono y nombre.
+     * @param {string} phone - teléfono del cliente a buscar
+     * @returns - devuelve el usuario encontrado
+     * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
+    */
+    async getCustomerByPhone(phone) {
+
+        const sql = 'SELECT * FROM customer WHERE phone = $1';
+
+        try {
+
+            const result = await db.query(sql, [phone]);
+            return result.rows[0] || null; //devolvemos el usuario encontrado o null si no existe
+
+        } catch (error) {
+
+            console.error('Error al obtener el usuario por teléfono:', error);
+            throw new Error('Error al obtener el usuario por teléfono', { cause: error });
+        }
+
+    }
+
+    /**
+     * Crea un cliente invitado (sin registro) a partir de sus datos.
+     * @param {object} userData 
+     * @returns - ID del cliente invitado creado
+     * @throws {Error} - Si ocurre un error durante la inserción en la base de datos, como por ejemplo si el teléfono ya esta registrado, o si el email proporcionado ya esta registrado (en este caso el email es opcional, pero si se proporciona debe ser unico)
+     * NOTA: El email es opcional para los clientes invitados, pero si se proporciona debe ser unico, para evitar conflictos con usuarios registrados. Si el email no se proporciona, se insertará como null, lo que permite que varios clientes invitados compartan el mismo email null sin violar la restricción UNIQUE.
+    */
+    async createGuestCustomer(userData) {
+
+        const sql = `
+            INSERT INTO customer (full_name,email,phone,type)
+            VALUES ($1, $2, $3, 'NO-REGISTRADO')
+            RETURNING id_customer 
+        `;
+
+        try {
+
+            const values = [
+                userData.full_name,
+                userData.email || null, //si el email no se proporciona, insertamos null para evitar violar la restriccion UNIQUE
+                userData.phone
+            ]
+
+            const result = await db.query(sql, values);
+
+            return result.rows[0].id_customer; //devolvemos el id del nuevo usuario invitado creado
+
+        } catch (error) {
+
+            if (error.code === '23505') { //23505 es el codigo de error de violacion de restriccion UNIQUE en Postgres
+                throw new Error('El email ya está registrado.');
+            }
+            console.error('Error al crear el nuevo cliente invitado:', error);
+            throw new Error('Error al crear el nuevo cliente invitado', { cause: error });
+
+        }
+
+    }
+
 }
 
 // Exportamos una instancia unica de CustomerDAO (Patron Singleton)
