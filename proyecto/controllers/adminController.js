@@ -221,6 +221,24 @@ const adminController = {
                 entry_date, exit_date, id_main_service, additional_services
             } = req.body;
 
+            // VALIDACIONES LOGICA DE NEGOCIO
+            //Telefono y matricula no pueden estar vacíos
+            if  (!phone || phone.trim() === '') {
+                return res.status(400).json({ success: false, message: 'El teléfono es obligatorio' });
+            }
+
+            if (!license_plate || license_plate.trim() === '') {
+                return res.status(400).json({ success: false, message: 'La matrícula es obligatoria' });
+            }
+
+            //validamos que la fecha de entrada sea anterior a la fecha de salida
+            const entryDate = new Date(entry_date);
+            const exitDate = exit_date ? new Date(exit_date) : null; // exit_date puede ser null si el cliente no lo ha proporcionado
+            if (exitDate && entryDate >= exitDate) {
+                return res.status(400).json({ success: false, message: 'La fecha de entrada debe ser anterior a la fecha de salida' });
+            }   
+
+            // PREPARAMOS LOS DATOS
             let arrayAdditionalServices = [];
             if (additional_services) {
                 if (Array.isArray(additional_services)) { // si es un array, lo mapeamos a enteros
@@ -230,13 +248,6 @@ const adminController = {
                 }
             }
 
-            //validamos que la fecha de entrada sea anterior a la fecha de salida
-            const entryDate = new Date(entry_date);
-            const exitDate = exit_date ? new Date(exit_date) : null; // exit_date puede ser null si el cliente no lo ha proporcionado
-            if (exitDate && entryDate >= exitDate) {
-                return res.status(400).send('La fecha de entrada debe ser anterior a la fecha de salida');
-            }   
-            
             // calculamos el precio total de la reserva
             const totalPrice = pricingService.calculateTotalPrice(
                 entry_date,
@@ -246,43 +257,36 @@ const adminController = {
                 arrayAdditionalServices
             );
 
-            // buscamos si el cliente existe por su teléfono
-            let customerId;
-            const existCustomer = await customerDAO.getCustomerByPhone(phone);
-
-            if (existCustomer) { // si el cliente ya existe, usamos su id para la reserva
-                customerId = existCustomer.id_customer;
-            } else { // si el cliente no existe, lo creamos y usamos el id generado para la reserva
-                customerId = await customerDAO.createGuestCustomer({ full_name, email, phone });
+            // PREPARAMOS EL PAQUETE DE DATOS PARA LA INSERCIÓN
+            const customerData = {
+                full_name,
+                phone,
+                email
             }
 
-            // buscamos si el coche existe por su matrícula
-            let vehicleId;
-            const existVehicle = await vehicleDAO.getVehicleByLicensePlate(license_plate);
-
-            if (existVehicle) { // si el coche ya existe, usamos su id para la reserva
-                vehicleId = existVehicle.id_vehicle;
-            } else { // si el coche no existe, lo creamos y usamos el id generado para la reserva
-                vehicleId = await vehicleDAO.createVehicle({ license_plate, brand, model, color, type: vehicle_type });
-            }
-
-            // enlazamos el cliente con el coche en la tabla intermedia customer_vehicle
-            await vehicleDAO.linkCustomerAndVehicle(customerId, vehicleId);
-
-            // preparamos el paquete de datos para crear la reserva
-            const reservationData = {
-                entry_date,
-                exit_date : exit_date || null, // si no se proporcionó fecha de salida, la dejamos como null
-                total_price : totalPrice,
-                id_customer : customerId,
-                id_vehicle : vehicleId,
-                id_main_service : parseInt(id_main_service),
-                additional_services : arrayAdditionalServices
+            const vehicleData = {
+                license_plate: license_plate.toUpperCase(),
+                brand,
+                model,
+                color,
+                vehicle_type
             };
 
-            const newReservationId = await reservationDAO.createReservationTransaction(reservationData);
+            const reservationData = {
+                entry_date,
+                exit_date : exit_date || null, // si no se proporciona fecha de salida, se guarda como null
+                id_main_service: parseInt(id_main_service),
+                total_price: totalPrice,
+                additional_services: arrayAdditionalServices
+            }
 
-            // redirigimos a la página de detalles de la nueva reserva con un mensaje de éxito
+            const newReservationId = await reservationDAO.createReservationTransaction(
+                customerData,
+                vehicleData,
+                reservationData
+            );
+
+            // respondemos con un mensaje de éxito y los datos de la nueva reserva para el sweetalert del frontend
             return res.status(201).json({
                 success: true,
                 message: 'Reserva guardada correctamente',
@@ -297,7 +301,7 @@ const adminController = {
 
         } catch (error) {
             console.error(error);
-            res.status(500).send('Error al crear la reserva');
+            res.status(500).json({ success: false, message: 'Error en el servidor, revisa los datos proporcionados' });
         }
 
     }

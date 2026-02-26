@@ -284,44 +284,102 @@ class ReservationDAO {
     }
 
     /**
-     * Crea una nueva reserva y sus servicios adicionales asociados usando una transacción.
-     * @param {Object} reservationData - Objeto con todos los datos necesarios para la reserva.
-     * @returns {number} - El ID de la reserva recién creada.
-    */
-    async createReservationTransaction(reservationData) {
+     * Crea CLIENTE, VEHÍCULO y RESERVA en una sola operación atómica.
+     * Si algo falla en cualquier punto, se hace ROLLBACK y no se guarda nada.
+     * * @param {Object} customerData - { phone, full_name, email }
+     * @param {Object} vehicleData - { license_plate, brand, model, color, vehicle_type }
+     * @param {Object} reservationData - { entry_date, exit_date, total_price, id_main_service, additional_services }
+     * @returns {number} - El ID de la nueva reserva
+     * @throws - Error si ocurre algún problema durante el proceso
+     */
+    async createReservationTransaction (customerData, vehicleData, reservationData) {
 
         const client = await db.connect();
 
         try {
 
             await client.query('BEGIN');
+            
+            //gestion del cliente
+            let customerId;
+            let sql = `SELECT id_customer FROM customer WHERE phone = $1`;
+            let result = await client.query(sql, [customerData.phone]);
 
-            const insertReservationSql = `INSERT INTO reservation (
-                                            entry_date, exit_date, status, total_price, is_paid, payment_method,
-                                            notes, id_customer, id_vehicle, id_main_service, cod_parking_spot
-                                        ) VALUES (
-                                            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-                                        ) RETURNING id_reservation;
+            if (result.rows.length > 0) {
+
+                customerId = result.rows[0].id_customer; // cliente ya existe, obtenemos su ID
+
+            } else {
+
+                sql = `INSERT INTO customer (full_name, email, phone)
+                        VALUES ($1, $2, $3) RETURNING id_customer
+                `;
+
+                result = await client.query(sql, [
+                    customerData.full_name, 
+                    customerData.email || null, // email es opcional, si no se proporciona se guarda como null
+                    customerData.phone
+                ]);
+
+                customerId = result.rows[0].id_customer; // nuevo cliente creado, obtenemos su ID
+            }
+
+            // gestión del vehiculo
+            let vehicleId;
+            sql = `SELECT id_vehicle FROM vehicle WHERE license_plate = $1`;
+            result = await client.query(sql, [vehicleData.license_plate]);
+
+            if (result.rows.length > 0) {
+
+                vehicleId = result.rows[0].id_vehicle; // vehículo ya existe, obtenemos su ID
+
+            } else {
+
+                sql = `INSERT INTO vehicle (license_plate, brand, model, color, type)
+                        VALUES ($1, $2, $3, $4, $5) RETURNING id_vehicle
+                `;
+
+                result = await client.query( sql, [
+                    vehicleData.license_plate,
+                    vehicleData.brand || 'Desconocida',
+                    vehicleData.model || 'Desconocido',
+                    vehicleData.color || 'No color',
+                    vehicleData.vehicle_type
+                ]);
+
+                vehicleId = result.rows[0].id_vehicle; // nuevo vehículo creado, obtenemos su ID
+            }
+
+            // enlace cliente y coche
+            sql = `INSERT INTO customer_vehicle (id_customer, id_vehicle) 
+                    VALUES ($1, $2) ON CONFLICT DO NOTHING
+            `;
+            
+            await client.query(sql, [customerId, vehicleId]);
+
+            //Crear la reserva
+            sql = ` INSERT INTO reservation (
+                    entry_date, exit_date, status, total_price,
+                    id_customer, id_vehicle, id_main_service
+                    ) VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                    RETURNING id_reservation
             `;
 
-            const reservationValues = [
+            const resValues = [
                 reservationData.entry_date,
-                reservationData.exit_date,
-                reservationData.status || 'PENDIENTE',
+                reservationData.exit_date || null,
+                'PENDIENTE', // nueva reserva siempre empieza con estado PENDIENTE
                 reservationData.total_price,
-                reservationData.is_paid || false,
-                reservationData.payment_method || null,
-                reservationData.notes || null,
-                reservationData.id_customer,
-                reservationData.id_vehicle,
-                reservationData.id_main_service,
-                reservationData.cod_parking_spot || null
+                customerId,
+                vehicleId,
+                reservationData.id_main_service
             ];
 
-            const result = await client.query(insertReservationSql, reservationValues);
+            result = await client.query(sql, resValues);
             const newReservationId = result.rows[0].id_reservation;
 
-            if ( reservationData.additional_services && reservationData.additional_services.length > 0) {
+            // añadir servicios adicionales
+            if (reservationData.additional_services && reservationData.additional_services.length > 0) {
 
                 const insertAdditionalServiceSql = `INSERT INTO reservation_additional_service (
                                                         id_reservation, id_additional_service
@@ -329,7 +387,6 @@ class ReservationDAO {
                                                         $1, $2
                                                     )
                 `;
-
 
                 for (const id_additional_service of reservationData.additional_services) {
                     await client.query(insertAdditionalServiceSql, [newReservationId, id_additional_service]);
@@ -342,15 +399,13 @@ class ReservationDAO {
         } catch (error) {
 
             await client.query('ROLLBACK');
-            console.error('Error al crear la nueva reserva:', error);
+            console.error('Error al crear la reserva con transacción:', error);
             throw new Error('Error al crear la reserva en la BD', { cause: error });
 
         } finally {
 
-            client.release();
-
+            client.release();   
         }
-
     }
     
     /**
