@@ -43,21 +43,13 @@
         </div>
       </div>
     </header>
-    <div class="contenedor_redes">
-      <ul class="enlaces_redes">
-        <li class="whatsapp">
-          <a href="https://wa.me/34123456789" target="_blank">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span>WhatsApp</span>
-          </a>
-        </li>
-        <li class="instagram">
-          <a href="https://www.instagram.com/usuario" target="_blank">
-            <i class="fa-brands fa-instagram"></i>
-            <span>Instagram</span>
-          </a>
-        </li>
-      </ul>
+    <div class="redes-flotantes">
+      <a class="red-icon whatsapp" href="https://wa.me/34123456789" target="_blank" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      <a class="red-icon instagram" href="https://www.instagram.com/usuario" target="_blank" aria-label="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
     </div>
     <main id="contenedor_principal">
       <section id="contenedor1">
@@ -93,7 +85,7 @@
         <div class="camino">
           <div class="coche_contenedor">
             <img
-              src="/images/vecteezy_modern-car-on-transparent-background_42730731.png"
+              src="/images/iconocochepaparcapp.svg"
               alt="Coche"
               class="coche"
             />
@@ -210,13 +202,16 @@
       </section>
       <section id="contenedor4">
         <!-- SOBRE NOSOTROS -->
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          src="/images/the-sports-car-rushes-along-the-night-road-rear-view-infinitely-looped-animation-video.mp4"
-        ></video>
+        <div class="video-bg-wrapper">
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            src="/images/the-sports-car-rushes-along-the-night-road-rear-view-infinitely-looped-animation-video.mp4"
+          ></video>
+          <div class="video-tint-overlay"></div>
+        </div>
 
         <div class="ubicacion">
           <div class="info_ubicacion">
