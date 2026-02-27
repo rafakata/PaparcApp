@@ -15,10 +15,6 @@
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
-/* NAVBAR fondo color primario */
-.navbar.bg-gradient-primary {
-  background: var(--color-primary) !important;
-}
 
 /* Card-header Entradas (Entries) verde */
 .card-header.bg-gradient-primary.text-white {
@@ -63,63 +59,7 @@ main {
   flex: 1;
 }
 
-/* ====== Navbar ====== */
-.bg-gradient-primary { background: var(--gradient-primary) !important; }
-.bg-gradient-secondary { background: var(--gradient-secondary) !important; }
-.bg-gradient-success { background: var(--gradient-success) !important; }
-.bg-gradient-warning { background: linear-gradient(135deg, #ffd200 0%, #f7971e 100%) !important; }
-.bg-gradient-info { background: var(--gradient-info) !important; }
 
-.navbar {
-  padding: 0.8rem 0;
-}
-
-.brand-text {
-  font-family: 'Zen Dots', cursive;
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-}
-
-.avatar-circle {
-  width: 38px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-.avatar-circle:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: scale(1.05);
-}
-
-.nav-link {
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.dropdown-menu {
-  border-radius: 12px;
-  padding: 0.5rem;
-}
-
-.dropdown-item {
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  transition: all 0.2s ease;
-}
-
-.dropdown-item:hover {
-  transform: translateX(5px);
-}
 
 /* ====== Page / Welcome Header ====== */
 .page-header,
@@ -270,21 +210,6 @@ main {
 }
 
 /* ====== Responsive Base ====== */
-@media (max-width: 768px) {
-  .navbar .d-flex.align-items-center {
-    margin-left: auto;
-    justify-content: flex-end;
-    width: auto;
-  }
-
-  .navbar .navbar-brand {
-    margin-right: auto;
-  }
-
-  .brand-text {
-    font-size: 1.2rem;
-  }
-
   .page-header h1,
   .welcome-header h1 {
     font-size: 1.3rem !important;
@@ -303,4 +228,4 @@ main {
   .table {
     font-size: 0.82rem;
   }
-}
+
