@@ -131,7 +131,7 @@ class ReservationDAO {
 
     /**
      * Obtiene todas las plazas de parking con su estado actual.
-     * Para cada plaza, busca si tiene una reserva activa (EN CURSO, CONFIRMADA o PENDIENTE)
+        * Para cada plaza, busca si tiene una reserva activa (EN CURSO, CONFIRMADA o PENDIENTE)
      * y devuelve la información del cliente y vehículo asociado.
      * @returns {Object} - Objeto con stats y array de plazas
      */
@@ -204,13 +204,36 @@ class ReservationDAO {
 
             await client.query('BEGIN'); // iniciamos la transaccion
 
+            let sql;
+            sql = `SELECT cod_parking_spot FROM reservation WHERE id_reservation = $1`;
+            const checkResult = await client.query(sql, [id_reservation]);
+            const oldSpot = checkResult.rows[0].cod_parking_spot;
+            const newSpot = updateData.cod_parking_spot || null; // La que viene del formulario
+
+            //Si la plaza ha cambiado, actualizamos la disponibildad en la tabla parking_spot
+            if (oldSpot !== newSpot) {
+
+                // Liberamos la plaza vieja (si tenía una)
+                if (oldSpot) {
+                    sql = `UPDATE parking_spot SET is_available = true WHERE cod_parking_spot = $1`;
+                    await client.query(sql, [oldSpot]);
+                }
+
+                // Ocupamos la plaza nueva (si ha seleccionado una)
+                if (newSpot) {
+                    sql = `UPDATE parking_spot SET is_available = false WHERE cod_parking_spot = $1`;
+                    await client.query(sql, [newSpot]);
+                }
+            }
+
             // actualizamos primero los datos de la reserva
             const updateReservationSql = `UPDATE reservation
                                             SET entry_date = $1,
                                                 exit_date = $2,
                                                 id_main_service = $3,
-                                                total_price = $4
-                                            WHERE id_reservation = $5
+                                                total_price = $4,
+                                                cod_parking_spot = $5
+                                            WHERE id_reservation = $6
                                             RETURNING id_vehicle;
             `;
 
@@ -220,6 +243,7 @@ class ReservationDAO {
                 updateData.exit_date,
                 updateData.id_main_service,
                 updateData.total_price,
+                newSpot,
                 id_reservation
             ];
 
@@ -511,6 +535,27 @@ class ReservationDAO {
             console.error(`Error al cancelar la reserva ${id_reservation}:`, error);
             throw new Error('Error al cancelar la reserva en la BD', { cause: error });
             
+        }
+    }
+
+    /**
+     * Obtiene una lista de todas las plazas de parking que están actualmente disponibles.
+     * @returns {Array} - Array de objetos con cod_parking_spot
+     */
+    async getAvailableParkingSpots() {
+
+        const sql = `SELECT cod_parking_spot FROM parking_spot WHERE is_available = true ORDER BY cod_parking_spot ASC`;
+
+        try {
+
+            const result = await db.query(sql);
+            return result.rows;
+
+        } catch (error) {
+
+            console.error('Error al obtener plazas disponibles:', error);
+            throw new Error('Error al consultar plazas libres', { cause: error });
+
         }
     }
 
