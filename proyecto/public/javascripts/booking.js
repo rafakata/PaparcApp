@@ -3,23 +3,29 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
 
+    const bookingForm = document.querySelector('#createReservationForm');
+    const btnSubmit = document.querySelector('#btn_confirm_booking');
+
+    // Elementos del formulario
+    const nameInput = document.querySelector('#full_name');
+    const plateInput = document.querySelector('#license_plate');
+    const phoneInput = document.querySelector('#phone');
+    const entryInput = document.querySelector('#calc_entry_date');
+    const exitInput = document.querySelector('#calc_exit_date');
+    const mainServiceInput = document.querySelector('#calc_main_service');
+
+    // Elementos del resumen
+    const sumName = document.querySelector('#sum-nombre');
+    const sumPlate = document.querySelector('#sum-matricula');
+    const sumEntry = document.querySelector('#sum-entrada');
+    const sumExit = document.querySelector('#sum-salida');
+
     // --- 1. LÓGICA DEL RESUMEN EN VIVO ---
     const updateSummary = () => {
-        // Elementos del formulario
-        const nameInput = document.querySelector('#full_name');
-        const plateInput = document.querySelector('#license_plate');
-        const entryInput = document.querySelector('#calc_entry_date');
-        const exitInput = document.querySelector('#calc_exit_date');
-
-        // Elementos del resumen
-        const sumName = document.querySelector('#sum-nombre');
-        const sumPlate = document.querySelector('#sum-matricula');
-        const sumEntry = document.querySelector('#sum-entrada');
-        const sumExit = document.querySelector('#sum-salida');
 
         // Actualizamos texto (si el input está vacío, ponemos un guión '-')
         if (nameInput && sumName) sumName.textContent = nameInput.value || '-';
-        if (plateInput && sumPlate) sumPlate.textContent = plateInput.value || '-';
+        if (plateInput && sumPlate) sumPlate.textContent = plateInput.value.toUpperCase() || '-';
         
         // Formateador de fechas
         const formatDateTime = (val) => {
@@ -46,6 +52,125 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.target.closest('.extra-checkbox-card').classList.toggle('checked', event.target.checked);
             }
         });
+    }
+
+    // --- 3. FUNCIÓN PARA MOSTRAR ERRORES VISUALES SILENCIOSOS ---
+    // Esta función añade la clase 'is-invalid' al input para mostrar el borde rojo, y se la quita automáticamente cuando el usuario vuelve a escribir o cambiar el valor
+    const mostrarError = (input) => {
+        input.classList.add('is-invalid');
+        // Quitamos la clase roja en cuanto el usuario vuelve a escribir ahí
+        input.addEventListener('input', () => input.classList.remove('is-invalid'), { once: true });
+        input.addEventListener('change', () => input.classList.remove('is-invalid'), { once: true });
+    }
+
+    // --- 4 Interceptar el envío del formulario para mostrar un mensaje de confirmación ---
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid')); // Limpiamos errores anteriores
+
+            //validaciones visuales de los campos minimos antes de enviar la solicitud
+            let errores = false;
+            if (!phoneInput || !phoneInput.value.trim()) { mostrarError(phoneInput); errores = true; }
+            if (!plateInput || !plateInput.value.trim()) { mostrarError(plateInput); errores = true; }
+            if (!entryInput || !entryInput.value) { mostrarError(entryInput); errores = true; }
+            if (!mainServiceInput || !mainServiceInput.value) { mostrarError(mainServiceInput); errores = true; }
+
+            // Validación lógica de fechas: la fecha de entrada debe ser anterior a la fecha de salida
+            if (exitInput && exitInput.value && entryInput.value) {
+                if (new Date(entryInput.value) >= new Date(exitInput.value)) {
+                    mostrarError(exitInput);
+                    errores = true;
+                }
+            }
+
+            if (errores) return; // Si hay errores, no enviamos la solicitud
+
+            // bloqueamos el botón y mostramos un spinner para indicar que se está procesando UX
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Procesando...';
+
+            const spinner = document.createElement('span');
+            spinner.className = 'spinner-border spinner-border-sm me-2';
+            btnSubmit.prepend(spinner);
+
+            // envio de datos con fetch
+            try {
+
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                data.additional_services = formData.getAll('additional_services'); // Para los checkboxes múltiples
+
+                const response = await fetch(this.action, {
+                    method: this.method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                
+                if (response.status === 201 && result.success) {
+
+                    Swal.fire({
+                        title : result.message || 'Reserva creada con éxito',
+                        icon : 'success',
+                        html : `
+                            <div class="text-start bg-light p-3 rounded mt-3 border">
+                                <p class="mb-2 fw-bold">Ticket ID: #${result.data.id_reservation}</p>
+                                <p class="mb-2"><b>Cliente:</b> ${result.data.customer_name}</p>
+                                <p class="mb-2"><b>Matrícula:</b> <span class="badge bg-secondary font-monospace fs-6">${result.data.license_plate}</span></p>
+                                <p class="mb-2"><b>Entrada:</b> ${result.data.entry_date}</p>
+                                <hr class="my-2">
+                                <p class="mb-0 fs-5 text-success"><b>Total:</b> ${result.data.total_price} €</p>
+                            </div>
+                        `,
+                        confirmButtonText: '<i class="bi bi-printer me-1"></i> ok',
+                        confirmButtonColor: '#198754',
+                        allowOutsideClick: false
+
+                    }) .then ((sweetResult) => {
+                        if (sweetResult.isConfirmed) {
+                            // Redirigimos a la página principal del dashboard
+                            window.location.href = '/admin/dashboard';
+                        }
+                    })
+
+                } else {
+
+                    Swal.fire({
+                        title: 'Atención',
+                        text: result.message || 'Error al procesar la reserva.',
+                        icon: 'warning',
+                        confirmButtonColor: '#f39c12'
+                    });
+
+                } 
+
+            } catch (error) {
+
+                console.error('Error en la solicitud:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Ocurrió un error al procesar la reserva. Por favor, inténtalo de nuevo.',
+                    icon: 'error',
+                    confirmButtonColor: '#e74c3c'
+                });
+
+            } finally {
+
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = 'Confirmar Reserva';
+
+                const icon = document.createElement('i');
+                icon.className = 'bi bi-check-circle-fill me-1';
+                btnSubmit.prepend(icon);
+                
+            }
+        })
     }
 
 });
