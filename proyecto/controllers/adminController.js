@@ -208,6 +208,7 @@ const adminController = {
      * POST /admin/reservations/new
      * Procesa el formulario del mostrador para crear una reserva nueva.
      * Orquesta la creación/búsqueda del cliente, del coche y la inserción final.
+     * 
      * @param {*} req 
      * @param {*} res 
     */
@@ -229,6 +230,13 @@ const adminController = {
 
             if (!license_plate || license_plate.trim() === '') {
                 return res.status(400).json({ success: false, message: 'La matrícula es obligatoria' });
+            }
+
+            // validamos que no hay incogruencias entre el tipo de vehiculo ya registrado con esa matricula y el tipo de vehiculo que se intenta registrar en la reserva
+            const existingVehicle = await vehicleDAO.getVehicleByLicensePlate(license_plate.toUpperCase());
+
+            if (existingVehicle && existingVehicle.type !== vehicle_type) {
+                return res.status(400).json({ success: false, message: `La matrícula ${license_plate.toUpperCase()} ya está registrada para un vehículo de tipo ${existingVehicle.type}. Por favor, corrige el tipo de vehículo o verifica la matrícula.` });
             }
 
             //validamos que la fecha de entrada sea anterior a la fecha de salida
@@ -304,8 +312,55 @@ const adminController = {
             res.status(500).json({ success: false, message: 'Error en el servidor, revisa los datos proporcionados' });
         }
 
-    }
+    },
 
+    /**
+     * PATCH /admin/reservations/:id/cancel
+     * Esta función se encarga de cancelar una reserva existente. 
+     * Realiza una eliminación lógica (soft delete) cambiando el estado de la reserva a "CANCELADA".
+     * Solo permite cancelar reservas que no hayan empezado o terminado.
+     * @param {*} req 
+     * @param {*} res 
+     * @returns JSON con el resultado de la operación
+     */
+    cancelReservation: async (req, res) => {
+
+        try {
+
+            const idReservation = parseInt(req.params.id);
+
+            // Buscamos la reserva actual para comprobar su estado
+            const currentReservation = await reservationDAO.getInfoReservationByIdReservation(idReservation);
+
+            if (!currentReservation) {
+                return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+            }
+
+            // Solo es cancelr si no ha empezado o terminado
+            const allowStatus = ['PENDIENTE', 'CONFIRMADA'];
+            if (!allowStatus.includes(currentReservation.status)) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `No se puede cancelar una reserva que está en estado '${currentReservation.status}'.` 
+                });
+            }
+
+            const isCancelled = await reservationDAO.cancelReservation(idReservation);
+
+            if (isCancelled) {
+                return res.status(200).json({ success: true, message: 'Reserva cancelada correctamente.' });
+            } else {
+                return res.status(500).json({ success: false, message: 'No se pudo actualizar la base de datos.' });
+            }
+
+        } catch (error) {
+
+            console.error('Error en el controlador cancelReservation:', error);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
+
+        }
+    }
+    
 }
 
 module.exports = adminController;
