@@ -3,6 +3,7 @@
    (Los estilos base están en dashboard-base.css)
    ============================================= */
 @import url("/stylesheets/dashboard-base.css");
+@import url("/stylesheets/root.css");
 
 .stat-card {
   background: white;
@@ -15,6 +16,7 @@
   transition: all 0.3s ease;
   overflow: hidden;
   position: relative;
+  z-index: 1;
 }
 
 .stat-card::before {
@@ -106,7 +108,7 @@
 }
 
 .ui-datepicker-header {
-  background: var(--gradient-primary) !important;
+  background: var(--color-secondary) !important;
   border: none !important;
   border-radius: 10px 10px 0 0 !important;
   padding: 0.8rem !important;
@@ -134,7 +136,7 @@
 }
 
 .ui-state-active {
-  background: var(--gradient-primary) !important;
+  background: var(--color-secondary) !important;
   color: white !important;
 }
 

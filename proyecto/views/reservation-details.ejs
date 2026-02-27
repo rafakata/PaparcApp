@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,67 +23,16 @@
         }
 
         const statusMap = {
-            'PENDIENTE': { class: 'badge-pendiente', icon: 'bi-hourglass-split' },
-            'CONFIRMADA': { class: 'badge-confirmada', icon: 'bi-check-circle' },
-            'EN_CURSO': { class: 'badge-en-curso', icon: 'bi-play-circle' },
-            'FINALIZADA': { class: 'badge-finalizada', icon: 'bi-check-all' },
-            'CANCELADA': { class: 'badge-cancelada', icon: 'bi-x-circle' }
+            'PENDIENTE': { class: 'badge-pendiente', icon: 'bi-hourglass-split', label: 'Pending' },
+            'CONFIRMADA': { class: 'badge-confirmada', icon: 'bi-check-circle', label: 'Confirmed' },
+            'EN_CURSO': { class: 'badge-en-curso', icon: 'bi-play-circle', label: 'In Progress' },
+            'FINALIZADA': { class: 'badge-finalizada', icon: 'bi-check-all', label: 'Finished' },
+            'CANCELADA': { class: 'badge-cancelada', icon: 'bi-x-circle', label: 'Cancelled' }
         };
         const currentStatus = statusMap[reservation.status] || statusMap['PENDIENTE'];
     %>
 
-    <!-- Navbar (same as dashboard) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary sticky-top shadow-lg">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand d-flex align-items-center" href="/admin/dashboard">
-                <i class="bi bi-p-circle-fill fs-3 me-2"></i>
-                <span class="brand-text">PaparcApp</span>
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="/admin/dashboard">
-                            <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="/admin/dashboard/dashboard_booking">
-                            <i class="bi bi-calendar-plus me-1"></i> Nueva Reserva
-                        </a>
-                    </li>
-                                <li class="nav-item">
-              <a class="nav-link px-3" href="/admin/history">
-                <i class="bi bi-clock-history me-1"></i> Historial
-              </a>
-            </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-3" href="/admin/dashboard/parking">
-                            <i class="bi bi-car-front me-2"></i>Parking en Tiempo Real
-                        </a>
-                    </li>
-                </ul>
-                <div class="d-flex align-items-center">
-                    <div class="dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" role="button" data-bs-toggle="dropdown">
-                            <div class="avatar-circle me-2">
-                                <i class="bi bi-person-fill"></i>
-                            </div>
-                            <span class="d-none d-md-inline"><%= user.nombre %></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
-                            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="/users/logout"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+ <%- include('partials/nav_dashboard', { activeNav: 'reservations', user: user }) %>
     <!-- Page Header -->
     <div class="page-header py-2 mb-2">
         <div class="container-fluid px-4">
@@ -92,7 +41,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-1" style="font-size: 0.82rem;">
                             <li class="breadcrumb-item"><a href="/admin/dashboard" class="text-decoration-none" style="color: #667eea;">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Reserva #<%= reservation.id_reservation %></li>
+                            <li class="breadcrumb-item active">Booking #<%= reservation.id_reservation %></li>
                         </ol>
                     </nav>
                     <h2 class="h5 fw-bold mb-0">
@@ -101,10 +50,10 @@
                 </div>
                 <div class="col-md-4 text-md-end mt-1 mt-md-0">
                     <span class="status-badge-pill <%= currentStatus.class %>">
-                        <i class="bi <%= currentStatus.icon %> me-1"></i><%= reservation.status %>
+                        <i class="bi <%= currentStatus.icon %> me-1"></i><%= currentStatus.label %>
                     </span>
                     <div class="text-muted mt-1" style="font-size: 0.8rem;">
-                        <i class="bi bi-calendar3 me-1"></i>Creada: <%= new Date(reservation.reservation_date).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }) %>
+                        <i class="bi bi-calendar3 me-1"></i>Created: <%= new Date(reservation.reservation_date).toLocaleString('en-GB', { dateStyle: 'short', timeStyle: 'short' }) %>
                     </div>
                 </div>
             </div>
@@ -122,21 +71,21 @@
                         <div class="col-md-6">
                             <div class="detail-card h-100 shadow-sm border-0">
                                 <div class="card-header bg-gradient-primary text-white py-2"> 
-                                    <i class="bi bi-person-vcard mb-0"></i> Información del Cliente
+                                    <i class="bi bi-person-vcard mb-0"></i> Customer Information
                                 </div>
                                 <div class="card-body p-3"> <div class="row g-2"> <div class="col-12">
-                                            <label class="form-label small text-muted mb-1" for="customer_name">Nombre Completo</label>
+                                            <label class="form-label small text-muted mb-1" for="customer_name">Full Name</label>
                                             <input type="text" class="form-control form-control-sm" id="customer_name" name="customer_name" value="<%= reservation.customer_name %>" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label class="form-label small text-muted mb-1" for="phone">Teléfono</label>
+                                            <label class="form-label small text-muted mb-1" for="phone">Phone</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone"></i></span>
                                                 <input type="tel" class="form-control border-start-0" id="phone" name="phone" value="<%= reservation.phone %>" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label class="form-label small text-muted mb-1" for="email">Correo</label>
+                                            <label class="form-label small text-muted mb-1" for="email">Email</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
                                                 <input type="email" class="form-control border-start-0" id="email" name="email" value="<%= reservation.email %>" required>
@@ -150,20 +99,20 @@
                         <div class="col-md-6">
                             <div class="detail-card h-100 shadow-sm border-0">
                                 <div class="card-header bg-gradient-secondary text-white py-2">
-                                    <i class="bi bi-car-front-fill"></i> Información del Vehículo
+                                    <i class="bi bi-car-front-fill"></i> Vehicle Information
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="row g-2">
                                         <div class="col-12">
-                                            <label class="form-label small text-muted mb-1" for="license_plate">Matrícula</label>
+                                            <label class="form-label small text-muted mb-1" for="license_plate">License Plate</label>
                                             <input type="text" class="form-control form-control-sm fw-bold" id="license_plate" name="license_plate" value="<%= reservation.license_plate %>" required>
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="brand">Marca</label>
+                                            <label class="form-label small text-muted mb-1" for="brand">Brand</label>
                                             <input type="text" class="form-control form-control-sm" id="brand" name="brand" value="<%= reservation.brand %>" required>
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="model">Modelo</label>
+                                            <label class="form-label small text-muted mb-1" for="model">Model</label>
                                             <input type="text" class="form-control form-control-sm" id="model" name="model" value="<%= reservation.model %>" required>
                                         </div>
                                         <div class="col-6">
@@ -171,7 +120,7 @@
                                             <input type="text" class="form-control form-control-sm" id="color" name="color" value="<%= reservation.color %>">
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="calc_vehicle_type">Tipo</label>
+                                            <label class="form-label small text-muted mb-1" for="calc_vehicle_type">Type</label>
                                             <select class="form-select form-select-sm" id="calc_vehicle_type" name="vehicle_type">
                                                 <% vehicleTypes.forEach(v => { %>
                                                     <option value="<%= v.type %>" <%= reservation.type === v.type ? 'selected' : '' %>><%= v.type %></option>
@@ -185,25 +134,25 @@
                     </div>
 
                     <div class="detail-card shadow-sm border-0">
-                        <div class="card-header text-white py-2" style="background: var(--gradient-success);">
-                            <i class="bi bi-calendar-range"></i> Estancia y Servicios
+                        <div class="card-header text-white py-2" style="background: #c566ea;">
+                            <i class="bi bi-calendar-range"></i> Stay and Services
                         </div>
                         <div class="card-body p-3">
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="form-label small text-muted mb-1" for="calc_entry_date">
-                                        <i class="bi bi-box-arrow-in-right text-success me-1"></i>Fecha de Entrada
+                                        <i class="bi bi-box-arrow-in-right text-success me-1"></i>Entry Date
                                     </label>
                                     <input type="datetime-local" class="form-control form-control-sm" id="calc_entry_date" name="entry_date" value="<%= formatForDateTimeLocal(reservation.entry_date) %>" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small text-muted mb-1" for="calc_exit_date">
-                                        <i class="bi bi-box-arrow-left text-danger me-1"></i>Fecha de Salida
+                                        <i class="bi bi-box-arrow-left text-danger me-1"></i>Exit Date
                                     </label>
                                     <input type="datetime-local" class="form-control form-control-sm" id="calc_exit_date" name="exit_date" value="<%= formatForDateTimeLocal(reservation.exit_date) %>" required>
                                 </div>
                                 <div class="col-12 mt-1">
-                                    <label class="form-label small text-muted mb-1" for="calc_main_service">Servicio Principal</label>
+                                    <label class="form-label small text-muted mb-1" for="calc_main_service">Main Service</label>
                                     <select class="form-select form-select-sm" id="calc_main_service" name="id_main_service">
                                         <% mainServices.forEach(ms => { %>
                                             <option value="<%= ms.id_main_service %>" <%= reservation.id_main_service === ms.id_main_service ? 'selected' : '' %>><%= ms.name %></option>
@@ -211,7 +160,7 @@
                                     </select>
                                 </div>
                                 <div class="col-12 mt-1">
-                                    <label class="form-label small text-muted mb-1">Servicios Adicionales (Extras)</label>
+                                    <label class="form-label small text-muted mb-1">Additional Services (Extras)</label>
                                     <div class="row g-2" id="additional_services_container">
                                         <% additionalServices.forEach(extra => { %>
                                             <% const isChecked = reservation.additional_services && reservation.additional_services.some(ras => ras.id_additional_service === extra.id_additional_service); %>
@@ -233,25 +182,25 @@
 
                     <div class="col-12 mt-2 border-top pt-2">
                         <label class="form-label small fw-bold text-dark mb-1" for="cod_parking_spot">
-                            <i class="bi bi-p-square-fill text-primary me-1"></i>Asignación de Plaza
+                            <i class="bi bi-p-square-fill text-primary me-1"></i>Parking Spot Assignment
                         </label>
                         <select class="form-select form-select-sm border-primary" id="cod_parking_spot" name="cod_parking_spot">
-                            <option value="">-- Sin plaza asignada --</option>
+                            <option value="">-- No spot assigned --</option>
                             
                             <% if (reservation.cod_parking_spot) { %>
                                 <option value="<%= reservation.cod_parking_spot %>" selected>
-                                    Plaza <%= reservation.cod_parking_spot %> (Actual)
+                                    Spot <%= reservation.cod_parking_spot %> (Current)
                                 </option>
                             <% } %>
                             
                             <% if (typeof availableSpots !== 'undefined' && availableSpots.length > 0) { %>
                                 <% availableSpots.forEach(spot => { %>
-                                    <option value="<%= spot.cod_parking_spot %>">Plaza <%= spot.cod_parking_spot %> (Libre)</option>
+                                    <option value="<%= spot.cod_parking_spot %>">Spot <%= spot.cod_parking_spot %> (Free)</option>
                                 <% }) %>
                             <% } %>
                         </select>
                         <div class="form-text" style="font-size: 0.7rem;">
-                            Al guardar cambios, la plaza seleccionada pasará a estado "Ocupada".
+                            When saving changes, the selected spot will be set to "Occupied".
                         </div>
                     </div>
 
@@ -262,19 +211,19 @@
                     
                     <div class="price-card p-3 shadow-sm border-0">
                         <div class="position-relative" style="z-index:1;">
-                            <h6 class="text-white-50 mb-1 small"><i class="bi bi-receipt me-1"></i> Total Calculado</h6>
+                            <h6 class="text-white-50 mb-1 small"><i class="bi bi-receipt me-1"></i> Total Calculated</h6>
                             <div class="d-flex align-items-baseline gap-1">
                                 <span class="price-amount fs-2 fw-bold" id="dynamic_total_price"><%= reservation.total_price %></span>
                                 <span class="price-currency fs-5">€</span>
                             </div>
                             <span id="recalculating_indicator" style="display:none; font-size: 0.8rem;">
-                                <i class="bi bi-arrow-repeat"></i> Recalculando...
+                                <i class="bi bi-arrow-repeat"></i> Recalculating...
                             </span>
                         </div>
                         
                         <div class="d-grid gap-2 mt-3 pt-3 border-top border-light border-opacity-25">
                             <button type="submit" id="btn_save_changes" class="btn btn-save-main btn-sm py-2 shadow-sm btn-submit-dynamic">
-                                <i class="bi bi-check-lg me-1"></i> Confirmar Cambios
+                                <i class="bi bi-check-lg me-1"></i> Confirm Changes
                             </button>
                             
                             <hr class="my-1 border-secondary border-opacity-25">
@@ -283,17 +232,17 @@
                                 <button type="button" id="btn_start_reservation" class="btn btn-success btn-sm py-2 shadow-sm" 
                                         data-id="<%= reservation.id_reservation %>" 
                                         data-photos="<%= reservation.photos ? reservation.photos.length : 0 %>">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i> Recepcionar Vehículo
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Receive Vehicle
                                 </button>
                                 
                                 <button type="button" id="btn_delete_reservation" class="btn btn-outline-danger btn-sm py-1 shadow-sm mt-2" data-id="<%= reservation.id_reservation %>">
-                                    <i class="bi bi-trash3-fill me-1"></i> Cancelar Reserva
+                                    <i class="bi bi-trash3-fill me-1"></i> Cancel Booking
                                 </button>
                             <% } %>
 
                             <% if (reservation.status === 'EN CURSO' || reservation.status === 'SALIDA CONFIRMADA') { %>
-                                <button type="button" id="btn_finalize_reservation" class="btn btn-primary btn-sm py-2 shadow-sm" data-id="<%= reservation.id_reservation %>">
-                                    <i class="bi bi-flag-fill me-1"></i> Finalizar y Dar Salida
+                                <button type="button" id="btn_finalize_reservation" class="btn btn-danger btn-sm py-2 shadow-sm" data-id="<%= reservation.id_reservation %>">
+                                    <i class="bi bi-flag-fill me-1"></i> Finalize and Check Out
                                 </button>
                             <% } %>
                         </div>
@@ -301,18 +250,18 @@
 
                     <div class="detail-card shadow-sm border-0">
                         <div class="card-header text-white py-2" style="background: var(--gradient-warning);">
-                            <i class="bi bi-camera"></i> Evidencias
+                            <i class="bi bi-camera"></i> Evidence
                         </div>
                         <div class="card-body p-3">
                             <% if (reservation.status === 'PENDIENTE' || reservation.status === 'ENTRADA CONFIRMADA') { %>
                                 <div class="upload-alert mb-2 p-2 rounded bg-light border-start border-warning border-4" style="font-size: 0.8rem;">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <span><i class="bi bi-exclamation-triangle text-warning me-1"></i> Mín. 5 fotos</span>
-                                        <strong class="text-dark"><%= reservation.photos ? reservation.photos.length : 0 %>/5 subidas</strong>
+                                        <span><i class="bi bi-exclamation-triangle text-warning me-1"></i> Min. 5 photos</span>
+                                        <strong class="text-dark"><%= reservation.photos ? reservation.photos.length : 0 %>/5 uploaded</strong>
                                     </div>
                                 </div>
                                 <form action="/admin/reservations/<%= reservation.id_reservation %>/photos" method="POST" class="upload-form d-flex mb-3 gap-1">
-                                    <input type="url" class="form-control form-control-sm" name="file_path" placeholder="URL de la foto..." required>
+                                    <input type="url" class="form-control form-control-sm" name="file_path" placeholder="Photo URL..." required>
                                     <button type="submit" class="btn btn-sm text-white" style="background: var(--gradient-primary);">
                                         <i class="bi bi-upload"></i>
                                     </button>
@@ -324,15 +273,15 @@
                                     <% reservation.photos.forEach((photo, index) => { %>
                                         <div class="col-12">
                                             <div class="photo-evidence-card p-2 border rounded bg-light d-flex justify-content-between align-items-center">
-                                                <a href="<%= photo.file_path %>" target="_blank" class="text-truncate text-decoration-none" style="max-width: 150px; font-size: 0.85rem;"><i class="bi bi-image text-primary me-1"></i> Foto <%= index + 1 %></a>
-                                                <span class="photo-date text-muted" style="font-size: 0.75rem;"><%= new Date(photo.taken_at).toLocaleDateString('es-ES') %></span>
+                                                <a href="<%= photo.file_path %>" target="_blank" class="text-truncate text-decoration-none" style="max-width: 150px; font-size: 0.85rem;"><i class="bi bi-image text-primary me-1"></i> Photo <%= index + 1 %></a>
+                                                <span class="photo-date text-muted" style="font-size: 0.75rem;"><%= new Date(photo.taken_at).toLocaleDateString('en-GB') %></span>
                                             </div>
                                         </div>
                                     <% }) %>
                                 <% } else { %>
                                     <div class="col-12">
                                         <p class="text-muted fst-italic text-center mb-0 py-2" style="font-size: 0.85rem;">
-                                            <i class="bi bi-camera-video-off me-1"></i>Sin evidencias
+                                            <i class="bi bi-camera-video-off me-1"></i>No evidence
                                         </p>
                                     </div>
                                 <% } %>
@@ -342,7 +291,7 @@
 
                     <div class="detail-card shadow-sm border-0">
                         <div class="card-header text-white py-2" style="background: var(--gradient-secondary);">
-                            <i class="bi bi-bell"></i> Avisos
+                            <i class="bi bi-bell"></i> Notifications
                         </div>
                         <div class="card-body p-0" style="max-height: 180px; overflow-y: auto;">
                             <% if (reservation.notifications && reservation.notifications.length > 0) { %>
@@ -350,14 +299,14 @@
                                     <div class="notification-item p-2 border-bottom">
                                         <div class="d-flex justify-content-between align-items-center w-100">
                                             <span class="notification-type fw-medium text-dark" style="font-size: 0.8rem;"><i class="bi bi-send text-secondary me-1"></i><%= notif.type %></span>
-                                            <span class="notification-date text-muted" style="font-size: 0.7rem;"><%= new Date(notif.sent_at).toLocaleDateString('es-ES') %></span>
+                                            <span class="notification-date text-muted" style="font-size: 0.7rem;"><%= new Date(notif.sent_at).toLocaleDateString('en-GB') %></span>
                                         </div>
                                     </div>
                                 <% }) %>
                             <% } else { %>
                                 <div class="p-3 text-center">
                                     <p class="text-muted fst-italic mb-0" style="font-size: 0.85rem;">
-                                        <i class="bi bi-bell-slash me-1"></i>Sin avisos enviados
+                                        <i class="bi bi-bell-slash me-1"></i>No notifications sent
                                     </p>
                                 </div>
                             <% } %>

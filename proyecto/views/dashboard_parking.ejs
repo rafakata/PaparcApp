@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parking en Tiempo Real - PaparcApp</title>
+    <title>Real-Time Parking - PaparcApp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,51 +29,51 @@
     <div class="parking-stats-bar py-3">
       <div class="container-fluid px-4">
         <div class="row g-3 justify-content-center">
-          <!-- Ocupación -->
+          <!-- Occupancy -->
           <div class="col-auto">
             <div class="parking-stat-pill stat-ocupacion">
               <div class="stat-pill-icon">
                 <i class="bi bi-pie-chart-fill"></i>
               </div>
               <div class="stat-pill-content">
-                <span class="stat-pill-label">OCUPACIÓN</span>
+                <span class="stat-pill-label">OCCUPANCY</span>
                 <span class="stat-pill-value" id="stat-ocupacion">0%</span>
-                <span class="stat-pill-detail" id="stat-detail">0 Ocup. · 0 Libres</span>
+                <span class="stat-pill-detail" id="stat-detail">0 Occupied · 0 Free</span>
               </div>
             </div>
           </div>
-          <!-- Total Plazas -->
+          <!-- Total Spots -->
           <div class="col-auto">
             <div class="parking-stat-pill stat-total">
               <div class="stat-pill-icon">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
               </div>
               <div class="stat-pill-content">
-                <span class="stat-pill-label">TOTAL PLAZAS</span>
+                <span class="stat-pill-label">TOTAL SPOTS</span>
                 <span class="stat-pill-value" id="stat-total-spots">0</span>
               </div>
             </div>
           </div>
-          <!-- Reservadas -->
+          <!-- Reserved -->
           <div class="col-auto">
             <div class="parking-stat-pill stat-reservadas">
               <div class="stat-pill-icon">
                 <i class="bi bi-bookmark-fill"></i>
               </div>
               <div class="stat-pill-content">
-                <span class="stat-pill-label">RESERVADAS</span>
+                <span class="stat-pill-label">RESERVED</span>
                 <span class="stat-pill-value" id="stat-reservadas">0</span>
               </div>
             </div>
           </div>
-          <!-- En Curso -->
+          <!-- In Progress -->
           <div class="col-auto">
             <div class="parking-stat-pill stat-encurso">
               <div class="stat-pill-icon">
                 <i class="bi bi-car-front-fill"></i>
               </div>
               <div class="stat-pill-content">
-                <span class="stat-pill-label">EN CURSO</span>
+                <span class="stat-pill-label">IN PROGRESS</span>
                 <span class="stat-pill-value" id="stat-encurso">0</span>
               </div>
             </div>
@@ -87,39 +87,39 @@
       <!-- Header -->
       <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
         <h4 class="fw-bold mb-0">
-          <i class="bi bi-grid-3x3-gap me-2 text-primary"></i>Mapa de Plazas
+          <i class="bi bi-grid-3x3-gap me-2 text-primary"></i>Parking Map
         </h4>
       </div>
 
-      <!-- Leyenda de estados -->
+      <!-- Status Legend -->
       <div class="status-legend-bar mb-4">
         <span class="legend-item">
-          <span class="legend-dot libre"></span> Libre
+          <span class="legend-dot libre"></span> Free
         </span>
         <span class="legend-item">
-          <span class="legend-dot ocupado"></span> En Curso
+          <span class="legend-dot ocupado"></span> In Progress
         </span>
         <span class="legend-item">
-          <span class="legend-dot reservado"></span> Reservado
+          <span class="legend-dot reservado"></span> Reserved
         </span>
         <span class="legend-item">
-          <span class="legend-dot no-disponible"></span> No Disponible
+          <span class="legend-dot no-disponible"></span> Not Available
         </span>
       </div>
 
-      <!-- Grid de plazas (agrupadas por fila) -->
+      <!-- Parking grid (grouped by row) -->
       <div id="parking-grid">
-        <!-- Las plazas se cargarán dinámicamente -->
+        <!-- Spots will be loaded dynamically -->
         <div class="col-12 text-center py-5">
           <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
+            <span class="visually-hidden">Loading...</span>
           </div>
-          <p class="text-muted mt-2">Cargando plazas de parking...</p>
+          <p class="text-muted mt-2">Loading parking spots...</p>
         </div>
       </div>
     </main>
 
-    <!-- Template para plaza LIBRE -->
+    <!-- Template for FREE spot -->
     <template id="spot-template-libre">
       <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
         <div class="parking-card parking-card-libre">
@@ -131,19 +131,19 @@
                 <span class="parking-card-type"></span>
               </div>
             </div>
-            <span class="badge parking-badge badge-libre">LIBRE</span>
+            <span class="badge parking-badge badge-libre">FREE</span>
           </div>
           <div class="parking-card-body">
             <div class="parking-card-car-img">
               <i class="bi bi-car-front"></i>
             </div>
-            <span class="parking-card-status-text text-success">Disponible</span>
+            <span class="parking-card-status-text text-success">Available</span>
           </div>
         </div>
       </div>
     </template>
 
-    <!-- Template para plaza OCUPADA (EN CURSO) -->
+    <!-- Template for OCCUPIED spot (IN PROGRESS) -->
     <template id="spot-template-ocupado">
       <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
         <div class="parking-card parking-card-ocupado">
@@ -155,7 +155,7 @@
                 <span class="parking-card-type"></span>
               </div>
             </div>
-            <span class="badge parking-badge badge-ocupado">OCUPADO</span>
+            <span class="badge parking-badge badge-ocupado">OCCUPIED</span>
           </div>
           <div class="parking-card-body">
             <p class="parking-card-customer">
@@ -168,11 +168,11 @@
             </div>
             <div class="parking-card-dates">
               <div class="date-block entry">
-                <span class="date-label">ENTRADA</span>
+                <span class="date-label">ENTRY</span>
                 <span class="date-value entry-date"></span>
               </div>
               <div class="date-block exit">
-                <span class="date-label">SALIDA</span>
+                <span class="date-label">EXIT</span>
                 <span class="date-value exit-date"></span>
               </div>
             </div>
@@ -181,7 +181,7 @@
       </div>
     </template>
 
-    <!-- Template para plaza RESERVADA -->
+    <!-- Template for RESERVED spot -->
     <template id="spot-template-reservado">
       <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
         <div class="parking-card parking-card-reservado">
@@ -193,7 +193,7 @@
                 <span class="parking-card-type"></span>
               </div>
             </div>
-            <span class="badge parking-badge badge-reservado">RESERVADO</span>
+            <span class="badge parking-badge badge-reservado">RESERVED</span>
           </div>
           <div class="parking-card-body">
             <p class="parking-card-customer">
@@ -202,7 +202,7 @@
             </p>
             <div class="parking-card-arrival">
               <i class="bi bi-clock-fill me-1"></i>
-              <span class="date-label">HORA DE LLEGADA</span>
+              <span class="date-label">ARRIVAL TIME</span>
               <span class="arrival-date"></span>
             </div>
           </div>
@@ -210,7 +210,7 @@
       </div>
     </template>
 
-    <!-- Template para plaza NO DISPONIBLE -->
+    <!-- Template for NOT AVAILABLE spot -->
     <template id="spot-template-nodisponible">
       <div class="col-6 col-sm-4 col-md-3 col-xl-2 spot-col">
         <div class="parking-card parking-card-nodisponible">
@@ -222,13 +222,13 @@
                 <span class="parking-card-type"></span>
               </div>
             </div>
-            <span class="badge parking-badge badge-nodisponible">NO DISPONIBLE</span>
+            <span class="badge parking-badge badge-nodisponible">NOT AVAILABLE</span>
           </div>
           <div class="parking-card-body">
             <div class="parking-card-car-img text-muted">
               <i class="bi bi-x-circle"></i>
             </div>
-            <span class="parking-card-status-text text-muted">No disponible</span>
+            <span class="parking-card-status-text text-muted">Not available</span>
           </div>
         </div>
       </div>
