@@ -15,9 +15,6 @@ router.get('/dashboard', adminController.getDashboard);
 /* GET booking page (formulario para crear nueva reserva desde el dashboard) */
 router.get('/dashboard/dashboard_booking', adminController.getNewReservationForm);
 
-/* GET parking real-time page MIRAR MAS ADELANTE ESTA FUNCIONALIDAD*/
-router.get('/dashboard/parking', adminController.getParking);
-
 /* GET reservation details page */  
 router.get('/reservations/details/:id', adminController.getReservationInfo);
 

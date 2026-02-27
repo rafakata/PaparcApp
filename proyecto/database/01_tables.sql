@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS service_rate CASCADE;
 DROP TABLE IF EXISTS reservation CASCADE;
 DROP TABLE IF EXISTS additional_service CASCADE;
 DROP TABLE IF EXISTS main_service CASCADE;
-DROP TABLE IF EXISTS parking_spot CASCADE;
 DROP TABLE IF EXISTS vehicle CASCADE;
 DROP TABLE IF EXISTS vehicle_coefficient CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
@@ -51,13 +50,6 @@ CREATE TABLE customer_vehicle (
 );
 
 
--- TABLA PARKING_SPOT: Plazas de aparcamiento
-CREATE TABLE parking_spot (
-    cod_parking_spot  VARCHAR(20) PRIMARY KEY,
-    is_available      BOOLEAN NOT NULL DEFAULT TRUE
-);
-
-
 -- TABLA MAIN_SERVICE: Servicios principales
 CREATE TABLE main_service (
     id_main_service   SERIAL PRIMARY KEY,
@@ -94,7 +86,7 @@ CREATE TABLE reservation (
     id_customer       INT NOT NULL, -- FK
     id_vehicle        INT NOT NULL, -- FK
     id_main_service   INT NOT NULL, -- FK
-    cod_parking_spot  VARCHAR(20)  -- FK
+    cod_parking_spot  VARCHAR(20)
 );
 
 
