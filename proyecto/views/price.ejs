@@ -24,9 +24,9 @@
     <section class="price-hero">
       <div class="price-hero-overlay"></div>
       <div class="price-hero-content">
-        <p class="hero-badge"><i class="fas fa-shield-halved"></i> Tarifas transparentes</p>
-        <h1>Encuentra el plan <span>perfecto</span></h1>
-        <p class="hero-desc">Sin letras pequeñas. Elige tu servicio, la duración y listo.</p>
+        <p class="hero-badge"><i class="fas fa-shield-halved"></i> Transparent Pricing</p>
+        <h1>Find Your <span>Perfect Plan</span></h1>
+        <p class="hero-desc">No hidden fees. Choose your service, select the duration, and you’re set.</p>
       </div>
     </section>
 
@@ -44,8 +44,8 @@
     %>
     <section class="services-section">
       <div class="section-header">
-        <h2>Nuestros servicios</h2>
-        <p>Elige el nivel de atención que mejor se adapte a tu viaje</p>
+        <h2>Our Parking Services</h2>
+        <p>Choose the level of care that best fits your travel needs</p>
       </div>
 
       <div class="services-grid">
@@ -58,7 +58,7 @@
           %>
           <div class="svc-card<%= isPopular ? ' svc-card--popular' : '' %><%= isPremium ? ' svc-card--premium' : '' %>">
             <% if (isPopular) { %>
-              <div class="svc-badge"><i class="fas fa-star"></i> Más popular</div>
+              <div class="svc-badge"><i class="fas fa-star"></i> Most Popular</div>
             <% } %>
             <% if (isPremium) { %>
               <div class="svc-badge svc-badge--premium"><i class="fas fa-crown"></i> Premium</div>
@@ -72,8 +72,8 @@
             <p class="svc-card-tagline"><%= svc.tagline %></p>
 
             <div class="svc-card-price">
-              <span class="svc-price-from">Desde</span>
-              <span class="svc-price-amount"><%= parseFloat(svc.starting_price).toFixed(0) %><small>€/día</small></span>
+              <span class="svc-price-from">From</span>
+              <span class="svc-price-amount"><%= parseFloat(svc.starting_price).toFixed(0) %><small>€/day</small></span>
             </div>
 
             <ul class="svc-features">
@@ -83,19 +83,20 @@
             </ul>
 
             <div class="svc-rates">
-              <p class="svc-rates-title"><i class="fas fa-tags"></i> Tarifas por duración</p>
+              <p class="svc-rates-title"><i class="fas fa-tags"></i> Rates by Duration</p>
               <% rates.forEach(function(r) { %>
                 <div class="svc-rate-row">
                   <span class="svc-rate-label">
-                    <% if (r.max_days >= 9999) { %>+<%= r.min_days %> días<% } else { %><%= r.min_days %>–<%= r.max_days %> días<% } %>
+                    <!-- ESTO DE LOS DÍAS HAY QUE REVISARLO BIEN CON JAVI. SE HAN TRADUCIDO LO DE DÍAS A DAYS, PERO SIN EMBARGO EN LA PÁGINA SIGUEN APARECIENDO COMO DÍAS.-->
+                    <% if (r.max_days >= 9999) { %>+<%= r.min_days %> days<% } else { %><%= r.min_days %>–<%= r.max_days %> days<% } %>
                   </span>
-                  <span class="svc-rate-value"><%= parseFloat(r.daily_price).toFixed(2) %> €<small>/día</small></span>
+                  <span class="svc-rate-value"><%= parseFloat(r.daily_price).toFixed(2) %> €<small>/day</small></span>
                 </div>
               <% }); %>
             </div>
 
             <a href="/booking" class="svc-btn<%= isPopular ? ' svc-btn--popular' : '' %><%= isPremium ? ' svc-btn--premium' : '' %>">
-              Reservar ahora <i class="fas fa-arrow-right"></i>
+              Book Now <i class="fas fa-arrow-right"></i>
             </a>
           </div>
         <% }); %>
@@ -105,8 +106,8 @@
     <!-- ================== COEFICIENTES VEHÍCULO ================== -->
     <section class="vehicles-section">
       <div class="section-header">
-        <h2>Coeficiente por tipo de vehículo</h2>
-        <p>El precio base se multiplica según el tamaño de tu vehículo</p>
+        <h2>Vehicle Type Coefficient</h2>
+        <p>The base price is multiplied according to your vehicle size</p>
       </div>
       <div class="vehicles-grid">
         <% 
@@ -125,8 +126,8 @@
     <!-- ================== SERVICIOS ADICIONALES ================== -->
     <section class="extras-section">
       <div class="section-header">
-        <h2>Servicios adicionales</h2>
-        <p>Añade extras a tu reserva y viaja sin preocupaciones</p>
+        <h2>Additional Services</h2>
+        <p>Add extras to your booking and travel worry-free</p>
       </div>
 
       <div class="extras-grid">
@@ -140,7 +141,7 @@
         <% if (limpiezaExtras.length > 0) { %>
         <div class="extras-category">
           <h3 class="extras-category-title">
-            <i class="fas fa-broom"></i> LIMPIEZA
+            <i class="fas fa-broom"></i> CLEANING
           </h3>
           <% const limpColors = ['blue', 'emerald', 'violet', 'amber']; %>
           <div class="extras-cards">
@@ -166,7 +167,7 @@
         <% if (otherExtras.length > 0) { %>
         <div class="extras-category">
           <h3 class="extras-category-title">
-            <i class="fas fa-clipboard-list"></i> Gestión · Mantenimiento · Energía
+            <i class="fas fa-clipboard-list"></i> Management · Maintenance · Energy
           </h3>
           <% const otherColors = ['rose', 'cyan', 'orange', 'indigo']; %>
           <div class="extras-cards">
@@ -194,20 +195,20 @@
     <% if (contractPlans && contractPlans.length > 0) { %>
     <section class="plans-section">
       <div class="section-header section-header--light">
-        <h2>Planes de suscripción</h2>
-        <p>Ahorra con nuestros planes para viajeros frecuentes</p>
+        <h2>Subscription Plans</h2>
+        <p>Save with our plans for frequent travelers</p>
       </div>
 
       <div class="plans-grid">
         <% contractPlans.forEach(function(plan, i) { %>
           <div class="plan-card<%= i === contractPlans.length - 1 ? ' plan-card-featured' : '' %>">
             <% if (i === contractPlans.length - 1) { %>
-              <div class="plan-featured-tag"><i class="fas fa-crown"></i> Mejor valor</div>
+              <div class="plan-featured-tag"><i class="fas fa-crown"></i> Best Value</div>
             <% } %>
             <h3 class="plan-name"><%= plan.name %></h3>
             <div class="plan-price">
               <span class="plan-price-amount"><%= parseFloat(plan.price).toFixed(0) %>€</span>
-              <span class="plan-price-period">/ <%= plan.duration_months %> meses</span>
+              <span class="plan-price-period">/ <%= plan.duration_months %> months</span>
             </div>
             <p class="plan-tagline"><%= plan.tagline %></p>
             <ul class="plan-features">
@@ -215,7 +216,7 @@
                 <li><i class="fas fa-check-circle"></i> <%= f.trim() %></li>
               <% }); } %>
             </ul>
-            <a href="/booking" class="plan-btn<%= i === contractPlans.length - 1 ? ' plan-btn-featured' : '' %>">Suscribirme</a>
+            <a href="/booking" class="plan-btn<%= i === contractPlans.length - 1 ? ' plan-btn-featured' : '' %>">Subscribe</a>
           </div>
         <% }); %>
       </div>
@@ -224,9 +225,9 @@
 
     <!-- CTA -->
     <section class="price-cta">
-      <h2>¿Listo para aparcar con nosotros?</h2>
-      <p>Reserva tu plaza ahora y disfruta de una experiencia de parking sin preocupaciones</p>
-      <a href="/booking" class="cta-btn"><i class="fas fa-calendar-check"></i> Reservar ahora</a>
+      <h2>Ready to Park with Us?</h2>
+      <p>Book your spot now and enjoy a worry-free parking experience</p>
+      <a href="/booking" class="cta-btn"><i class="fas fa-calendar-check"></i> Book Now</a>
     </section>
 
     <%- include("partials/footer") %>

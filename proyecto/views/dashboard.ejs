@@ -35,7 +35,6 @@
           class="navbar-brand d-flex align-items-center"
           href="/admin/dashboard"
         >
-          <i class="bi bi-p-circle-fill fs-3 me-2"></i>
           <span class="brand-text">PaparcApp</span>
         </a>
         <button
@@ -58,17 +57,17 @@
                 class="nav-link px-3"
                 href="/admin/dashboard/dashboard_booking"
               >
-                <i class="bi bi-calendar-plus me-1"></i> Nueva Reserva
+                <i class="bi bi-calendar-plus me-1"></i> New Booking
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link px-3" href="/admin/history">
-                <i class="bi bi-clock-history me-1"></i> Historial
+                <i class="bi bi-clock-history me-1"></i> History
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link px-3" href="/admin/dashboard/parking">
-                <i class="bi bi-car-front me-2"></i>Parking en Tiempo Real
+                <i class="bi bi-car-front me-2"></i>Real-Time Parking
               </a>
             </li>
           </ul>
@@ -88,14 +87,14 @@
               <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
                 <li>
                   <a class="dropdown-item" href="/profile"
-                    ><i class="bi bi-person me-2"></i>Mi Perfil</a
+                    ><i class="bi bi-person me-2"></i>My Profile</a
                   >
                 </li>
                 <!-- <li><a class="dropdown-item" href="/account"><i class="bi bi-gear me-2"></i>Configuración</a></li> -->
                 <li><hr class="dropdown-divider" /></li>
                 <li>
                   <a class="dropdown-item text-danger" href="/users/logout"
-                    ><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a
+                    ><i class="bi bi-box-arrow-right me-2"></i>Log Out</a
                   >
                 </li>
               </ul>
@@ -111,11 +110,11 @@
         <div class="row align-items-center">
           <div class="col-md-8">
             <h1 class="display-6 fw-bold text-dark mb-1">
-              <i class="bi bi-hand-wave text-warning me-2"></i>¡Hola, <%=
+              <i class="bi bi-hand-wave text-warning me-2"></i>Hello, <%=
               user.nombre %>!
             </h1>
             <p class="text-muted mb-0">
-              Bienvenido al panel de control de tu parking
+              Welcome to your parking dashboard
             </p>
           </div>
           <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -123,7 +122,7 @@
               class="badge bg-light text-dark fs-6 px-3 py-2"
               id="current-date-display"
             >
-              <i class="bi bi-calendar3 me-2"></i>Cargando fecha...
+              <i class="bi bi-calendar3 me-2"></i>Loading date...
             </span>
           </div>
         </div>
@@ -140,7 +139,7 @@
             </div>
             <div class="stat-content">
               <h3 class="stat-number" id="stat-entries">0</h3>
-              <p class="stat-label">Entradas Programadas</p>
+              <p class="stat-label">Scheduled Entries</p>
             </div>
           </div>
         </div>
@@ -150,7 +149,7 @@
             <div class="stat-icon"><i class="bi bi-box-arrow-left"></i></div>
             <div class="stat-content">
               <h3 class="stat-number" id="stat-exits">0</h3>
-              <p class="stat-label">Salidas Programadas</p>
+              <p class="stat-label">Scheduled Exits</p>
             </div>
           </div>
         </div>
@@ -160,7 +159,7 @@
             <div class="stat-icon"><i class="bi bi-building-fill"></i></div>
             <div class="stat-content">
               <h3 class="stat-number" id="stat-total">-</h3>
-              <p class="stat-label">Total Reservas Programadas</p>
+              <p class="stat-label">Total Scheduled Bookings</p>
             </div>
           </div>
         </div>
@@ -173,7 +172,7 @@
               class="card-header bg-gradient-primary text-white border-0 py-3"
             >
               <h5 class="mb-0 fw-semibold">
-                <i class="bi bi-car-front me-2"></i>Entradas (Check-in)
+                <i class="bi bi-car-front me-2"></i>Entries (Check-in)
               </h5>
             </div>
             <div class="card-body p-0">
@@ -181,20 +180,20 @@
                 <table class="table table-hover align-middle mb-0">
                   <thead class="bg-light">
                     <tr>
-                      <th class="ps-4">Hora</th>
-                      <th>Matrícula</th>
-                      <th>Marca</th>
+                      <th class="ps-4">Time</th>
+                      <th>License Plate</th>
+                      <th>Brand</th>
                       <th>Color</th>
-                      <th>Cliente</th>
-                      <th>Teléfono</th>
-                      <th>Servicio</th>
-                      <th>Acción</th>
+                      <th>Customer</th>
+                      <th>Phone</th>
+                      <th>Service</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="entries-table-body">
                     <tr>
                       <td colspan="8" class="text-center py-4">
-                        Cargando datos...
+                        Loading data...
                       </td>
                     </tr>
                   </tbody>
@@ -208,7 +207,7 @@
               class="card-header bg-gradient-secondary text-white border-0 py-3"
             >
               <h5 class="mb-0 fw-semibold">
-                <i class="bi bi-flag me-2"></i>Salidas (Check-out)
+                <i class="bi bi-flag me-2"></i>Exits (Check-out)
               </h5>
             </div>
             <div class="card-body p-0">
@@ -216,20 +215,20 @@
                 <table class="table table-hover align-middle mb-0">
                   <thead class="bg-light">
                     <tr>
-                      <th class="ps-4">Hora</th>
-                      <th>Matrícula</th>
-                      <th>Marca</th>
+                      <th class="ps-4">Time</th>
+                      <th>License Plate</th>
+                      <th>Brand</th>
                       <th>Color</th>
-                      <th>Cliente</th>
-                      <th>Teléfono</th>
-                      <th>Servicio</th>
-                      <th>Acción</th>
+                      <th>Customer</th>
+                      <th>Phone</th>
+                      <th>Service</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody id="exits-table-body">
                     <tr>
                       <td colspan="8" class="text-center py-4">
-                        Cargando datos...
+                        Loading data...
                       </td>
                     </tr>
                   </tbody>
@@ -245,7 +244,7 @@
               class="card-header bg-gradient-success text-white border-0 py-3"
             >
               <h5 class="mb-0 fw-semibold">
-                <i class="bi bi-calendar3 me-2"></i>Calendario
+                <i class="bi bi-calendar3 me-2"></i>Calendar
               </h5>
             </div>
             <div
@@ -277,7 +276,7 @@
             href="#"
             class="btn btn-sm btn-outline-primary rounded-pill px-3 column-btn"
           >
-            Gestionar <i class="bi bi-arrow-right ms-1"></i>
+            Manage <i class="bi bi-arrow-right ms-1"></i>
           </a>
         </td>
       </tr>
