@@ -1,8 +1,45 @@
+
 @import url('/stylesheets/root.css');
 @import url('/stylesheets/nav.css');
 @import url('/stylesheets/nav-responsive.css');
 @import url('/stylesheets/footer-responsive.css');
+/* ================== CUSTOM BUTTON HOVERS ================== */
+/* ECO (first card) */
+.services-grid .svc-card:nth-child(1) .svc-btn:hover {
+  background: #16a34a !important;
+  color: #fff !important;
+  border-color: #16a34a !important;
+}
 
+/* POPULAR (second card) */
+.services-grid .svc-card--popular .svc-btn--popular:hover {
+  background: #fff !important;
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+}
+
+/* PREMIUM (last card) */
+.services-grid .svc-card--premium .svc-btn--premium:hover {
+  background: #fff !important;
+  color: #d97706 !important;
+  border-color: #d97706 !important;
+}
+
+.price-cta .cta-btn:hover {
+  background: var(--color-secondary) !important;
+  color: #fff !important;
+}
+/* PLANS: invertir colores en hover */
+.plans-grid .plan-btn:hover {
+  background: #2563eb !important;
+  color: #fff !important;
+  border-color: #2563eb !important;
+}
+.plans-grid .plan-btn-featured:hover {
+  background: #fff !important;
+  color: #2563eb !important;
+  border-color: #2563eb !important;
+}
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -69,7 +106,7 @@ nav {
 }
 
 .price-hero-content h1 span {
-  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  background: var(--color-secondary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

@@ -1,5 +1,11 @@
-@import url('/stylesheets/root.css');
 
+@import url('/stylesheets/root.css');
+marquee {
+  background: var(--color-secondary);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0;
+}
 /* ================== HEADER ================== */
 .header {
   display: flex;
@@ -577,7 +583,7 @@ h2 {
 
   marquee {
     font-size: 1.4rem;
-    color: var(--color-secondary);
+    color: white;
     font-weight: bold;
   }
   h2 {

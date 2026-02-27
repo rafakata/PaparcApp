@@ -1,3 +1,4 @@
+
 /* =============================================
    DASHBOARD BASE - Estilos comunes a todas las
    vistas del panel de administración.
@@ -14,7 +15,37 @@
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
   --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
+/* NAVBAR fondo color primario */
+.navbar.bg-gradient-primary {
+  background: var(--color-primary) !important;
+}
 
+/* Card-header Entradas (Entries) verde */
+.card-header.bg-gradient-primary.text-white {
+  background: #11998e !important;
+  color: #fff !important;
+}
+
+/* Card-header Salidas (Exits) rojo */
+.card-header.bg-gradient-secondary.text-white {
+  background: #eb3349 !important;
+  color: #fff !important;
+}
+
+/* Stat-card programadas naranja */
+.stat-card-primary::before {
+  background: linear-gradient(180deg, #f7971e, #ffd200) !important;
+}
+.stat-card-primary .stat-icon {
+  background: rgba(247, 151, 30, 0.1) !important;
+  color: #f7971e !important;
+}
+
+/* Card-header calendario fondo negro */
+.card-header.bg-gradient-success.text-white {
+  background: #111 !important;
+  color: #fff !important;
+}
 * {
   font-family: 'Poppins', sans-serif;
 }

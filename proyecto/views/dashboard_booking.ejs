@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Reserva - PaparcApp</title>
+    <title>New Booking - PaparcApp</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Zen+Dots&display=swap" rel="stylesheet">
@@ -32,17 +32,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active px-3" href="/admin/dashboard/dashboard_booking">
-                            <i class="bi bi-calendar-plus me-1"></i> Nueva Reserva
+                            <i class="bi bi-calendar-plus me-1"></i> New Booking
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/admin/history">
-                            <i class="bi bi-clock-history me-1"></i> Historial
+                            <i class="bi bi-clock-history me-1"></i> History
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3" href="/admin/dashboard/parking">
-                            <i class="bi bi-car-front me-2"></i>Parking en Tiempo Real
+                            <i class="bi bi-car-front me-2"></i>Real-Time Parking
                         </a>
                     </li>
                 </ul>
@@ -55,9 +55,9 @@
                             <span class="d-none d-md-inline"><%= user.nombre %></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
-                            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="/users/logout"><i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión</a></li>
+                            <li><a class="dropdown-item text-danger" href="/users/logout"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -72,17 +72,17 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-1" style="font-size: 0.82rem;">
                             <li class="breadcrumb-item"><a href="/admin/dashboard" class="text-decoration-none" style="color: #667eea;">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Nueva Reserva Manual</li>
+                            <li class="breadcrumb-item active">New Manual Booking</li>
                         </ol>
                     </nav>
                     <h2 class="h5 fw-bold mb-0">
-                        <i class="bi bi-calendar-plus text-primary me-2"></i>Crear Reserva
+                        <i class="bi bi-calendar-plus text-primary me-2"></i>Create Booking
                     </h2>
                 </div>
                 <div class="col-md-4 text-md-end mt-1 mt-md-0">
-                    <a href="/admin/dashboard" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                        <i class="bi bi-arrow-left me-1"></i> Volver
-                    </a>
+                        <a href="/admin/dashboard" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                            <i class="bi bi-arrow-left me-1"></i> Back
+                        </a>
                 </div>
             </div>
         </div>
@@ -98,26 +98,26 @@
                         <div class="col-md-6">
                             <div class="detail-card h-100 shadow-sm border-0">
                                 <div class="card-header bg-gradient-primary text-white py-2"> 
-                                    <i class="bi bi-person-vcard mb-0"></i> Datos del Cliente
+                                    <i class="bi bi-person-vcard mb-0"></i> Customer Details
                                 </div>
                                 <div class="card-body p-3"> 
                                     <div class="row g-2"> 
                                         <div class="col-12">
-                                            <label class="form-label small text-muted mb-1" for="full_name">Nombre Completo</label>
-                                            <input type="text" class="form-control form-control-sm form-listener" id="full_name" name="full_name" placeholder="Ej. Juan Pérez" required>
+                                            <label class="form-label small text-muted mb-1" for="full_name">Full Name</label>
+                                            <input type="text" class="form-control form-control-sm form-listener" id="full_name" name="full_name" placeholder="e.g. John Smith" required>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label class="form-label small text-muted mb-1" for="phone">Teléfono</label>
+                                            <label class="form-label small text-muted mb-1" for="phone">Phone</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone"></i></span>
                                                 <input type="tel" class="form-control border-start-0 form-listener" id="phone" name="phone" placeholder="600 123 456" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
-                                            <label class="form-label small text-muted mb-1" for="email">Correo Electrónico</label>
+                                            <label class="form-label small text-muted mb-1" for="email">Email</label>
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope"></i></span>
-                                                <input type="email" class="form-control border-start-0 form-listener" id="email" name="email" placeholder="correo@ejemplo.com">
+                                                <input type="email" class="form-control border-start-0 form-listener" id="email" name="email" placeholder="email@example.com" required>
                                             </div>
                                         </div>
                                     </div>
@@ -128,28 +128,28 @@
                         <div class="col-md-6">
                             <div class="detail-card h-100 shadow-sm border-0">
                                 <div class="card-header bg-gradient-secondary text-white py-2">
-                                    <i class="bi bi-car-front-fill"></i> Información del Vehículo
+                                    <i class="bi bi-car-front-fill"></i> Vehicle Information
                                 </div>
                                 <div class="card-body p-3">
                                     <div class="row g-2">
                                         <div class="col-12">
-                                            <label class="form-label small text-muted mb-1" for="license_plate">Matrícula</label>
+                                            <label class="form-label small text-muted mb-1" for="license_plate">License Plate</label>
                                             <input type="text" class="form-control form-control-sm fw-bold text-uppercase form-listener" id="license_plate" name="license_plate" placeholder="0000XXX" required>
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="brand">Marca</label>
-                                            <input type="text" class="form-control form-control-sm" id="brand" name="brand" placeholder="Ej. Toyota">
+                                            <label class="form-label small text-muted mb-1" for="brand">Brand</label>
+                                            <input type="text" class="form-control form-control-sm" id="brand" name="brand" placeholder="e.g. Toyota" required>
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="model">Modelo</label>
-                                            <input type="text" class="form-control form-control-sm" id="model" name="model" placeholder="Ej. Corolla" >
+                                            <label class="form-label small text-muted mb-1" for="model">Model</label>
+                                            <input type="text" class="form-control form-control-sm" id="model" name="model" placeholder="e.g. Corolla" required>
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label small text-muted mb-1" for="color">Color</label>
-                                            <input type="text" class="form-control form-control-sm" id="color" name="color" placeholder="Blanco">
+                                            <input type="text" class="form-control form-control-sm" id="color" name="color" placeholder="White">
                                         </div>
                                         <div class="col-6">
-                                            <label class="form-label small text-muted mb-1" for="calc_vehicle_type">Tipo</label>
+                                            <label class="form-label small text-muted mb-1" for="calc_vehicle_type">Type</label>
                                             <select class="form-select form-select-sm" id="calc_vehicle_type" name="vehicle_type">
                                                 <% vehicleTypes.forEach(v => { %>
                                                     <option value="<%= v.type %>"><%= v.type %></option>
@@ -164,33 +164,33 @@
 
                     <div class="detail-card shadow-sm border-0">
                         <div class="card-header text-white py-2" style="background: var(--gradient-success);">
-                            <i class="bi bi-calendar-range"></i> Fechas y Servicios
+                            <i class="bi bi-calendar-range"></i> Dates & Services
                         </div>
                         <div class="card-body p-3">
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="form-label small text-muted mb-1" for="calc_entry_date">
-                                        <i class="bi bi-box-arrow-in-right text-success me-1"></i>Fecha de Entrada
+                                        <i class="bi bi-box-arrow-in-right text-success me-1"></i>Entry Date
                                     </label>
                                     <input type="datetime-local" class="form-control form-control-sm form-listener" id="calc_entry_date" name="entry_date" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label small text-muted mb-1" for="calc_exit_date">
-                                        <i class="bi bi-box-arrow-left text-danger me-1"></i>Fecha de Salida
+                                        <i class="bi bi-box-arrow-left text-danger me-1"></i>Exit Date
                                     </label>
                                     <input type="datetime-local" class="form-control form-control-sm form-listener" id="calc_exit_date" name="exit_date">
                                 </div>
                                 <div class="col-12 mt-2">
-                                    <label class="form-label small text-muted mb-1" for="calc_main_service">Servicio Principal</label>
-                                    <select class="form-select form-select-sm" id="calc_main_service" name="id_main_service" required>
-                                        <option value="" disabled selected>Selecciona un servicio...</option>
+                                    <label class="form-label small text-muted mb-1" for="calc_main_service">Main Service</label>
+                                    <select class="form-select form-select-sm" id="calc_main_service" name="id_main_service">
+                                        <option value="" disabled selected>Select a service...</option>
                                         <% mainServices.forEach(ms => { %>
                                             <option value="<%= ms.id_main_service %>"><%= ms.name %></option>
                                         <% }) %>
                                     </select>
                                 </div>
                                 <div class="col-12 mt-2">
-                                    <label class="form-label small text-muted mb-1">Servicios Adicionales (Extras)</label>
+                                    <label class="form-label small text-muted mb-1">Additional Services (Extras)</label>
                                     <div class="row g-2" id="additional_services_container">
                                         <% additionalServices.forEach(extra => { %>
                                             <div class="col-6 col-xl-4">
@@ -199,7 +199,7 @@
                                                     <label class="form-check-label flex-grow-1 text-truncate mb-0" for="extra_<%= extra.id_additional_service %>" style="cursor:pointer;" title="<%= extra.name %>">
                                                         <%= extra.name %>
                                                     </label>
-                                                    <span class="extra-price me-1 fw-medium">+<%= extra.price %>€</span>
+                                                        <span class="extra-price me-1 fw-medium">+<%= extra.price %>€</span>
                                                 </div>
                                             </div>
                                         <% }) %>
@@ -216,24 +216,24 @@
                         
                         <div class="detail-card shadow-sm border-0">
                             <div class="card-header text-white py-2" style="background: var(--gradient-warning);">
-                                <i class="bi bi-clipboard-check"></i> Resumen en vivo
+                                <i class="bi bi-clipboard-check"></i> Live Summary
                             </div>
                             <div class="card-body p-2 bg-light">
                                 <ul class="list-group list-group-flush small bg-transparent">
                                     <li class="list-group-item bg-transparent px-2 py-1 d-flex justify-content-between">
-                                        <span class="text-muted"><i class="bi bi-person me-1"></i> Cliente:</span>
+                                        <span class="text-muted"><i class="bi bi-person me-1"></i> Customer:</span>
                                         <strong id="sum-nombre" class="text-truncate text-end" style="max-width: 150px;">-</strong>
                                     </li>
                                     <li class="list-group-item bg-transparent px-2 py-1 d-flex justify-content-between">
-                                        <span class="text-muted"><i class="bi bi-card-text me-1"></i> Matrícula:</span>
+                                        <span class="text-muted"><i class="bi bi-card-text me-1"></i> License Plate:</span>
                                         <strong id="sum-matricula" class="text-uppercase">-</strong>
                                     </li>
                                     <li class="list-group-item bg-transparent px-2 py-1 d-flex justify-content-between">
-                                        <span class="text-muted"><i class="bi bi-box-arrow-in-right text-success me-1"></i> Entrada:</span>
+                                        <span class="text-muted"><i class="bi bi-box-arrow-in-right text-success me-1"></i> Entry:</span>
                                         <strong id="sum-entrada">-</strong>
                                     </li>
                                     <li class="list-group-item bg-transparent px-2 py-1 border-bottom-0 d-flex justify-content-between">
-                                        <span class="text-muted"><i class="bi bi-box-arrow-left text-danger me-1"></i> Salida:</span>
+                                        <span class="text-muted"><i class="bi bi-box-arrow-left text-danger me-1"></i> Exit:</span>
                                         <strong id="sum-salida">-</strong>
                                     </li>
                                 </ul>
@@ -242,22 +242,22 @@
 
                         <div class="price-card p-3 shadow-sm border-0">
                             <div class="position-relative" style="z-index:1;">
-                                <h6 class="text-white-50 mb-1 small"><i class="bi bi-tag-fill me-1"></i> Cotización Total</h6>
+                                <h6 class="text-white-50 mb-1 small"><i class="bi bi-tag-fill me-1"></i> Total Quote</h6>
                                 <div class="d-flex align-items-baseline gap-1">
                                     <span class="price-amount fs-2 fw-bold" id="dynamic_total_price">0.00</span> 
                                     <span class="price-currency fs-5">€</span>
                                 </div>
                                 <span id="recalculating_indicator" style="display:none; font-size: 0.8rem;">
-                                    <i class="bi bi-arrow-repeat"></i> Calculando precio...
+                                    <i class="bi bi-arrow-repeat"></i> Calculating price...
                                 </span>
                             </div>
                             
                             <div class="d-grid gap-2 mt-3 pt-3 border-top border-light border-opacity-25">
                                 <button type="submit" id="btn_confirm_booking" class="btn btn-save-main btn-sm py-2 shadow-sm btn-submit-dynamic">
-                                    <i class="bi bi-check-circle-fill me-1"></i> Formalizar Reserva
+                                    <i class="bi bi-check-circle-fill me-1"></i> Confirm Booking
                                 </button>
                                 <button type="reset" class="btn btn-cancel-main btn-sm py-1">
-                                    <i class="bi bi-trash me-1"></i> Limpiar Formulario
+                                    <i class="bi bi-trash me-1"></i> Clear Form
                                 </button>
                             </div>
                         </div>

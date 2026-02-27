@@ -27,37 +27,37 @@
       <div class="booking-card">
         <!-- Header -->
         <div class="booking-card-header">
-          <h1>Reserva tu Plaza</h1>
-          <p>Completa los pasos para asegurar tu aparcamiento</p>
+          <h1>Book Your Spot</h1>
+          <p>Complete the steps to secure your parking</p>
         </div>
 
         <!-- Steps indicator -->
         <div class="booking-steps">
-          <div class="step active" id="step-ind-1"><span>1</span> Fechas</div>
+          <div class="step active" id="step-ind-1"><span>1</span> Dates</div>
           <div class="step-line"></div>
-          <div class="step" id="step-ind-2"><span>2</span> Vehículo</div>
+          <div class="step" id="step-ind-2"><span>2</span> Vehicle</div>
           <div class="step-line"></div>
-          <div class="step" id="step-ind-3"><span>3</span> Confirmar</div>
+          <div class="step" id="step-ind-3"><span>3</span> Confirm</div>
         </div>
 
         <!-- Step 1: Fechas -->
         <div class="booking-body" id="booking-step-1">
           <div class="form-row">
             <div class="form-group">
-              <label for="book-entrada"><i class="fas fa-plane-departure"></i> Fecha de Entrada</label>
+              <label for="book-entrada"><i class="fas fa-plane-departure"></i> Entry Date</label>
               <input type="datetime-local" id="book-entrada" name="entrada" required />
             </div>
             <div class="form-group">
-              <label for="book-salida"><i class="fas fa-plane-arrival"></i> Fecha de Salida</label>
+              <label for="book-salida"><i class="fas fa-plane-arrival"></i> Exit Date</label>
               <input type="datetime-local" id="book-salida" name="salida" required />
             </div>
           </div>
           <div class="booking-price-preview" id="booking-price-preview">
-            <i class="fas fa-tag"></i> <span>Selecciona las fechas para ver el precio</span>
+            <i class="fas fa-tag"></i> <span>Select dates to see the price</span>
           </div>
           <div class="booking-actions">
-            <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Volver</a>
-            <button type="button" class="btn btn-next" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+            <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Back</a>
+            <button type="button" class="btn btn-next" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
 
@@ -65,62 +65,62 @@
         <div class="booking-body" id="booking-step-2" style="display: none;">
           <div class="form-row">
             <div class="form-group">
-              <label for="book-nombre"><i class="fas fa-user"></i> Nombre completo</label>
-              <input type="text" id="book-nombre" name="nombre" placeholder="Nombre y Apellidos" required />
+              <label for="book-nombre"><i class="fas fa-user"></i> Full Name</label>
+              <input type="text" id="book-nombre" name="nombre" placeholder="Full Name" required />
             </div>
             <div class="form-group">
-              <label for="book-telefono"><i class="fas fa-phone"></i> Teléfono</label>
+              <label for="book-telefono"><i class="fas fa-phone"></i> Phone</label>
               <input type="tel" id="book-telefono" name="telefono" placeholder="+34 600 123 456" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="book-matricula"><i class="fas fa-id-badge"></i> Matrícula</label>
+            <label for="book-matricula"><i class="fas fa-id-badge"></i> License Plate</label>
             <input type="text" id="book-matricula" name="matricula" placeholder="0000-XXX" required />
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="book-marca"><i class="fas fa-car"></i> Marca</label>
-              <input type="text" id="book-marca" name="marca" placeholder="Marca del coche" required />
+              <label for="book-marca"><i class="fas fa-car"></i> Brand</label>
+              <input type="text" id="book-marca" name="marca" placeholder="Car Brand" required />
             </div>
             <div class="form-group">
-              <label for="book-modelo"><i class="fas fa-car-side"></i> Modelo</label>
-              <input type="text" id="book-modelo" name="modelo" placeholder="Modelo del coche" required />
+              <label for="book-modelo"><i class="fas fa-car-side"></i> Model</label>
+              <input type="text" id="book-modelo" name="modelo" placeholder="Car Model" required />
             </div>
           </div>
           <div class="booking-actions">
-            <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
-            <button type="button" class="btn btn-next" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+            <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-next" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
 
         <!-- Step 3: Confirmación -->
         <div class="booking-body" id="booking-step-3" style="display: none;">
           <div class="booking-summary">
-            <h3><i class="fas fa-clipboard-check"></i> Resumen de tu Reserva</h3>
+            <h3><i class="fas fa-clipboard-check"></i> Booking Summary</h3>
             <div class="summary-grid">
               <div class="summary-item">
                 <i class="fas fa-plane-departure"></i>
-                <div><strong>Entrada</strong><span id="sum-entrada">-</span></div>
+                <div><strong>Entry</strong><span id="sum-entrada">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-plane-arrival"></i>
-                <div><strong>Salida</strong><span id="sum-salida">-</span></div>
+                <div><strong>Exit</strong><span id="sum-salida">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-user"></i>
-                <div><strong>Cliente</strong><span id="sum-nombre">-</span></div>
+                <div><strong>Customer</strong><span id="sum-nombre">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-id-badge"></i>
-                <div><strong>Matrícula</strong><span id="sum-matricula">-</span></div>
+                <div><strong>License Plate</strong><span id="sum-matricula">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-car"></i>
-                <div><strong>Vehículo</strong><span id="sum-vehiculo">-</span></div>
+                <div><strong>Vehicle</strong><span id="sum-vehiculo">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-phone"></i>
-                <div><strong>Teléfono</strong><span id="sum-telefono">-</span></div>
+                <div><strong>Phone</strong><span id="sum-telefono">-</span></div>
               </div>
             </div>
             <div class="summary-price">
@@ -129,8 +129,8 @@
             </div>
           </div>
           <div class="booking-actions">
-            <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
-            <button type="button" class="btn btn-confirm" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirmar Reserva</button>
+            <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-confirm" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirm Booking</button>
           </div>
         </div>
 
@@ -140,8 +140,8 @@
             <div class="success-icon">
               <i class="fas fa-check-circle"></i>
             </div>
-            <h2>¡Reserva Confirmada!</h2>
-            <p>Tu código de reserva es:</p>
+            <h2>Booking Confirmed!</h2>
+            <p>Your booking code is:</p>
             <div class="codigo-reserva" id="codigo-reserva"></div>
             <div id="qr-reserva" class="qr-reserva"></div>
             <div class="success-details">
@@ -151,8 +151,8 @@
               <p><i class="fas fa-car"></i> <span id="conf-vehiculo"></span></p>
             </div>
             <div class="booking-actions">
-              <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Ir al Inicio</a>
-              <a href="/users/profile" class="btn btn-next"><i class="fas fa-user"></i> Mi Perfil</a>
+              <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Home</a>
+              <a href="/users/profile" class="btn btn-next"><i class="fas fa-user"></i> My Profile</a>
             </div>
           </div>
         </div>
