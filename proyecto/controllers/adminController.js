@@ -160,7 +160,7 @@ const adminController = {
             const totalPages = Math.ceil(totalCount / limit);
 
             res.render('history', {
-                title: 'Historial de Reservas',
+                title: 'Booking History',
                 reservations,
                 filters,
                 pagination: { page, totalPages, totalCount }
