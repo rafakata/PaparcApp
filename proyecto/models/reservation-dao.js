@@ -311,14 +311,15 @@ class ReservationDAO {
 
             } else {
 
-                sql = `INSERT INTO customer (full_name, email, phone)
-                        VALUES ($1, $2, $3) RETURNING id_customer
+                sql = `INSERT INTO customer (full_name, email, phone, type)
+                        VALUES ($1, $2, $3, $4) RETURNING id_customer
                 `;
 
                 result = await client.query(sql, [
                     customerData.full_name, 
                     customerData.email || null, // email es opcional, si no se proporciona se guarda como null
-                    customerData.phone
+                    customerData.phone,
+                    'NO-REGISTRADO' // tipo de cliente por defecto para clientes que no se han registrado en la app
                 ]);
 
                 customerId = result.rows[0].id_customer; // nuevo cliente creado, obtenemos su ID
@@ -480,6 +481,36 @@ class ReservationDAO {
         } catch (error) {
             console.error('Error al obtener el historial de reservas:', error);
             throw new Error('Error al obtener el historial de reservas', { cause: error });
+        }
+    }
+
+    /**
+     * Cancela una reserva cambiando su estado a 'CANCELADA'.
+     * También libera la plaza de aparcamiento asociada (cod_parking_spot a NULL) 
+     * por si se le había asignado una previamente.
+     * @param {number} id_reservation - ID de la reserva a cancelar
+     * @returns {boolean} - true si se actualizó, false si no se encontró
+     */
+    async cancelReservation(id_reservation) {
+
+        const sql = `
+            UPDATE reservation
+            SET status = 'CANCELADA',
+                cod_parking_spot = NULL
+            WHERE id_reservation = $1
+            RETURNING id_reservation;
+        `;
+
+        try {
+
+            const result = await db.query(sql, [id_reservation]);
+            return result.rowCount > 0; // Devuelve true si afectó a alguna fila
+
+        } catch (error) {
+
+            console.error(`Error al cancelar la reserva ${id_reservation}:`, error);
+            throw new Error('Error al cancelar la reserva en la BD', { cause: error });
+            
         }
     }
 

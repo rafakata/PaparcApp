@@ -30,4 +30,7 @@ router.post('/reservations/:id/edit', adminController.updateReservation);
 /* POST /reservations/new */
 router.post('/reservations/new', adminController.createNewReservation);
 
+/* PATCH /reservations/:id/cancel (soft delete) */
+router.patch('/reservations/:id/cancel', adminController.cancelReservation);
+
 module.exports = router;         
