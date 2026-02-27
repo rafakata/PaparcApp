@@ -31,8 +31,8 @@ function initCalendar() {
     $('.calendario_widget').datepicker({
         dateFormat: 'yy-mm-dd', // Formato de fecha compatible con nuestra API
         firstDay: 1, // Comenzar la semana en lunes
-        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'], // Nombres de los días de la semana
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        dayNamesMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'], // Day initials in English
 
         // esta es la lógica que usamos para actualizar el dashboard cada vez que se selecciona una fecha en el calendario
         onSelect: function(dateText) {
