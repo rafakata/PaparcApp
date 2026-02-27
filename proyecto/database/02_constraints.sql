@@ -30,14 +30,6 @@ ALTER TABLE reservation
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
 
--- RELACIÓN: RESERVATION -> PARKING_SPOT
-ALTER TABLE reservation
-    ADD CONSTRAINT fk_reservation_parking_spot
-    FOREIGN KEY (cod_parking_spot)
-    REFERENCES parking_spot(cod_parking_spot)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
-
 -- RELACIÓN: PHOTO_EVIDENCE -> RESERVATION
 -- (Se usa CASCADE para que si se borra la reserva, desaparezcan sus fotos)
 ALTER TABLE photo_evidence
@@ -137,7 +129,7 @@ ALTER TABLE customer
 -- ESTADO DE LA RESERVA: Limita los estados a los permitidos por la lógica de negocio
 ALTER TABLE reservation
     ADD CONSTRAINT chk_reservation_status
-    CHECK (status IN ('PENDIENTE', 'ENTRADA CONFIRMADA', 'EN CURSO', 'SALIDA CONFIRMADA', 'FINALIZADA', 'CANCELADA'));
+    CHECK (status IN ('PENDIENTE', 'EN CURSO', 'FINALIZADA', 'CANCELADA'));
 
 -- MÉTODO DE PAGO: Solo permite valores específicos o nulo si aún no se ha pagado
 ALTER TABLE reservation
@@ -154,13 +146,13 @@ ALTER TABLE reservation
     ADD CONSTRAINT chk_reservation_exit_date
     CHECK (exit_date IS NULL OR exit_date >= entry_date);
 
--- ASIGNACIÓN DE PLAZA: Controla la asignación de plaza según el estado de la reseva.
+-- ASIGNACIÓN DE PLAZA: Controla la asignación de plaza según el estado de la reserva.
 ALTER TABLE reservation
     ADD CONSTRAINT chk_spot_assigned
     CHECK (
-        status IN ('PENDIENTE','ENTRADA CONFIRMADA', 'CANCELADA') AND cod_parking_spot IS NULL -- permite nul si se encuentra en estos estados
+        (status IN ('EN CURSO', 'FINALIZADA') AND cod_parking_spot IS NOT NULL)
         OR
-        status IN ('EN CURSO', 'SALIDA CONFIRMADA', 'FINALIZADA') AND cod_parking_spot IS NOT NULL -- no permite nul si se encuentra en estos estados
+        (status IN ('PENDIENTE', 'CANCELADA'))
     );
 
 -- OBLIGATORIEDAD DE PAGO: una reserva no puede finalizar sin estar marcada como pagada
@@ -190,7 +182,7 @@ ALTER TABLE additional_service
 -- Tipos de notificaciones: Limita los tipos de notificaciones a los permitidos por la lógica de negocio
 ALTER TABLE notification
     ADD CONSTRAINT chk_notification_type
-    CHECK (type IN ('TICKET_RESERVA', 'RECORDATORIO_ENTRADA', 'ENTRADA_CONFIRMADA', 'RECORDATORIO_SALIDA', 'RECIBO_PAGO', 'ACTUALIZACION_RESERVA'));
+    CHECK (type IN ('TICKET_RESERVA', 'ENTRADA_CONFIRMADA', 'RECIBO_PAGO', 'ACTUALIZACION_RESERVA'));
 
 -- RESTRICCION PARA VEHICLE_COEFFICIENT: aseguramos que que el multiplicador sea siempre mayor que 0
 ALTER TABLE vehicle_coefficient

@@ -23,12 +23,10 @@
   </head>
   <body>
     <%- include('partials/nav_dashboard', { activeNav: 'history', user: user }) %>
-    <!-- Page Header -->
     <div class="page-header py-4 mb-4">
       <div class="container-fluid px-4">
         <div class="row align-items-center">
           <div class="col-md-8">
-            <!--Hay que ver esto porque lo mismo hay que tocar de la database o algo.-->
             <h1 class="display-6 fw-bold text-dark mb-1">
               <i class="bi bi-clock-history text-primary me-2"></i><%= title %>
             </h1>
@@ -43,10 +41,8 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <main class="container-fluid px-4 pb-5">
 
-      <!-- Filters Card -->
       <div class="card border-0 shadow-sm mb-4 filter-card">
         <div class="card-body py-3">
           <form method="GET" action="/admin/history" class="row g-3 align-items-end">
@@ -59,7 +55,6 @@
               <select class="form-select" name="status">
                 <option value="">All</option>
                 <option value="PENDIENTE" <%= filters.status === 'PENDIENTE' ? 'selected' : '' %>>Pending</option>
-                <option value="CONFIRMADA" <%= filters.status === 'CONFIRMADA' ? 'selected' : '' %>>Confirmed</option>
                 <option value="EN CURSO" <%= filters.status === 'EN CURSO' ? 'selected' : '' %>>In Progress</option>
                 <option value="FINALIZADA" <%= filters.status === 'FINALIZADA' ? 'selected' : '' %>>Finished</option>
                 <option value="CANCELADA" <%= filters.status === 'CANCELADA' ? 'selected' : '' %>>Cancelled</option>
@@ -85,7 +80,6 @@
         </div>
       </div>
 
-      <!-- Table Card -->
       <div class="card border-0 shadow-sm">
         <div class="card-header bg-gradient-primary text-white border-0 py-3">
           <h5 class="mb-0 fw-semibold">
@@ -115,17 +109,17 @@
                 <% if (reservations.length > 0) { %>
                   <% reservations.forEach(r => { %>
                     <%
+                      // MODIFICACIÓN: Mapeo limpio solo con los 4 estados
                       const statusClasses = {
                         'PENDIENTE': 'badge-status-pendiente',
-                        'CONFIRMADA': 'badge-status-confirmada',
                         'EN CURSO': 'badge-status-encurso',
                         'FINALIZADA': 'badge-status-finalizada',
                         'CANCELADA': 'badge-status-cancelada'
                       };
                       const badgeClass = statusClasses[r.status] || 'badge-status-pendiente';
+                      
                       const statusText = {
                         'PENDIENTE': 'Pending',
-                        'CONFIRMADA': 'Confirmed',
                         'EN CURSO': 'In Progress',
                         'FINALIZADA': 'Finished',
                         'CANCELADA': 'Cancelled'
@@ -203,7 +197,6 @@
           </div>
         </div>
 
-        <!-- Pagination -->
         <% if (pagination.totalPages > 1) { %>
           <div class="card-footer bg-white border-0 py-3">
             <nav>

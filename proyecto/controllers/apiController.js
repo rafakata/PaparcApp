@@ -100,22 +100,6 @@ const apiController = {
         }
 
 
-    },
-
-    // Obtener plazas de parking con su estado actual
-    getParkingSpots: async (req, res) => {
-
-        try {
-
-            const data = await reservationDAO.getParkingSpotsWithStatus();
-            res.json(data);
-
-        } catch (error) {
-
-            console.error('Error al obtener las plazas de parking:', error);
-            res.status(500).json({ error: 'Error al obtener las plazas de parking.' });
-
-        }
     }
 
 }

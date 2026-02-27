@@ -39,11 +39,10 @@ const adminController = {
 
             if (!reservation) return res.redirect('/admin/dashboard');
 
-            const [vehicleTypes, mainServices, additionalServices, availableSpots] = await Promise.all([
+            const [vehicleTypes, mainServices, additionalServices] = await Promise.all([
                 serviceCatalogDAO.getVehicleTypes(),
                 serviceCatalogDAO.getMainServices(),
-                serviceCatalogDAO.getAllAdditionalServices(),
-                reservationDAO.getAvailableParkingSpots()
+                serviceCatalogDAO.getAllAdditionalServices()
             ]);;
             
             res.render('reservation-details', {
@@ -51,8 +50,7 @@ const adminController = {
                 reservation : reservation ,
                 vehicleTypes : vehicleTypes,
                 mainServices : mainServices,
-                additionalServices : additionalServices,
-                availableSpots : availableSpots
+                additionalServices : additionalServices
             });
 
         } catch (error) {
@@ -76,18 +74,33 @@ const adminController = {
             const id_reservation = req.params.id;
 
             // extraemos los datos del formulario
-            const { entry_date, exit_date, license_plate, 
+            const { entry_date, exit_date, 
                     brand, model, color, vehicle_type, 
                     id_main_service, additionalServices, cod_parking_spot
             } = req.body;
+
+            // limpieamos la plaza quitando espacios en blanco y convirtiendo a mayúsculas para mantener un formato consistente
+            const normalizedCodParkingSpot  = 
+                cod_parking_spot && cod_parking_spot.trim() !== '' 
+                ? cod_parking_spot.trim().toUpperCase()
+                : null
+            ;
+
+            // restricion de seguridad, solo permitimos actualizar reservas que estén en estado EN CURSO o FINALIZADA
+            const currentReservation = await reservationDAO.getInfoReservationByIdReservation(id_reservation);
+            const requireStatus = ['EN CURSO','FINALIZADA'];
+
+            if (!requireStatus.includes(currentReservation.status) && !normalizedCodParkingSpot) {
+                return res.status(400).send(`Para actualizar una reserva que está en estado '${currentReservation.status}' es necesario asignar una plaza de parking. Por favor, asigna una plaza de parking para continuar con la actualización.`);
+            }
 
             // normalizamos los servicios adicionales para que siempre sea un array
             let arrayAdditionalServices = [];
 
             if (additionalServices) {
-                if (Array.isArray(additionalServices)) {
+                if (Array.isArray(additionalServices)) { // si es un array, lo mapeamos a enteros
                     arrayAdditionalServices = additionalServices.map( id => parseInt(id) );
-                } else {
+                } else { // si es un solo valor, lo convertimos a entero y lo ponemos en un array
                     arrayAdditionalServices = [parseInt(additionalServices)];
                 }
             }
@@ -120,7 +133,7 @@ const adminController = {
                 color : color,
                 vehicle_type : vehicle_type,
                 additional_services : arrayAdditionalServices,
-                cod_parking_spot : cod_parking_spot ? parseInt(cod_parking_spot) : null
+                cod_parking_spot : normalizedCodParkingSpot
             };
 
             // ejecutamos la actualización de la reserva en la base de datos
@@ -339,8 +352,8 @@ const adminController = {
                 return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
             }
 
-            // Solo es cancelr si no ha empezado o terminado
-            const allowStatus = ['PENDIENTE', 'CONFIRMADA'];
+            // Solo se puede cancelar si aun no ha entrado
+            const allowStatus = ['PENDIENTE'];
             if (!allowStatus.includes(currentReservation.status)) {
                 return res.status(400).json({ 
                     success: false, 

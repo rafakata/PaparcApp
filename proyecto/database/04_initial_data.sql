@@ -13,7 +13,6 @@ TRUNCATE TABLE
     service_rate,   
     additional_service,
     main_service,
-    parking_spot,
     customer_vehicle, -- ¡AÑADIDO! La nueva tabla intermedia
     vehicle,
     vehicle_coefficient, 
@@ -62,18 +61,6 @@ INSERT INTO additional_service (name, category, tagline, price, features) VALUES
 ('MOT Service', 'MANAGEMENT', 'We handle the queues for you.', 60.00, 'Pre-MOT key points check|Transfer to official station|Full administrative procedure|MOT fees not included'),
 ('Quick Maintenance', 'MAINTENANCE', 'Travel with total safety.', 30.00, 'Fluid levels check (oil and coolant)|Tire pressure|Lights system check'),
 ('EV Charging', 'ENERGY', '100% battery upon landing.', 25.00, 'Full electric charge guaranteed|Compatible with all models (Type 2/Tesla)|No queues at public chargers');
-
--- ----------------------------------------------------------
--- 4. INFRAESTRUCTURA (70 PLAZAS: A-G)
--- ----------------------------------------------------------
-INSERT INTO parking_spot (cod_parking_spot) VALUES 
-('A-001'), ('A-002'), ('A-003'), ('A-004'), ('A-005'), ('A-006'), ('A-007'), ('A-008'), ('A-009'), ('A-010'),
-('B-001'), ('B-002'), ('B-003'), ('B-004'), ('B-005'), ('B-006'), ('B-007'), ('B-008'), ('B-009'), ('B-010'),
-('C-001'), ('C-002'), ('C-003'), ('C-004'), ('C-005'), ('C-006'), ('C-007'), ('C-008'), ('C-009'), ('C-010'),
-('D-001'), ('D-002'), ('D-003'), ('D-004'), ('D-005'), ('D-006'), ('D-007'), ('D-008'), ('D-009'), ('D-010'),
-('E-001'), ('E-002'), ('E-003'), ('E-004'), ('E-005'), ('E-006'), ('E-007'), ('E-008'), ('E-009'), ('E-010'),
-('F-001'), ('F-002'), ('F-003'), ('F-004'), ('F-005'), ('F-006'), ('F-007'), ('F-008'), ('F-009'), ('F-010'),
-('G-001'), ('G-002'), ('G-003'), ('G-004'), ('G-005'), ('G-006'), ('G-007'), ('G-008'), ('G-009'), ('G-010');
 
 -- ----------------------------------------------------------
 -- 5. USUARIOS (1 ADMIN + 10 CLIENTES)
@@ -152,7 +139,7 @@ INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, pa
 VALUES ('2026-02-28 08:00:00', '2026-03-05 08:00:00', 'EN CURSO', 60.00, FALSE, NULL, 4, 4, 3, 'B-001'); -- Eneko (Tesla) - Entró hoy
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-28 20:00:00', '2026-03-02 10:00:00', 'ENTRADA CONFIRMADA', 30.00, TRUE, 'TARJETA', 4, 5, 1, NULL); -- Eneko (Vespa) - Entrará esta noche
+VALUES ('2026-02-28 20:00:00', '2026-03-02 10:00:00', 'PENDIENTE', 30.00, TRUE, 'TARJETA', 4, 5, 1, NULL); -- Eneko (Vespa) - Entrará esta noche
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
 VALUES ('2026-02-19 09:00:00', '2026-02-28 09:00:00', 'FINALIZADA', 120.00, TRUE, 'TARJETA', 5, 6, 2, 'C-001'); -- Lucia (Mercedes) - Salió hoy
@@ -168,7 +155,7 @@ INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, pa
 VALUES ('2026-02-27 10:00:00', NULL, 'EN CURSO', 0.00, FALSE, NULL, 5, 15, 1, 'E-001'); -- Lucia (Land Rover) sin fecha salida
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-03-15 09:00:00', '2026-03-19 09:00:00', 'ENTRADA CONFIRMADA', 55.00, TRUE, 'TARJETA', 9, 10, 2, NULL); -- ¡MIRA! Sofia viaja con la furgo compartida (VW)
+VALUES ('2026-03-15 09:00:00', '2026-03-19 09:00:00', 'PENDIENTE', 55.00, TRUE, 'TARJETA', 9, 10, 2, NULL); -- ¡MIRA! Sofia viaja con la furgo compartida (VW)
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
 VALUES ('2026-03-15 10:00:00', '2026-03-23 10:00:00', 'PENDIENTE', 80.00, FALSE, NULL, 10, 11, 1, NULL); -- Miguel (Porsche)
@@ -182,16 +169,46 @@ INSERT INTO reservation_additional_service (id_reservation, id_additional_servic
 -- ----------------------------------------------------------
 -- 10. FOTOS DE EVIDENCIA
 -- ----------------------------------------------------------
-INSERT INTO photo_evidence (file_path, id_reservation) VALUES 
-('/uploads/1/1.jpg', 1), ('/uploads/4/f1.jpg', 4), ('/uploads/6/1.jpg', 6), ('/uploads/8/1.jpg', 8);
+-- ----------------------------------------------------------
+-- 10. FOTOS DE EVIDENCIA (Mínimo 5 por coche recepcionado)
+-- ----------------------------------------------------------
+INSERT INTO photo_evidence (file_path, description, id_reservation) VALUES 
+-- Reserva 1 (FINALIZADA)
+('/uploads/1/front.jpg', 'Frontal', 1), ('/uploads/1/back.jpg', 'Trasera', 1), ('/uploads/1/left.jpg', 'Lateral Izquierdo', 1), ('/uploads/1/right.jpg', 'Lateral Derecho', 1), ('/uploads/1/dash.jpg', 'Salpicadero', 1),
+-- Reserva 2 (FINALIZADA)
+('/uploads/2/front.jpg', 'Frontal', 2), ('/uploads/2/back.jpg', 'Trasera', 2), ('/uploads/2/left.jpg', 'Lateral Izquierdo', 2), ('/uploads/2/right.jpg', 'Lateral Derecho', 2), ('/uploads/2/dash.jpg', 'Salpicadero', 2),
+-- Reserva 4 (EN CURSO)
+('/uploads/4/front.jpg', 'Frontal', 4), ('/uploads/4/back.jpg', 'Trasera', 4), ('/uploads/4/left.jpg', 'Lateral Izquierdo', 4), ('/uploads/4/right.jpg', 'Lateral Derecho', 4), ('/uploads/4/dash.jpg', 'Salpicadero', 4),
+-- Reserva 6 (FINALIZADA)
+('/uploads/6/front.jpg', 'Frontal', 6), ('/uploads/6/back.jpg', 'Trasera', 6), ('/uploads/6/left.jpg', 'Lateral Izquierdo', 6), ('/uploads/6/right.jpg', 'Lateral Derecho', 6), ('/uploads/6/dash.jpg', 'Salpicadero', 6),
+-- Reserva 7 (EN CURSO)
+('/uploads/7/front.jpg', 'Frontal', 7), ('/uploads/7/back.jpg', 'Trasera', 7), ('/uploads/7/left.jpg', 'Lateral Izquierdo', 7), ('/uploads/7/right.jpg', 'Lateral Derecho', 7), ('/uploads/7/dash.jpg', 'Salpicadero', 7),
+-- Reserva 8 (EN CURSO)
+('/uploads/8/front.jpg', 'Frontal', 8), ('/uploads/8/back.jpg', 'Trasera', 8), ('/uploads/8/left.jpg', 'Lateral Izquierdo', 8), ('/uploads/8/right.jpg', 'Lateral Derecho', 8), ('/uploads/8/dash.jpg', 'Salpicadero', 8),
+-- Reserva 9 (EN CURSO)
+('/uploads/9/front.jpg', 'Frontal', 9), ('/uploads/9/back.jpg', 'Trasera', 9), ('/uploads/9/left.jpg', 'Lateral Izquierdo', 9), ('/uploads/9/right.jpg', 'Lateral Derecho', 9), ('/uploads/9/dash.jpg', 'Salpicadero', 9);
 
 -- ----------------------------------------------------------
--- 11. NOTIFICACIONES
+-- 11. NOTIFICACIONES (Adaptadas a la nueva restricción de 4 tipos)
 -- ----------------------------------------------------------
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
-('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva...', '2026-02-01 10:00:00', 1),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Coche seguro...', '2026-02-06 10:15:00', 1),
-('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva...', '2026-02-19 09:00:00', 4),
-('RECORDATORIO_ENTRADA', 'Mañana le esperamos', 'Recuerde para hoy 28/02...', '2026-02-27 09:00:00', 4), -- Día antes del 28
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Tesla seguro.', '2026-02-28 08:15:00', 4),
-('RECIBO_PAGO', 'Pago Realizado', 'Adjunto recibo...', '2026-02-28 09:15:00', 6);
+-- Reserva 1 (FINALIZADA) - Completó todo el ciclo
+('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-01 10:00:00', 1),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su coche ya se encuentra en las instalaciones del parking.', '2026-02-06 10:15:00', 1),
+('RECIBO_PAGO', 'Factura de Estancia', 'Adjuntamos su factura final tras la recogida de su vehículo.', '2026-02-11 10:05:00', 1),
+
+-- Reserva 4 (EN CURSO) - Ha sido editada antes de entrar
+('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-19 09:00:00', 4),
+('ACTUALIZACION_RESERVA', 'Cambios en su reserva', 'Se han modificado los extras de su reserva. Adjuntamos factura actualizada.', '2026-02-22 11:30:00', 4),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Tesla Model Y ya está seguro con nosotros.', '2026-02-28 08:15:00', 4),
+
+-- Reserva 5 (ENTRADA CONFIRMADA) - Aún no ha llegado físicamente al parking
+('TICKET_RESERVA', 'Reserva Confirmada #5', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-25 10:00:00', 5),
+
+-- Reserva 6 (FINALIZADA) - Salió hoy
+('TICKET_RESERVA', 'Reserva Confirmada #6', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-10 10:00:00', 6),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Mercedes está en buenas manos.', '2026-02-19 09:10:00', 6),
+('RECIBO_PAGO', 'Pago Realizado con Éxito', 'Adjunto recibo de los servicios adicionales...', '2026-02-28 09:15:00', 6),
+
+-- Reserva 11 (PENDIENTE) - Entra el mes que viene
+('TICKET_RESERVA', 'Reserva Confirmada #11', 'Su reserva ha sido procesada. Adjuntamos factura inicial en PDF.', '2026-02-28 12:00:00', 11);

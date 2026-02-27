@@ -24,8 +24,7 @@
 
         const statusMap = {
             'PENDIENTE': { class: 'badge-pendiente', icon: 'bi-hourglass-split', label: 'Pending' },
-            'CONFIRMADA': { class: 'badge-confirmada', icon: 'bi-check-circle', label: 'Confirmed' },
-            'EN_CURSO': { class: 'badge-en-curso', icon: 'bi-play-circle', label: 'In Progress' },
+            'EN CURSO': { class: 'badge-en-curso', icon: 'bi-play-circle', label: 'In Progress' },
             'FINALIZADA': { class: 'badge-finalizada', icon: 'bi-check-all', label: 'Finished' },
             'CANCELADA': { class: 'badge-cancelada', icon: 'bi-x-circle', label: 'Cancelled' }
         };
@@ -33,7 +32,6 @@
     %>
 
  <%- include('partials/nav_dashboard', { activeNav: 'reservations', user: user }) %>
-    <!-- Page Header -->
     <div class="page-header py-2 mb-2">
         <div class="container-fluid px-4">
             <div class="row align-items-center">
@@ -60,7 +58,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="container-fluid px-4 pb-3">
         <form id="editReservationForm" action="/admin/reservations/<%= reservation.id_reservation %>/edit" method="POST">
             <div class="row g-2"> 
@@ -105,7 +102,7 @@
                                     <div class="row g-2">
                                         <div class="col-12">
                                             <label class="form-label small text-muted mb-1" for="license_plate">License Plate</label>
-                                            <input type="text" class="form-control form-control-sm fw-bold" id="license_plate" name="license_plate" value="<%= reservation.license_plate %>" required>
+                                            <input type="text" class="form-control form-control-sm fw-bold bg-light" id="license_plate" name="license_plate" value="<%= reservation.license_plate %>" readonly title="You cannot edit the license plate of an existing booking">
                                         </div>
                                         <div class="col-6">
                                             <label class="form-label small text-muted mb-1" for="brand">Brand</label>
@@ -184,23 +181,9 @@
                         <label class="form-label small fw-bold text-dark mb-1" for="cod_parking_spot">
                             <i class="bi bi-p-square-fill text-primary me-1"></i>Parking Spot Assignment
                         </label>
-                        <select class="form-select form-select-sm border-primary" id="cod_parking_spot" name="cod_parking_spot">
-                            <option value="">-- No spot assigned --</option>
-                            
-                            <% if (reservation.cod_parking_spot) { %>
-                                <option value="<%= reservation.cod_parking_spot %>" selected>
-                                    Spot <%= reservation.cod_parking_spot %> (Current)
-                                </option>
-                            <% } %>
-                            
-                            <% if (typeof availableSpots !== 'undefined' && availableSpots.length > 0) { %>
-                                <% availableSpots.forEach(spot => { %>
-                                    <option value="<%= spot.cod_parking_spot %>">Spot <%= spot.cod_parking_spot %> (Free)</option>
-                                <% }) %>
-                            <% } %>
-                        </select>
+                        <input type="text" class="form-control form-control-sm border-primary" id="cod_parking_spot" name="cod_parking_spot" value="<%= reservation.cod_parking_spot || '' %>" placeholder="e.g. A-15, Basement 2...">
                         <div class="form-text" style="font-size: 0.7rem;">
-                            When saving changes, the selected spot will be set to "Occupied".
+                            Type the spot where the vehicle is parked. It is mandatory for "In Progress" bookings.
                         </div>
                     </div>
 
@@ -228,7 +211,7 @@
                             
                             <hr class="my-1 border-secondary border-opacity-25">
                             
-                            <% if (reservation.status === 'PENDIENTE' || reservation.status === 'ENTRADA CONFIRMADA') { %>
+                            <% if (reservation.status === 'PENDIENTE') { %>
                                 <button type="button" id="btn_start_reservation" class="btn btn-success btn-sm py-2 shadow-sm" 
                                         data-id="<%= reservation.id_reservation %>" 
                                         data-photos="<%= reservation.photos ? reservation.photos.length : 0 %>">
@@ -240,7 +223,7 @@
                                 </button>
                             <% } %>
 
-                            <% if (reservation.status === 'EN CURSO' || reservation.status === 'SALIDA CONFIRMADA') { %>
+                            <% if (reservation.status === 'EN CURSO') { %>
                                 <button type="button" id="btn_finalize_reservation" class="btn btn-danger btn-sm py-2 shadow-sm" data-id="<%= reservation.id_reservation %>">
                                     <i class="bi bi-flag-fill me-1"></i> Finalize and Check Out
                                 </button>
@@ -312,9 +295,7 @@
                             <% } %>
                         </div>
                     </div>
-                    </div><!-- /sidebar-wrapper -->
-
-                </div>
+                    </div></div>
 
             </div>
         </form>

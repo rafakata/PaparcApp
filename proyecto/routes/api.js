@@ -13,9 +13,6 @@ router.use(isAdmin);
 /* GET API info by date*/
 router.get('/reservations', apiController.getReservationsByDate);
 
-/* GET Parking spots with status */
-router.get('/parking/spots', apiController.getParkingSpots);
-
 /* POST Calculate dynamic price */
 router.post('/pricing/dynamic', apiController.calculatePriceDynamic);
 
