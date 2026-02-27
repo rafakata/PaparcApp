@@ -1,5 +1,5 @@
 /* ============= PROFILE PAGE STYLES ============= */
-
+@import url("/stylesheets/root.css");
 .profile-main {
   min-height: calc(100vh - 200px);
   padding: 3rem 2rem;
@@ -112,7 +112,7 @@
 }
 
 .btn-primary {
-  background: var(--color-gradient, linear-gradient(135deg, #0968ef, #7ddf8b));
+  background: var(--color-primary);
   color: white;
 }
 

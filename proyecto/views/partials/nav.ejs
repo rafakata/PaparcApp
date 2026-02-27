@@ -3,8 +3,8 @@
     <a href="/">PaparcApp</a>
   </div>
 
-  <!-- Botón hamburguesa para móviles -->
-  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+  <!-- Hamburger button for mobile -->
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu">
     <i class="fas fa-bars"></i>
   </button>
 
@@ -27,7 +27,7 @@
           </button>
           <div class="nav-dropdown-menu" id="userDropdownMenu">
             <a href="/users/profile" class="nav-dropdown-item">
-              <i class="fas fa-user"></i> Mi Perfil
+              <i class="fas fa-user"></i> My Profile
             </a>
             <% if (isAdmin) { %>
             <a href="/admin/dashboard" class="nav-dropdown-item">
@@ -36,7 +36,7 @@
             <% } %>
             <hr class="nav-dropdown-divider">
             <a href="/users/logout" class="nav-dropdown-item nav-dropdown-logout">
-              <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+              <i class="fas fa-sign-out-alt"></i> Log out
             </a>
           </div>
         </div>

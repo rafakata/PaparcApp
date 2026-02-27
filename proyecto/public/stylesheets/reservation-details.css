@@ -3,6 +3,7 @@
    (Los estilos base están en dashboard-base.css)
    ============================================= */
 @import url("/stylesheets/dashboard-base.css");
+@import url("/stylesheets/root.css");
 
 /* ====== Detail Cards ====== */
 .detail-card {
@@ -12,6 +13,8 @@
   overflow: hidden;
   transition: all 0.3s ease;
   border: none;
+  position: relative;
+  z-index: 1;
 }
 
 .detail-card:hover {
@@ -69,11 +72,12 @@
 
 /* ====== Price Summary ====== */
 .price-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-primary);
   border-radius: 16px;
   color: white;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .price-card::before {
@@ -135,9 +139,9 @@
 }
 
 .btn-cancel-main {
-  background: white;
-  border: 1.5px solid #e2e8f0;
-  color: #6c757d;
+  background: var(--color-danger, #dc3545);
+  border: none;
+  color: #fff;
   font-weight: 500;
   padding: 0.7rem 2rem;
   border-radius: 10px;
@@ -146,8 +150,8 @@
 }
 
 .btn-cancel-main:hover {
-  background: #f8fafc;
-  border-color: #cbd5e0;
+  background: #b52a37;
+  color: #fff;
   transform: translateY(-2px);
 }
 

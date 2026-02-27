@@ -1,9 +1,16 @@
+
 /* =============================================
    HISTORY – Estilos específicos del historial
    (Los estilos base están en dashboard-base.css)
    ============================================= */
 @import url("/stylesheets/dashboard-base.css");
+@import url("/stylesheets/root.css");
 
+/* ====== License Plate Custom Color ====== */
+.license-plate {
+  background: var(--color-primary) !important;
+  color: #fff !important;
+}
 /* ====== Filter Card ====== */
 .filter-card {
   border-radius: 16px !important;
@@ -16,7 +23,7 @@
 .fw-500 { font-weight: 500; }
 
 .btn-primary {
-  background: var(--gradient-primary);
+  background: var(--color-primary);
   border: none;
   border-radius: 10px;
   font-weight: 500;

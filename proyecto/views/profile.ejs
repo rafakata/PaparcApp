@@ -35,7 +35,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi Cuenta | PaparcApp</title>
+    <title>My Account | PaparcApp</title>
     <link rel="stylesheet" href="/stylesheets/reserva.css" />
     <link rel="stylesheet" href="/stylesheets/profile.css" />
     <link rel="stylesheet" href="/stylesheets/nav-responsive.css" />
@@ -63,33 +63,33 @@
         <section class="profile-panel user-reserva-panel">
           <div class="panel-header">
             <i class="fas fa-user-circle"></i>
-            <h2>Mi Cuenta</h2>
+            <h2>My Account</h2>
           </div>
           <div class="user-info">
-            <p><strong>Nombre:</strong> <%= user ? user.nombre : 'Usuario' %></p>
+            <p><strong>Name:</strong> <%= user ? user.nombre : 'User' %></p>
             <p><strong>Email:</strong> <%= user ? user.email : '' %></p>
             <button class="btn btn-edit-profile" onclick="openEditModal()">
-              <i class="fas fa-pen"></i> Editar Datos
+              <i class="fas fa-pen"></i> Edit Data
             </button>
           </div>
 
           <div class="reserva-actual">
-            <h3><i class="fas fa-calendar-check"></i> Reserva Actual</h3>
+            <h3><i class="fas fa-calendar-check"></i> Current Booking</h3>
             <% if (reservaActual) { %>
               <div class="reserva-card">
-                <p><i class="fas fa-calendar-day"></i> <strong>Fecha:</strong> <%= reservaActual.fecha %></p>
-                <p><i class="fas fa-clock"></i> <strong>Hora:</strong> <%= reservaActual.hora %></p>
-                <p><i class="fas fa-concierge-bell"></i> <strong>Servicio:</strong> <%= reservaActual.servicio %></p>
+                <p><i class="fas fa-calendar-day"></i> <strong>Date:</strong> <%= reservaActual.fecha %></p>
+                <p><i class="fas fa-clock"></i> <strong>Time:</strong> <%= reservaActual.hora %></p>
+                <p><i class="fas fa-concierge-bell"></i> <strong>Service:</strong> <%= reservaActual.servicio %></p>
                 <div class="reserva-actions">
-                  <button class="btn btn-primary" onclick="openBookingModal()"><i class="fas fa-edit"></i> Modificar Reserva</button>
-                  <button class="btn btn-secondary" onclick="openBookingModal()"><i class="fas fa-plus"></i> Nueva Reserva</button>
+                  <button class="btn btn-primary" onclick="openBookingModal()"><i class="fas fa-edit"></i> Edit Booking</button>
+                  <button class="btn btn-secondary" onclick="openBookingModal()"><i class="fas fa-plus"></i> New Booking</button>
                 </div>
               </div>
             <% } else { %>
               <div class="no-reserva">
                 <i class="fas fa-info-circle"></i>
-                <p>No tienes ninguna reserva activa.</p>
-                <button class="btn btn-primary" onclick="openBookingModal()">Hacer una Reserva</button>
+                <p>You have no active bookings.</p>
+                <button class="btn btn-primary" onclick="openBookingModal()">Make a Booking</button>
               </div>
             <% } %>
           </div>
@@ -104,7 +104,7 @@
 
           <div class="panel-header">
             <i class="fas fa-history"></i>
-            <h2>Historial de Reservas</h2>
+            <h2>Booking History</h2>
           </div>
           <div class="historial-lista">
             <% if (historial && historial.length > 0) { %>
@@ -123,7 +123,7 @@
             <% } else { %>
               <div class="no-historial">
                 <i class="fas fa-folder-open"></i>
-                <p>No hay reservas anteriores.</p>
+                <p>No previous bookings.</p>
               </div>
             <% } %>
           </div>
@@ -137,7 +137,7 @@
     <div class="modal-overlay" id="bookingModal">
       <div class="modal-container modal-booking">
         <div class="modal-header">
-          <h2><i class="fas fa-car"></i> Nueva Reserva</h2>
+          <h2><i class="fas fa-car"></i> New Booking</h2>
           <button class="modal-close" onclick="closeBookingModal()">
             <i class="fas fa-times"></i>
           </button>
@@ -145,80 +145,80 @@
 
         <!-- Steps indicator -->
         <div class="booking-steps">
-          <div class="step active" id="step-ind-1"><span>1</span> Fechas</div>
+          <div class="step active" id="step-ind-1"><span>1</span> Dates</div>
           <div class="step-line"></div>
-          <div class="step" id="step-ind-2"><span>2</span> Vehículo</div>
+          <div class="step" id="step-ind-2"><span>2</span> Vehicle</div>
           <div class="step-line"></div>
-          <div class="step" id="step-ind-3"><span>3</span> Confirmar</div>
+          <div class="step" id="step-ind-3"><span>3</span> Confirm</div>
         </div>
 
-        <!-- Step 1: Fechas -->
+        <!-- Step 1: Dates -->
         <form class="modal-body" id="booking-step-1">
           <div class="form-row">
             <div class="form-group">
-              <label for="book-entrada"><i class="fas fa-plane-departure"></i> Fecha de Entrada</label>
+              <label for="book-entrada"><i class="fas fa-plane-departure"></i> Entry Date</label>
               <input type="datetime-local" id="book-entrada" name="entrada" required />
             </div>
             <div class="form-group">
-              <label for="book-salida"><i class="fas fa-plane-arrival"></i> Fecha de Salida</label>
+              <label for="book-salida"><i class="fas fa-plane-arrival"></i> Exit Date</label>
               <input type="datetime-local" id="book-salida" name="salida" required />
             </div>
           </div>
           <div class="booking-price-preview" id="booking-price-preview">
-            <i class="fas fa-tag"></i> <span>Selecciona las fechas para ver el precio</span>
+            <i class="fas fa-tag"></i> <span>Select dates to see the price</span>
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn btn-cancel" onclick="closeBookingModal()">Cancelar</button>
-            <button type="button" class="btn btn-save" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+            <button type="button" class="btn btn-cancel" onclick="closeBookingModal()">Cancel</button>
+            <button type="button" class="btn btn-save" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </form>
 
-        <!-- Step 2: Vehículo -->
+        <!-- Step 2: Vehicle -->
         <div class="modal-body" id="booking-step-2" style="display: none;">
           <div class="form-group">
-            <label for="book-matricula"><i class="fas fa-id-badge"></i> Matrícula</label>
+            <label for="book-matricula"><i class="fas fa-id-badge"></i> License Plate</label>
             <input type="text" id="book-matricula" name="matricula" placeholder="0000-XXX" required />
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="book-marca"><i class="fas fa-car"></i> Marca</label>
-              <input type="text" id="book-marca" name="marca" placeholder="Marca del coche" required />
+              <label for="book-marca"><i class="fas fa-car"></i> Brand</label>
+              <input type="text" id="book-marca" name="marca" placeholder="Car Brand" required />
             </div>
             <div class="form-group">
-              <label for="book-modelo"><i class="fas fa-car-side"></i> Modelo</label>
-              <input type="text" id="book-modelo" name="modelo" placeholder="Modelo del coche" required />
+              <label for="book-modelo"><i class="fas fa-car-side"></i> Model</label>
+              <input type="text" id="book-modelo" name="modelo" placeholder="Car Model" required />
             </div>
           </div>
           <div class="form-group">
             <label for="book-color"><i class="fas fa-palette"></i> Color</label>
-            <input type="text" id="book-color" name="color" placeholder="Color del vehículo" />
+            <input type="text" id="book-color" name="color" placeholder="Vehicle Color" />
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Atrás</button>
-            <button type="button" class="btn btn-save" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Siguiente</button>
+            <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-save" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
 
-        <!-- Step 3: Confirmación -->
+        <!-- Step 3: Confirmation -->
         <div class="modal-body" id="booking-step-3" style="display: none;">
           <div class="booking-summary">
-            <h3><i class="fas fa-clipboard-check"></i> Resumen de tu Reserva</h3>
+            <h3><i class="fas fa-clipboard-check"></i> Booking Summary</h3>
             <div class="summary-grid">
               <div class="summary-item">
                 <i class="fas fa-plane-departure"></i>
-                <div><strong>Entrada</strong><span id="sum-entrada">-</span></div>
+                <div><strong>Entry</strong><span id="sum-entrada">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-plane-arrival"></i>
-                <div><strong>Salida</strong><span id="sum-salida">-</span></div>
+                <div><strong>Exit</strong><span id="sum-salida">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-id-badge"></i>
-                <div><strong>Matrícula</strong><span id="sum-matricula">-</span></div>
+                <div><strong>License Plate</strong><span id="sum-matricula">-</span></div>
               </div>
               <div class="summary-item">
                 <i class="fas fa-car"></i>
-                <div><strong>Vehículo</strong><span id="sum-vehiculo">-</span></div>
+                <div><strong>Vehicle</strong><span id="sum-vehiculo">-</span></div>
               </div>
             </div>
             <div class="summary-price">
@@ -227,8 +227,8 @@
             </div>
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Atrás</button>
-            <button type="button" class="btn btn-save btn-confirm-booking" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirmar Reserva</button>
+            <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn btn-save btn-confirm-booking" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirm Booking</button>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@
     <div class="modal-overlay" id="editModal">
       <div class="modal-container">
         <div class="modal-header">
-          <h2><i class="fas fa-user-edit"></i> Editar Perfil</h2>
+          <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
           <button class="modal-close" onclick="closeEditModal()">
             <i class="fas fa-times"></i>
           </button>
@@ -247,50 +247,50 @@
         <!-- Tabs -->
         <div class="modal-tabs">
           <button class="modal-tab active" onclick="switchTab('datos')" id="tab-datos">
-            <i class="fas fa-id-card"></i> Datos Personales
+            <i class="fas fa-id-card"></i> Personal Data
           </button>
           <button class="modal-tab" onclick="switchTab('password')" id="tab-password">
-            <i class="fas fa-lock"></i> Cambiar Contraseña
+            <i class="fas fa-lock"></i> Change Password
           </button>
         </div>
 
-        <!-- Tab Datos Personales -->
+        <!-- Tab Personal Data -->
         <form class="modal-body" id="form-datos">
           <div class="form-group">
-            <label for="edit-nombre"><i class="fas fa-user"></i> Nombre</label>
-            <input type="text" id="edit-nombre" name="nombre" value="<%= user ? user.nombre : '' %>" placeholder="Tu nombre" />
+            <label for="edit-nombre"><i class="fas fa-user"></i> Name</label>
+            <input type="text" id="edit-nombre" name="nombre" value="<%= user ? user.nombre : '' %>" placeholder="Your name" />
           </div>
           <div class="form-group">
             <label for="edit-email"><i class="fas fa-envelope"></i> Email</label>
-            <input type="email" id="edit-email" name="email" value="<%= user ? user.email : '' %>" placeholder="tu@email.com" />
+            <input type="email" id="edit-email" name="email" value="<%= user ? user.email : '' %>" placeholder="your@email.com" />
           </div>
           <div class="form-group">
-            <label for="edit-telefono"><i class="fas fa-phone"></i> Teléfono</label>
+            <label for="edit-telefono"><i class="fas fa-phone"></i> Phone</label>
             <input type="tel" id="edit-telefono" name="telefono" value="<%= user ? user.telefono || '' : '' %>" placeholder="600 123 456" />
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancelar</button>
-            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Guardar Cambios</button>
+            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Save Changes</button>
           </div>
         </form>
 
-        <!-- Tab Cambiar Contraseña -->
+        <!-- Tab Change Password -->
         <form class="modal-body" id="form-password" style="display: none;">
           <div class="form-group">
-            <label for="current-password"><i class="fas fa-key"></i> Contraseña Actual</label>
+            <label for="current-password"><i class="fas fa-key"></i> Current Password</label>
             <input type="password" id="current-password" name="currentPassword" placeholder="••••••••" />
           </div>
           <div class="form-group">
-            <label for="new-password"><i class="fas fa-lock"></i> Nueva Contraseña</label>
+            <label for="new-password"><i class="fas fa-lock"></i> New Password</label>
             <input type="password" id="new-password" name="newPassword" placeholder="••••••••" />
           </div>
           <div class="form-group">
-            <label for="confirm-password"><i class="fas fa-check-circle"></i> Confirmar Contraseña</label>
+            <label for="confirm-password"><i class="fas fa-check-circle"></i> Confirm Password</label>
             <input type="password" id="confirm-password" name="confirmPassword" placeholder="••••••••" />
           </div>
           <div class="modal-actions">
-            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancelar</button>
-            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Cambiar Contraseña</button>
+            <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+            <button type="submit" class="btn btn-save"><i class="fas fa-save"></i> Change Password</button>
           </div>
         </form>
       </div>
@@ -392,7 +392,7 @@
       }
 
       function confirmBooking() {
-        alert('¡Reserva confirmada! Te enviaremos un email con los detalles.');
+        alert('Booking confirmed! We will send you an email with the details.');
         closeBookingModal();
       }
     </script>

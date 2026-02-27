@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Página de Registro</title>
+    <title>Registration Page</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Zen+Dots&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
 
         <form action="/users/register" method="POST">
           <div class="secciones">
-            <label for="full_name">Name and Surname</label> 
+            <label for="full_name">Full Name</label> 
             <input
               type="text"
               name="full_name"
@@ -38,11 +38,11 @@
               required
               minlength="3"
               maxlength="50"
-            /> <!-- value con variables EJS, si el usuario tuvo un error en el formulario, se mantiene el valor -->
+            /> <!-- value with EJS variables, if the user had a form error, the value is kept -->
           </div>
           <div class="secciones">
             <label for="email">Email</label>
-            <input type="email" name="email" id="email" value="<%= locals.formData ? locals.formData.email : '' %>" required /> <!-- value con variables EJS, si el usuario tuvo un error en el formulario, se mantiene el valor -->
+            <input type="email" name="email" id="email" value="<%= locals.formData ? locals.formData.email : '' %>" required /> <!-- value with EJS variables, if the user had a form error, the value is kept -->
           </div>
           <div class="secciones">
             <label for="password">Password</label>
@@ -87,13 +87,13 @@
         </div>
         <a href="/" class="back-home">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg>
-          Volver a inicio
+          Back to Home
         </a>
       </div>
       <div class="imagen">
         <img
           src="/images/interior-del-coche-jambzg90306g9tjn.jpg"
-          alt="Portal de Acceso"
+          alt="Access Portal"
         />
       </div>
     </div>
@@ -112,7 +112,7 @@
               toast: true,
               position: 'bottom-end',
               icon: type,
-              title: type === 'success' ? '¡Bien hecho!' : 'Error',
+              title: type === 'success' ? 'Well done!' : 'Error',
               text: flash.getAttribute('data-text'),
               showConfirmButton: false,
               timer: 4000,
