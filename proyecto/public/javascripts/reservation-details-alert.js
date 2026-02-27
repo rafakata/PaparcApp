@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else window.location.href = '/admin/dashboard';
         }
 
-        // delegacion de eventos para el boton de eliminar reserva (sof delete), no se elimina de la base de datos solo se cambia su estado
+        // boton cancelar reserva (soft delete, cambia el estado a 'CANCELADA')
         const btnDelete = event.target.closest('#btn_delete_reservation');
         if (btnDelete) {
 
@@ -101,10 +101,84 @@ document.addEventListener('DOMContentLoaded', () => {
             })
 
         }
+
+        // botón para recepcionar vehículo (cambia el estado a 'EN CURSO')
+        const btnStart = event.target.closest('#btn_start_reservation');
+        if (btnStart) {
+            const reservationId = btnStart.getAttribute('data-id');
+            const photoCount = parseInt(btnStart.getAttribute('data-photos'));
+
+            // REGLA DE NEGOCIO: Mínimo 5 fotos
+            if (photoCount < 5) {
+                showInteractiveAlert(
+                    'error',
+                    'Faltan Evidencias',
+                    `Necesitas subir al menos 5 fotos del vehículo antes de recepcionarlo. Actualmente hay ${photoCount}.`,
+                    'Entendido'
+                );
+                return; // Cortamos la ejecución aquí
+            }
+
+            Swal.fire({
+                title: 'Va a recepcionar esta reserva',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#198754',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, recepcionar',
+                cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // Aquí iría el fetch a /admin/reservations/:id/start
+                    // Te lo prepararé en el siguiente paso cuando configuremos el backend
+                    console.log('Haciendo fetch para Iniciar...');
+                }
+            });
+        }
+
+        // botón para finalizar reserva (cambia el estado a 'FINALIZADA') + confirmación de pago
+        const btnFinalize = event.target.closest('#btn_finalize_reservation');
+        if (btnFinalize) {
+            const reservationId = btnFinalize.getAttribute('data-id');
+
+            // REGLA DE NEGOCIO: Cobrar antes de salir
+            // En lugar de una simple alerta, lanzamos un modal interactivo para cobrar
+            Swal.fire({
+                title: 'Finalizar Estancia',
+                html: `
+                    <p class="text-muted mb-3">Confirma el método de pago para dar salida al vehículo.</p>
+                    <select id="swal-payment-method" class="form-select form-select-lg mb-3">
+                        <option value="" disabled selected>Selecciona método de pago...</option>
+                        <option value="TARJETA">Tarjeta de Crédito/Débito</option>
+                        <option value="EFECTIVO">Efectivo</option>
+                    </select>
+                `,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Confirmar Pago y Salida',
+                cancelButtonText: 'Cancelar',
+                preConfirm: () => {
+                    const method = document.querySelector('#swal-payment-method').value;
+                    if (!method) {
+                        Swal.showValidationMessage('Debes seleccionar un método de pago');
+                    }
+                    return { paymentMethod: method };
+                }
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const paymentMethod = result.value.paymentMethod;
+                    // Aquí iría el fetch a /admin/reservations/:id/finalize
+                    // Enviando { payment_method: paymentMethod, is_paid: true }
+                    console.log('Haciendo fetch para Finalizar con método:', paymentMethod);
+                }
+            });
+        }
+
     });
 
     
-
     // delegacion de eventos para el cambio visual de los checkboxes
     const extraContainer = document.querySelector('#additional_services_container');
     if (extraContainer) {

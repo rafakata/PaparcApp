@@ -39,18 +39,20 @@ const adminController = {
 
             if (!reservation) return res.redirect('/admin/dashboard');
 
-            const [vehicleTypes, mainServices, additionalServices] = await Promise.all([
+            const [vehicleTypes, mainServices, additionalServices, availableSpots] = await Promise.all([
                 serviceCatalogDAO.getVehicleTypes(),
                 serviceCatalogDAO.getMainServices(),
-                serviceCatalogDAO.getAllAdditionalServices()
-            ]);
+                serviceCatalogDAO.getAllAdditionalServices(),
+                reservationDAO.getAvailableParkingSpots()
+            ]);;
             
             res.render('reservation-details', {
                 title : `Gestión Reserva #${id}`,
                 reservation : reservation ,
                 vehicleTypes : vehicleTypes,
                 mainServices : mainServices,
-                additionalServices : additionalServices
+                additionalServices : additionalServices,
+                availableSpots : availableSpots
             });
 
         } catch (error) {
@@ -76,7 +78,7 @@ const adminController = {
             // extraemos los datos del formulario
             const { entry_date, exit_date, license_plate, 
                     brand, model, color, vehicle_type, 
-                    id_main_service, additionalServices
+                    id_main_service, additionalServices, cod_parking_spot
             } = req.body;
 
             // normalizamos los servicios adicionales para que siempre sea un array
@@ -117,7 +119,8 @@ const adminController = {
                 model : model,
                 color : color,
                 vehicle_type : vehicle_type,
-                additional_services : arrayAdditionalServices
+                additional_services : arrayAdditionalServices,
+                cod_parking_spot : cod_parking_spot ? parseInt(cod_parking_spot) : null
             };
 
             // ejecutamos la actualización de la reserva en la base de datos
