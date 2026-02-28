@@ -3,6 +3,14 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- 0. LÓGICA DEL BOTÓN GO BACK ---
+    document.body.addEventListener('click', function(event) {
+        if (event.target.closest('#btn_go_back')) {
+            if (window.opener) window.close();
+            else window.location.href = '/admin/dashboard';
+        }
+    });
+
     const bookingForm = document.querySelector('#createReservationForm');
     const btnSubmit = document.querySelector('#btn_confirm_booking');
 
@@ -89,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // bloqueamos el botón y mostramos un spinner para indicar que se está procesando UX
             btnSubmit.disabled = true;
-            btnSubmit.textContent = 'Procesando...';
+            btnSubmit.textContent = ' Procesando...';
 
             const spinner = document.createElement('span');
             spinner.className = 'spinner-border spinner-border-sm me-2';
@@ -128,14 +136,28 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <p class="mb-0 fs-5 text-success"><b>Total:</b> ${result.data.total_price} €</p>
                             </div>
                         `,
-                        confirmButtonText: '<i class="bi bi-printer me-1"></i> ok',
+                        confirmButtonText: '<i class="bi bi-box-arrow-up-right me-1"></i> Ir a la reserva',
+                        showCancelButton: true,
+                        cancelButtonText: 'Nueva reserva',
                         confirmButtonColor: '#198754',
+                        cancelButtonColor: '#6c757d',
                         allowOutsideClick: false
 
                     }) .then ((sweetResult) => {
+                        
+                        // En cualquier caso, si hay una pestaña padre, la actualizamos para que refleje la nueva reserva
+                        if (window.opener) {
+                            window.opener.location.reload();
+                        }
+
                         if (sweetResult.isConfirmed) {
-                            // Redirigimos a la página principal del dashboard
-                            window.location.href = '/admin/dashboard';
+                            // Abrir los detalles en una pestaña nueva
+                            window.open(`/admin/reservations/details/${result.data.id_reservation}`, '_blank', 'opener');
+                            // Limpiar el formulario actual para seguir trabajando
+                            window.location.reload();
+                        } else if (sweetResult.dismiss === Swal.DismissReason.cancel) {
+                            // Solo limpiar el formulario para crear otra
+                            window.location.reload();
                         }
                     })
 
@@ -163,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
 
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = 'Confirmar Reserva';
+                btnSubmit.textContent = ' Confirmar Reserva';
 
                 const icon = document.createElement('i');
                 icon.className = 'bi bi-check-circle-fill me-1';

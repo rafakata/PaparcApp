@@ -30,4 +30,13 @@ router.post('/reservations/new', adminController.createNewReservation);
 /* PATCH /reservations/:id/cancel (soft delete) */
 router.patch('/reservations/:id/cancel', adminController.cancelReservation);
 
+/* PATCH /reservations/:id/start (Cambia a EN CURSO) */
+router.patch('/reservations/:id/start', adminController.startReservation);
+
+/* PATCH /reservations/:id/finalize (Cambia a FINALIZADA y cobra) */
+router.patch('/reservations/:id/finalize', adminController.finalizeReservation);
+
+/* POST /reservations/:id/photos (Añade una foto de evidencia) */
+router.post('/reservations/:id/photos', adminController.addPhoto);
+
 module.exports = router;         

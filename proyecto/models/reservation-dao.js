@@ -458,6 +458,113 @@ class ReservationDAO {
         }
     }
 
+    /**
+     * Cambia el estado de una reserva en estado 'PENDIENTE' a 'EN CURSO',
+     * si la reserva no tiene asignada una plaza de aparcamiento y tampoco tiene el mínimo de fotos de evidencia
+     * requerida, no se podrá cambiar de estado y lanzara un error/alerta indicando el motivo.
+     * @param {number} id_reservation - ID de la reserva a iniciar
+     * @returns {boolean} - true si se actualizó, false si no se encontró o no se cumplen los requisitos
+     * @throws - Error si ocurre algún problema durante el proceso o si no se cumplen los requisitos para iniciar la reserva
+     */
+    async startReservation(id_reservation) {
+
+        const sql = `
+            UPDATE reservation
+            SET status = 'EN CURSO'
+            WHERE id_reservation = $1
+            RETURNING id_reservation
+        `;
+
+        try {
+
+            const result = await db.query(sql, [id_reservation]);
+            if (result.rowCount === 0) {
+                throw new Error('No se encontró la reserva para iniciar');
+            } 
+
+            return true;
+
+        } catch (error) {
+
+            console.error(`Error al recepcionar la reserva ${id_reservation}:`, error);
+            throw new Error('Error al actualizar el estado de la reserva en la BD', { cause: error });
+
+        }
+    }
+
+    /**
+     * Finaliza la reserva cambiando su estado a 'FINALIZADA' y guardando el metodo y el estado del pago.
+     * @param {number} id_reservation - ID de la reserva a finalizar
+     * @param {string} payment_method - Método de pago utilizado
+     * @returns {boolean} - true si se actualizó, false si no se encontró
+     * @throws - Error si ocurre algún problema durante el proceso
+     */
+    async finishReservationAndPayment(id_reservation, payment_method) {
+
+        const sql = `
+            UPDATE reservation
+            SET status = 'FINALIZADA',
+                is_paid = true,
+                payment_method = $2
+            WHERE id_reservation = $1
+            RETURNING id_reservation
+        `;
+
+        try {
+
+            const result = await db.query(sql, [id_reservation, payment_method]);
+            if (result.rowCount === 0) {
+                throw new Error('No se encontró la reserva para finalizar');
+            }
+
+            return true;
+
+        } catch (error) {
+
+            console.error(`Error al finalizar la reserva ${id_reservation}:`, error);
+            throw new Error('Error al finalizar la reserva en la BD', { cause: error });
+            
+        }
+
+    }
+
+    /**
+     * Añade una nueva foto de evidencia a una reserva específica.
+     * @param {number} id_reservation - ID de la reserva
+     * @param {string} file_path - URL o ruta de la foto a guardar
+     * @param {string} description - Texto descriptivo de la foto (opcional)
+     * @returns {boolean} - true si se insertó correctamente
+     * @throws - Error si ocurre algún problema en la base de datos
+     */
+    async addPhotoEvidence(id_reservation, file_path, description = null) {
+        
+        // si no se ha proporcionado una descripción válida (null, vacía o solo espacios), se guarda como null en la base de datos para evitar guardar descripciones vacías o con solo espacios
+        const descValue = description && description.trim() !== '' ? description.trim() : null;
+
+        const sql = `
+            INSERT INTO photo_evidence (id_reservation, file_path, description)
+            VALUES ($1, $2, $3)
+            RETURNING id_photo
+        `;
+
+        try {
+
+            const result = await db.query(sql, [id_reservation, file_path, descValue]);
+            
+            if (result.rowCount > 0) {
+                return true;
+            } else {
+                throw new Error('No se pudo guardar la foto en la base de datos');
+            }
+            
+        } catch (error) {
+
+            console.error(`Error al guardar la foto para la reserva ${id_reservation}:`, error);
+            throw new Error('Error al insertar la evidencia fotográfica', { cause: error });
+            
+        }
+    }
+
 }
 
 module.exports = new ReservationDAO();

@@ -5,10 +5,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // delegacion de eventos para los cliks de la pagina
-    document.body.addEventListener('click', function(event) {
+    document.body.addEventListener('click', async function(event) {
 
-        // boton descartar cambios
-        if (event.target.closest('#btn_cancel_changes')) {
+        // boton volver atras (cierra la ventana actual y recarga el padre para mostrar los cambios)
+        if (event.target.closest('#btn_go_back')) {
 
             if (window.opener) window.close();
             else window.location.href = '/admin/dashboard';
@@ -102,6 +102,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
+        // boton para subir fotos de las reservas
+        const btnUploadPhoto = event.target.closest('#btn_upload_photo');
+        if (btnUploadPhoto) {
+
+            const reservationId = btnUploadPhoto.getAttribute('data-id');
+            const inputUrl = document.querySelector('#photo_url_input');
+            const inputDescription = document.querySelector('#photo_desc_input');
+
+            const fileUrl = inputUrl.value.trim();
+            const fileDesc = inputDescription ? inputDescription.value.trim() : ''; // Extraemos el texto 
+
+            if (!fileUrl) {
+                showInteractiveAlert(
+                    'error',
+                    'URL vacía',
+                    'Por favor, ingresa la URL de la foto que deseas subir.',
+                    'Entendido'
+                );
+                return;
+            }
+
+            const originalNodes = Array.from(btnUploadPhoto.childNodes); // guardamos los nodos originales para restaurarlos luego
+            btnUploadPhoto.textContent = 'Subiendo...';
+            btnUploadPhoto.disabled = true;
+
+            const spinner = document.createElement('span');
+            spinner.className = 'spinner-border spinner-border-sm me-2';
+            btnUploadPhoto.appendChild(spinner);
+
+            try {
+
+                const response = await fetch(`/admin/reservations/${reservationId}/photos`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ file_path: fileUrl, description: fileDesc })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+
+                    window.location.reload(); // recarga la pagina para mostrar la nueva foto
+
+                } else {
+
+                    showInteractiveAlert(
+                        'error',
+                        'Error al subir foto',
+                        data.message || 'Ocurrió un error al intentar subir la foto. Por favor, inténtalo de nuevo.',
+                        'Volver'
+                    );
+
+                    btnUploadPhoto.textContent = '';
+                    originalNodes.forEach(node => btnUploadPhoto.appendChild(node)); // restauramos los nodos originales
+                    btnUploadPhoto.disabled = false;
+                }
+
+            } catch (error) {
+
+                console.error('Error al subir foto:', error);
+                showInteractiveAlert(
+                    'error',
+                    'Error de red',
+                    'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
+                    'Volver'
+                );
+
+                btnUploadPhoto.textContent = '';
+                originalNodes.forEach(node => btnUploadPhoto.appendChild(node)); // restauramos los nodos originales
+                btnUploadPhoto.disabled = false;
+            }
+
+        }
+
         // botón para recepcionar vehículo (cambia el estado a 'EN CURSO')
         const btnStart = event.target.closest('#btn_start_reservation');
         if (btnStart) {
@@ -128,10 +204,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 confirmButtonText: 'Sí, recepcionar',
                 cancelButtonText: 'Cancelar'
             }).then(async (result) => {
+
                 if (result.isConfirmed) {
-                    // Aquí iría el fetch a /admin/reservations/:id/start
-                    // Te lo prepararé en el siguiente paso cuando configuremos el backend
-                    console.log('Haciendo fetch para Iniciar...');
+                    
+                    const originalText = btnStart.textContent;
+                    btnStart.textContent = 'Procesando...';
+                    btnStart.disabled = true;
+
+                    try {
+
+                        const response = await fetch(`/admin/reservations/${reservationId}/start`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.success) {
+
+                            showInteractiveAlert(
+                                'success',
+                                'El vehículo ha sido recepcionado',
+                                'La reserva ha cambiado a estado "EN CURSO".',
+                                'Continuar'
+                            ) .then (() =>  window.location.reload()); // recarga la pagina para mostrar el nuevo estado
+
+                        } else {
+
+                            showInteractiveAlert(
+                                'error',
+                                'Error al recepcionar',
+                                data.message || 'Ocurrió un error al intentar recepcionar la reserva. Por favor, inténtalo de nuevo.',
+                                'Volver'
+                            );
+                        }
+
+                    } catch (error) {
+                        console.error('Error en la solicitud:', error);
+                        showInteractiveAlert(
+                            'error',
+                            'Error de red',
+                            'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
+                            'Volver'
+                        );
+
+                    } finally {
+                        btnStart.textContent = originalText;
+                        btnStart.disabled = false;
+                    }
                 }
             });
         }
@@ -167,11 +289,59 @@ document.addEventListener('DOMContentLoaded', () => {
                     return { paymentMethod: method };
                 }
             }).then(async (result) => {
+
                 if (result.isConfirmed) {
+
                     const paymentMethod = result.value.paymentMethod;
-                    // Aquí iría el fetch a /admin/reservations/:id/finalize
-                    // Enviando { payment_method: paymentMethod, is_paid: true }
-                    console.log('Haciendo fetch para Finalizar con método:', paymentMethod);
+                    const originalText = btnFinalize.textContent;
+                    btnFinalize.textContent = 'Finalizando...';
+                    btnFinalize.disabled = true;
+
+                    try {
+
+                        const response = await fetch(`/admin/reservations/${reservationId}/finalize`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ paymentMethod })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.success) {
+
+                            showInteractiveAlert(
+                                'success',
+                                'Reserva Finalizada',
+                                `La reserva ha sido finalizada exitosamente. Método de pago: ${paymentMethod}.`,
+                                'Volver al panel'
+                            ) .then (() =>  window.location.reload()); // recarga la pagina para mostrar el nuevo estado
+
+                        } else {
+
+                            showInteractiveAlert(
+                                'error',
+                                'Error al finalizar',
+                                data.message || 'Ocurrió un error al intentar finalizar la reserva. Por favor, inténtalo de nuevo.',
+                                'Volver'
+                            );
+                        }
+
+                    } catch (error) {
+
+                        console.error('Error en la solicitud:', error);
+                        showInteractiveAlert(
+                            'error',
+                            'Error de red',
+                            'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
+                            'Volver'
+                        );
+
+                    } finally {
+                        btnFinalize.textContent = originalText;
+                        btnFinalize.disabled = false;
+                    }
                 }
             });
         }
@@ -191,25 +361,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // comprobar url y lanzar la alerta usando la utilidad global de flash-alert.js
     const urlParams = new URLSearchParams(window.location.search); // obtenemos los parametros de la url
+
     if (urlParams.has('updated')) {
 
         showInteractiveAlert(
             'success',
             '¡Reserva actualizada con éxito!',
             'Los cambios se han guardado correctamente.',
-            'Volver al panel'
+            'OK'
         ) .then ((result) => {
             if (result.isConfirmed) {
                 if (window.opener) {
                     window.opener.location.reload(); // recarga la pagina del padre para mostrar los cambios
-                    window.close(); // cierra la ventana actual
-                } else {
-                    window.location.href = '/admin/dashboard'; // redirige al dashboard si no hay ventana padre
                 }
             }
         });
 
         // Limpiar los parámetros de la URL para evitar que la alerta se muestre nuevamente al recargar
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    if (urlParams.has('error')) {
+        const errorMessage = urlParams.get('error');
+        
+        showInteractiveAlert(
+            'error',
+            'No se pudieron guardar los cambios',
+            errorMessage,
+            'Revisar'
+        );
+
+        // Limpiamos la URL para que la alerta no vuelva a saltar si el usuario recarga la página
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 

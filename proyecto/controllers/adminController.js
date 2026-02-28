@@ -74,9 +74,11 @@ const adminController = {
             const id_reservation = req.params.id;
 
             // extraemos los datos del formulario
-            const { entry_date, exit_date, 
-                    brand, model, color, vehicle_type, 
-                    id_main_service, additionalServices, cod_parking_spot
+            const { 
+                customer_name, phone, email,
+                entry_date, exit_date, 
+                brand, model, color, vehicle_type, 
+                id_main_service, additional_services, cod_parking_spot
             } = req.body;
 
             // limpieamos la plaza quitando espacios en blanco y convirtiendo a mayúsculas para mantener un formato consistente
@@ -88,20 +90,26 @@ const adminController = {
 
             // restricion de seguridad, solo permitimos actualizar reservas que estén en estado EN CURSO o FINALIZADA
             const currentReservation = await reservationDAO.getInfoReservationByIdReservation(id_reservation);
+
+            if (!currentReservation) {
+                return res.redirect('/admin/dashboard');
+            }
+
             const requireStatus = ['EN CURSO','FINALIZADA'];
 
-            if (!requireStatus.includes(currentReservation.status) && !normalizedCodParkingSpot) {
-                return res.status(400).send(`Para actualizar una reserva que está en estado '${currentReservation.status}' es necesario asignar una plaza de parking. Por favor, asigna una plaza de parking para continuar con la actualización.`);
+            if (requireStatus.includes(currentReservation.status) && !normalizedCodParkingSpot) {
+                const errMsg = `Para actualizar una reserva que está en estado '${currentReservation.status}' es necesario asignar una plaza de parking. Por favor, asigna una plaza de parking para continuar con la actualización.`;
+                return res.redirect(`/admin/reservations/details/${id_reservation}?error=${encodeURIComponent(errMsg)}`);
             }
 
             // normalizamos los servicios adicionales para que siempre sea un array
             let arrayAdditionalServices = [];
 
-            if (additionalServices) {
-                if (Array.isArray(additionalServices)) { // si es un array, lo mapeamos a enteros
-                    arrayAdditionalServices = additionalServices.map( id => parseInt(id) );
+            if (additional_services) {
+                if (Array.isArray(additional_services)) { // si es un array, lo mapeamos a enteros
+                    arrayAdditionalServices = additional_services.map( id => parseInt(id) );
                 } else { // si es un solo valor, lo convertimos a entero y lo ponemos en un array
-                    arrayAdditionalServices = [parseInt(additionalServices)];
+                    arrayAdditionalServices = [parseInt(additional_services)];
                 }
             }
 
@@ -374,6 +382,146 @@ const adminController = {
             console.error('Error en el controlador cancelReservation:', error);
             return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
 
+        }
+    },
+
+    /**
+     * PATCH /admin/reservations/:id/start
+     * Cambia el estado de una reserva a "EN CURSO" para indicar que el cliente ha entrado al parking.
+     * Solo permite iniciar reservas que estén en estado "PENDIENTE", minimo 5 fotos y una plaza asignada.
+     * @param {*} req 
+     * @param {*} res 
+     * @returns JSON con el resultado de la operación
+    */ 
+    startReservation: async (req, res) => {
+
+        try {
+
+            const idReservation = parseInt(req.params.id); // extraemos el id de la reserva de los parámetros de la ruta
+
+            // traemos toda la info de la reserva y validamos.
+            const reservationInfo = await reservationDAO.getInfoReservationByIdReservation(idReservation);
+
+            if (!reservationInfo) return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+
+            //solo reservas pendientes
+            if (reservationInfo.status !== 'PENDIENTE') return res.status(400).json({ success: false, message: `Solo se pueden iniciar reservas que estén en estado 'PENDIENTE'. El estado actual es '${reservationInfo.status}'.` });
+
+            // minimo 5 fotos
+            if (!reservationInfo.photos || reservationInfo.photos.length < 5) return res.status(400).json({ success: false, message: 'Para iniciar la reserva es necesario tomar al menos 5 fotos del vehículo.' });
+
+            //plaza asignada
+            if (!reservationInfo.cod_parking_spot) return res.status(400).json({ success: false, message: 'Para iniciar la reserva es necesario asignar una plaza de parking.' });
+
+            const isStarted = await reservationDAO.startReservation(idReservation);
+
+            if (isStarted) {
+                return res.status(200).json({ success: true, message: 'Reserva iniciada correctamente.' });
+            } else {
+                return res.status(500).json({ success: false, message: 'No se pudo actualizar la base de datos.' });
+            }
+
+        } catch (error) {
+
+            console.error('Error en el controlador startReservation:', error);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
+
+        }
+    },
+
+    /**
+     * PATCH /admin/reservations/:id/finalize
+     * Cambia el estado de una reserva a "FINALIZADA" para indicar que el cliente ha salido del parking.
+     * Solo permite finalizar reservas que estén en estado "EN CURSO" y que hayan pagado el total de la reserva.
+     * @param {*} req 
+     * @param {*} res 
+     * @returns JSON con el resultado de la operación
+    */ 
+    finalizeReservation: async (req, res) => {
+
+        try {
+
+            const idReservation = parseInt(req.params.id); // extraemos el id de la reserva de los parámetros de la ruta
+            const  { paymentMethod } = req.body; // extraemos el método de pago del cuerpo de la solicitud
+
+            // traemos toda la info de la reserva y validamos.
+            const reservationInfo = await reservationDAO.getInfoReservationByIdReservation(idReservation);
+
+            if (!reservationInfo) return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+
+            //solo reservas en curso
+            if (reservationInfo.status !== 'EN CURSO') return res.status(400).json({ success: false, message: `Solo se pueden finalizar reservas que estén en estado 'EN CURSO'. El estado actual es '${reservationInfo.status}'.` });
+
+            // validamos que el método de pago sea válido
+            const validPaymentMethods = ['EFECTIVO', 'TARJETA'];
+            if (!validPaymentMethods.includes(paymentMethod)) {
+                return res.status(400).json({ success: false, message: 'Método de pago no válido. Los métodos de pago aceptados son: EFECTIVO, TARJETA.' });
+            }
+
+            const isFinalized = await reservationDAO.finishReservationAndPayment(idReservation, paymentMethod);
+
+            if (isFinalized) {
+                return res.status(200).json({ success: true, message: 'Reserva finalizada correctamente.' });
+            } else {
+                return res.status(500).json({ success: false, message: 'No se pudo actualizar la base de datos.' });
+            }
+
+        } catch (error) {
+
+            console.error('Error en el controlador finalizeReservation:', error);
+            return res.status(500).json({ success: false, message: 'Error interno del servidor.' });
+
+        }
+
+    },
+
+    /**
+     * POST /admin/reservations/:id/photos
+     * Añade una nueva foto de evidencia a la reserva.
+     * Valida que la URL de la foto no esté vacía, que la reserva exista y que su estado permita añadir fotos (no se pueden añadir fotos a reservas ya finalizadas o canceladas).
+     * @param {*} req 
+     * @param {*} res 
+     * @returns JSON con el resultado de la operación
+     */
+    addPhoto: async (req, res) => {
+
+        try {
+
+            const id_reservation = parseInt(req.params.id);
+            const { file_path, description } = req.body;
+
+            // validar si la URL de la foto no está vacía
+            if (!file_path || file_path.trim() === '') {
+                return res.status(400).json({ success: false, message: 'La URL de la foto es obligatoria.' });
+            }
+
+            //Validar que la reserva exista
+            const reservation = await reservationDAO.getInfoReservationByIdReservation(id_reservation);
+            if (!reservation) {
+                return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+            }
+
+            // Solo se pueden añadir fotos si la reserva no está finalizada o cancelada
+            if (['FINALIZADA', 'CANCELADA'].includes(reservation.status)) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: `No se pueden añadir evidencias a una reserva en estado '${reservation.status}'.` 
+                });
+            }
+
+            const isSaved = await reservationDAO.addPhotoEvidence(id_reservation, file_path, description);
+
+            if (isSaved) {
+                return res.status(201).json({ success: true, message: 'Evidencia añadida correctamente.' });
+            } else {
+                return res.status(500).json({ success: false, message: 'No se pudo registrar la evidencia en la base de datos.' });
+            }
+
+        } catch (error) {
+
+            console.error('Error en addPhoto:', error);
+            res.status(500).json({ success: false, message: 'Error interno del servidor al añadir la evidencia.' });
+            
         }
     }
     
