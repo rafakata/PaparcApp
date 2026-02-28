@@ -4,6 +4,7 @@
 */
 
 const serviceCatalogDAO = require('../models/service-catalog-dao');
+const customerDAO = require('../models/customer-dao');
 
 const mainController = {
 
@@ -96,12 +97,25 @@ const mainController = {
                 serviceCatalogDAO.getAllAdditionalServices(true)
             ]);
 
+            // si el user esta logeado, traemos su primer vehículo asociado
+            let userVehicle = null;
+
+            if (req.session.user && req.session.user.id) {
+
+                const vehicles = await customerDAO.getVehiclesByCustomerId(req.session.user.id);
+
+                if (vehicles && vehicles.length > 0) {
+                    userVehicle = vehicles[0]; // Cogemos el primer coche que tenga registrado
+                }
+            }
+
             // Pasamos las variables a la vista
             res.render('booking', { 
                 title : 'PaparcApp - Reserva tu parking',
                 vehicleTypes,
                 mainServices,
-                additionalServices
+                additionalServices,
+                userVehicle // sera null si no esta logeado o no tiene coche
             });
 
         } catch (error) {

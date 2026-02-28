@@ -2,11 +2,13 @@
  * Desde aqui vamos a controlar toda la lógica de autenticación. 
 */
 
-//1. Importamos las dependencias necesarias
+//Importamos las dependencias necesarias
 const customerDAO = require('../models/customer-dao')
+const reservationDAO = require('../models/reservation-dao')
+const serviceCatalogDAO = require('../models/service-catalog-dao')
 const bcrypt = require('bcrypt')
 
-//2. Creamos la funcion encargada de controlar el login/logout/register
+//Creamos la funcion encargada de controlar el login/logout/register
 const authController = {
 
     //formulario de login
@@ -240,9 +242,202 @@ const authController = {
                 message: 'Error al procesar el inicio de sesión social'
             });
         }
+    },
+
+    // Pagina de perfil de usuario (solo para clientes)
+    renderProfile: async (req, res) => {
+        try {
+            const userId = req.session.user.id;
+
+            // 1. Obtenemos TODOS los datos necesarios en paralelo
+            const [vehicles, reservations, mainServices, additionalServices] = await Promise.all([
+                customerDAO.getVehiclesByCustomerId(userId),
+                reservationDAO.getReservationsByCustomerId(userId),
+                serviceCatalogDAO.getMainServices(true), // Servicios principales activos
+                serviceCatalogDAO.getAllAdditionalServices(true) // Servicios adicionales activos
+            ]);
+
+            // 2. Filtramos las reservas
+            const activeReservations = reservations.filter(r => r.status === 'PENDIENTE' || r.status === 'EN CURSO');
+            const historyReservations = reservations.filter(r => r.status === 'FINALIZADA' || r.status === 'CANCELADA');
+
+            // 3. Renderizamos la vista
+            res.render('profile', { 
+                title: 'Mi Perfil | PaparcApp',
+                userVehicles: vehicles,
+                activeReservations: activeReservations,
+                historyReservations: historyReservations,
+                mainServices: mainServices,
+                additionalServices: additionalServices
+            });
+
+        } catch (error) {
+            console.error('Error al cargar el perfil del usuario:', error);
+            res.status(500).send('Error interno al cargar el perfil. Por favor, inténtalo de nuevo.');
+        }
+    },
+
+    // PUT Actualizar datos del perfil
+    updateProfile: async (req, res) => {
+
+        try {
+
+            const userId = req.session.user.id;
+            const { nombre, email, telefono } = req.body;
+
+            await customerDAO.updateCustomerData(userId, nombre, email, telefono);
+
+            //Actualizamos los datos de la sesion para que no queden los antiguos
+            req.session.user.nombre = nombre;
+            req.session.user.email = email;
+            req.session.user.numero = telefono;
+
+            req.session.save(() => {
+                res.json({ success: true, message: 'Datos actualizados correctamente.' });
+            });
+
+        } catch (error) {
+
+            console.error('Error al actualizar perfil:', error);
+            res.status(500).json({ success: false, message: 'Error interno al actualizar los datos.' });
+
+        }
+    },
+
+    // PUT Actualizar contraseña
+    updatePassword: async (req, res) => {
+
+        try {
+
+            const userId = req.session.user.id;
+            const { currentPassword, newPassword, confirmPassword } = req.body;
+
+            if (newPassword !== confirmPassword) {
+                return res.status(400).json({ success: false, message: 'Las contraseñas nuevas no coinciden.' });
+            }
+
+            // // verificamos por seguridad que el usuario exista
+            const user = await customerDAO.getCustomerById(userId);
+            if (!user || !user.password_hash) {
+                return res.status(400).json({ success: false, message: 'No se puede cambiar la contraseña de este usuario.' });
+            }
+
+            // comparamos las contraseñas para verificar que la actual es correcta
+            const passwordMatch = await bcrypt.compare(currentPassword, user.password_hash);
+            if (!passwordMatch) {
+                return res.status(401).json({ success: false, message: 'La contraseña actual es incorrecta.' });
+            }
+
+            //hasheamos la nueva contraseña por seguridad antes de guardarla en la base de datos
+            const saltRounds = 10;
+            const newHash = await bcrypt.hash(newPassword, saltRounds);
+
+            await customerDAO.updateCustomerPassword(userId, newHash);
+
+            res.json({ success: true, message: 'Contraseña actualizada con éxito.' });
+
+        } catch (error) {
+
+            console.error('Error al cambiar contraseña:', error);
+            res.status(500).json({ success: false, message: 'Error interno al cambiar la contraseña.' });
+
+        }
+    },
+
+    // PUT Cancelar reserva desde el perfil
+    cancelReservation: async (req, res) => {
+        try {
+            const reservationId = req.params.id;
+            const userId = req.session.user.id;
+
+            // 1. Verificamos que la reserva existe y pertenece a este usuario
+            const reservationDAO = require('../models/reservation-dao');
+            const reserva = await reservationDAO.getInfoReservationByIdReservation(reservationId);
+
+            // Nota: En tu consulta del DAO, sacaste todo como JOIN, así que debemos comprobar
+            // cómo lo devuelve. Pero si devuelve el objeto entero o nulo, la lógica es:
+            if (!reserva || reserva.id_customer !== userId) {
+                // Pequeño parche: como tu JOIN en getInfoReservationByIdReservation no saca r.id_customer explícitamente, 
+                // pero sabemos que existe si la buscamos antes. Si tu consulta no devuelve id_customer, avísame.
+                // Asumiendo que SÍ lo devuelve:
+                return res.status(403).json({ success: false, message: 'No tienes permiso para cancelar esta reserva.' });
+            }
+
+            if (reserva.status !== 'PENDIENTE') {
+                return res.status(400).json({ success: false, message: 'Solo se pueden cancelar reservas en estado PENDIENTE.' });
+            }
+
+            // 2. Usamos el método que ya tienes en tu DAO
+            await reservationDAO.cancelReservation(reservationId);
+
+            res.json({ success: true, message: 'La reserva ha sido cancelada exitosamente.' });
+
+        } catch (error) {
+            console.error('Error al cancelar reserva:', error);
+            res.status(500).json({ success: false, message: 'Error interno del servidor.' });
+        }
+    },
+
+    // PUT Editar reserva desde el perfil
+    editReservation: async (req, res) => {
+        try {
+            const reservationId = req.params.id;
+            const userId = req.session.user.id;
+            const { entry_date, exit_date, id_main_service, additional_services } = req.body;
+
+            const reservationDAO = require('../models/reservation-dao');
+            const pricingService = require('../services/pricingService');
+
+            // 1. Obtenemos la reserva actual para validar y rescatar datos del vehículo
+            const reserva = await reservationDAO.getInfoReservationByIdReservation(reservationId);
+
+            if (!reserva) {
+                return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+            }
+
+           
+            if (reserva.id_customer !== userId) return res.status(403).json({ success: false, message: 'No tienes permiso.' });
+
+            if (reserva.status !== 'PENDIENTE') {
+                return res.status(400).json({ success: false, message: 'Solo se pueden editar reservas PENDIENTES.' });
+            }
+
+            // 2. Calculamos el nuevo precio seguro en el servidor
+            const parsedExtras = additional_services ? additional_services.map(id => parseInt(id)) : [];
+            const newTotalPrice = pricingService.calculateTotalPrice(
+                new Date(entry_date),
+                new Date(exit_date),
+                reserva.type, // El tipo de vehículo (TURISMO, SUV, etc.) que ya tenía
+                parseInt(id_main_service),
+                parsedExtras
+            );
+
+            // 3. Preparamos el paquete de datos para el DAO de Transacción
+            const updateData = {
+                entry_date: entry_date,
+                exit_date: exit_date,
+                id_main_service: parseInt(id_main_service),
+                total_price: newTotalPrice,
+                cod_parking_spot: reserva.cod_parking_spot, // Mantenemos su plaza si la tuviera
+                brand: reserva.brand,             // Mantenemos la marca
+                model: reserva.model,             // Mantenemos el modelo
+                color: reserva.color,             // Mantenemos el color
+                vehicle_type: reserva.type,       // Mantenemos el tipo
+                additional_services: parsedExtras // Nuevos extras
+            };
+
+            // 4. Ejecutamos la transacción
+            await reservationDAO.updateReservationTransaction(reservationId, updateData);
+
+            res.json({ success: true, message: 'Reserva actualizada con éxito.' });
+
+        } catch (error) {
+            console.error('Error al editar reserva:', error);
+            res.status(500).json({ success: false, message: 'Error interno al actualizar la reserva.' });
+        }
     }
 
 }
 
-//5. Exportamos el controlador
+//Exportamos el controlador
 module.exports = authController

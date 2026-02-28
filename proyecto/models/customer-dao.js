@@ -49,7 +49,7 @@ class CustomerDAO {
      * @returns {Object|null} - Objeto del cliente o null si no se encuentra.
      * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
     */
-    async getCustomerById(id) { // este metodo no se esta usando actualmente, pero es util tenerlo para futuras funcionalidades, como mostrar el perfil del usuario o su historial de reservas, donde necesitaremos obtener sus datos a partir de su ID de sesión.
+    async getCustomerById(id) { 
 
         const sql = 'SELECT * FROM customer WHERE id_customer = $1';
 
@@ -169,6 +169,91 @@ class CustomerDAO {
 
     }
 
+    /**
+     * Obtiene los datos de loe vehículos asociados a un cliente, lo necesitamos para mostrarlo en la vista de perfil de cliente
+     * y para mostrarlo como opción a la hora de hacer una reserva.
+     * @param {number} customerId - ID del cliente
+     * @return {Array} - Lista de vehículos asociados al cliente
+     * @throws {Error} - Si ocurre un error durante la consulta a la base de datos.
+    */
+    async getVehiclesByCustomerId(customerId) { 
+
+        const sql = `
+            SELECT v.* FROM vehicle v
+            JOIN customer_vehicle cv ON v.id_vehicle = cv.id_vehicle
+            WHERE cv.id_customer = $1
+            ORDER BY v.id_vehicle ASC
+        `;
+
+        try {
+
+            const result = await db.query(sql, [customerId]);
+            return result.rows; //devolvemos la lista de vehículos asociados al cliente, si no tiene vehículos asociados devuelve una lista vacía
+
+        } catch (error) {
+
+            console.error('Error al obtener los vehículos del cliente:', error);
+            throw new Error('Error al obtener los vehículos del cliente', { cause: error });
+        }
+
+    }
+
+    /**
+     * Actualiza los datos de un cliente a partir de su ID y los nuevos datos proporcionados.
+     * @param {*} customerId 
+     * @param {*} full_name 
+     * @param {*} email 
+     * @param {*} phone
+     * @returns - devuelve el cliente actualizado
+     * @throws {Error} - Si ocurre un error durante la actualización en la base de datos, como por ejemplo si el nuevo email proporcionado ya esta registrado por otro usuario.
+    */
+    async updateCustomerData(customerId, full_name, email, phone) {
+
+        const sql = `
+            UPDATE customer 
+            SET full_name = $1, email = $2, phone = $3 
+            WHERE id_customer = $4
+        `;
+
+        try {
+
+            await db.query(sql, [full_name, email, phone, customerId]); 
+            return true;
+
+        } catch (error) {
+
+            console.error('Error al actualizar datos del cliente:', error);
+            throw new Error('Error en BD', { cause: error });
+
+        }
+
+    }
+
+    /**
+     * Actualiza la contraseña de un cliente a partir de su ID y el nuevo hash de contraseña proporcionado.
+     * @param {*} customerId 
+     * @param {*} passwordHash 
+     * @returns 
+     * @throws {Error} - Si ocurre un error durante la actualización en la base de datos, como por ejemplo si el nuevo hash de contraseña no cumple con los requisitos de seguridad (aunque esto se debería validar antes de llamar a este método, es buena práctica también validar en el DAO para evitar inconsistencias).
+    */
+    async updateCustomerPassword(customerId, passwordHash) {
+
+        const sql = `UPDATE customer SET password_hash = $1 WHERE id_customer = $2`;
+
+        try {
+
+            await db.query(sql, [passwordHash, customerId]);
+            return true;
+
+        } catch (error) {
+
+            console.error('Error al actualizar contraseña:', error);
+            throw new Error('Error en BD', { cause: error });
+
+        }
+
+    }
+    
 }
 
 // Exportamos una instancia unica de CustomerDAO (Patron Singleton)

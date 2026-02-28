@@ -5,20 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reserva | PaparcApp</title>
     <link rel="stylesheet" href="/stylesheets/booking.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Zen+Dots&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Zen+Dots&display=swap" rel="stylesheet" />
     <link rel="icon" href="/images/icons8-garage-24.png" type="image/png" />
   </head>
   <body>
-    <!-- NAVBAR -->
     <header>
       <%- include("partials/nav") %>
     </header>
@@ -43,7 +36,7 @@
         <input type="hidden" id="cheapest_service_id" value="<%= cheapestService.id_main_service %>">
         <input type="hidden" id="default_vehicle_type" value="TURISMO">
 
-        <!-- STEP 1: FECHAS Y SERVICIOS -->
+        <!-- Step 1: Dates & Service -->
         <div class="booking-body" id="booking-step-1">
           <div class="form-row">
             <div class="form-group">
@@ -91,34 +84,37 @@
             <button type="button" class="btn btn-next" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
-        <!-- STEP 2: DATOS DEL CLIENTE Y VEHÍCULO -->
+
+        <!-- Step 2: User & Vehicle Details -->
         <div class="booking-body" id="booking-step-2" style="display: none;">
           <div class="form-row">
             <div class="form-group">
               <label for="book-nombre"><i class="fas fa-user"></i> Full Name</label>
-              <input type="text" id="book-nombre" class="sum-trigger" placeholder="John Doe" required />
+              <input type="text" id="book-nombre" class="sum-trigger" placeholder="John Doe" value="<%= locals.user ? user.nombre : '' %>" required />
             </div>
             <div class="form-group">
               <label for="book-telefono"><i class="fas fa-phone"></i> Phone</label>
-              <input type="tel" id="book-telefono" class="sum-trigger" placeholder="+34 600 123 456" required />
+              <input type="tel" id="book-telefono" class="sum-trigger" placeholder="+34 600 123 456" value="<%= locals.user ? user.numero : '' %>" required />
             </div>
           </div>
+          
           <div class="form-group">
-              <label for="book-email"><i class="fas fa-envelope"></i> Email</label>
-              <input type="email" id="book-email" class="sum-trigger" placeholder="email@example.com"/>
+            <label for="book-email"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="book-email" class="sum-trigger" placeholder="email@example.com" value="<%= locals.user ? user.email : '' %>" />
           </div>
 
           <div class="form-row mt-3">
             <div class="form-group">
               <label for="book-matricula"><i class="fas fa-id-badge"></i> License Plate</label>
-              <input type="text" id="book-matricula" class="sum-trigger" placeholder="0000XXX" style="text-transform: uppercase;" required />
+              <input type="text" id="book-matricula" class="sum-trigger" placeholder="0000XXX" style="text-transform: uppercase;" value="<%= locals.userVehicle ? userVehicle.license_plate : '' %>" required />
             </div>
             <div class="form-group">
               <label for="book-tipo-vehiculo"><i class="fas fa-car-side"></i> Vehicle Type</label>
+              <% const selectedVehicleType = (locals.userVehicle && userVehicle && userVehicle.type) ? userVehicle.type : 'TURISMO'; %>
               <select id="book-tipo-vehiculo" class="dyn-trigger sum-trigger">
-                  <% vehicleTypes.forEach(v => { %>
-                      <option value="<%= v.type %>" <%= v.type === 'TURISMO' ? 'selected' : '' %>><%= v.type %></option>
-                  <% }) %>
+                <% vehicleTypes.forEach(v => { %>
+                  <option value="<%= v.type %>" <%= selectedVehicleType === v.type ? 'selected' : '' %>><%= v.type %></option>
+                <% }) %>
               </select>
             </div>
           </div>
@@ -126,11 +122,11 @@
           <div class="form-row">
             <div class="form-group">
               <label for="book-marca"><i class="fas fa-car"></i> Brand</label>
-              <input type="text" id="book-marca" class="sum-trigger" placeholder="Toyota"/>
+              <input type="text" id="book-marca" class="sum-trigger" placeholder="Toyota" value="<%= (locals.userVehicle && userVehicle.brand && userVehicle.brand !== 'Desconocida') ? userVehicle.brand : '' %>"/>
             </div>
             <div class="form-group">
               <label for="book-modelo"><i class="fas fa-car-side"></i> Model</label>
-              <input type="text" id="book-modelo" class="sum-trigger" placeholder="Corolla"/>
+              <input type="text" id="book-modelo" class="sum-trigger" placeholder="Corolla" value="<%= (locals.userVehicle && userVehicle.model && userVehicle.model !== 'Desconocido') ? userVehicle.model : '' %>"/>
             </div>
           </div>
 
@@ -144,7 +140,8 @@
             <button type="button" class="btn btn-next" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
-        <!-- STEP 3: RESUMEN Y CONFIRMACIÓN -->
+        
+        <!-- Step 3: Confirmation -->
         <div class="booking-body" id="booking-step-3" style="display: none;">
           <div class="booking-summary">
             <h3><i class="fas fa-clipboard-check"></i> Booking Summary</h3>
@@ -184,7 +181,7 @@
             <button type="button" id="btn-final-confirm" class="btn btn-confirm"><i class="fas fa-check"></i> Confirm Booking</button>
           </div>
         </div>
-        <!-- STEP 4: PANTALLA DE ÉXITO -->
+
         <div class="booking-body" id="booking-step-success" style="display: none; text-align: center;">
           <div class="success-icon" style="font-size: 4rem; color: #28a745; margin-bottom: 20px;">
             <i class="fas fa-check-circle"></i>
@@ -226,7 +223,6 @@
 
       </div>
     </main>
-    <!-- FOOTER -->
     <%- include("partials/footer") %>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/javascripts/public-booking.js"></script>
