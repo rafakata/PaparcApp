@@ -111,41 +111,41 @@
     <div class="header">
         <div>
             <h1 class="logo">PaparcApp</h1>
-            <p>Gestión Profesional de Parking</p>
+            <p>Professional Parking Management</p>
         </div>
         <div class="empresa-info">
-            <h2 class="invoice-title">Resguardo de Reserva</h2>
-            <p><strong>Nº Factura:</strong> {d.id_reservation}</p>
-            <p><strong>Fecha:</strong> {d.reservation_date}</p>
+            <h2 class="invoice-title">Booking Receipt</h2>
+            <p><strong>Invoice No.:</strong> {d.id_reservation}</p>
+            <p><strong>Date:</strong> {d.reservation_date}</p>
         </div>
     </div>
 
     <div class="section">
         <div class="col">
-            <h3>Información del Cliente</h3>
-            <p><strong>Nombre:</strong> {d.customer.full_name}</p>
+            <h3>Customer Information</h3>
+            <p><strong>Name:</strong> {d.customer.full_name}</p>
             <p><strong>Email:</strong> {d.customer.email}</p>
-            <p><strong>Teléfono:</strong> {d.customer.phone}</p>
+            <p><strong>Phone:</strong> {d.customer.phone}</p>
         </div>
         <div class="col">
-            <h3>Detalles del Vehículo</h3>
-            <p><strong>Matrícula:</strong> {d.license_plate}</p>
-            <p><strong>Modelo:</strong> {d.vehicle_brand} {d.vehicle_model}</p>
+            <h3>Vehicle Details</h3>
+            <p><strong>License Plate:</strong> {d.license_plate}</p>
+            <p><strong>Model:</strong> {d.vehicle_brand} {d.vehicle_model}</p>
         </div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Descripción del Servicio</th>
-                <th>Fecha Entrada</th>
-                <th>Fecha Salida</th>
-                <th>Precio</th>
+                <th>Service Description</th>
+                <th>Entry Date</th>
+                <th>Exit Date</th>
+                <th>Price</th>
             </tr>
         </thead>
        <tbody>
     <tr>
-        <td>Servicio Principal: {d.main_service_name}</td>
+        <td>Main Service: {d.main_service_name}</td>
         <td>{d.entry_date}</td>
         <td>{d.exit_date}</td>
         <td>{d.total_price}€</td>
@@ -164,14 +164,14 @@
 
     <div class="total-box">
         <p>Subtotal: {d.total_price}€</p>
-        <p>IVA (21%): Incluido</p>
+        <p>IVA (21%): Included</p>
         <p class="total-amount">TOTAL: {d.total_price}€</p>
-        <p><strong>Estado:</strong> {d.is_paid ? 'PAGADO' : 'PENDIENTE'}</p>
+        <p><strong>Status:</strong> {d.is_paid ? 'PAID' : 'PENDING'}</p>
     </div>
 
     <div class="footer">
-        <p>PaparcApp - Desarrollado por Cabrera, Medina y Satori</p>
-        <p>Este documento sirve como comprobante de entrega/recogida del vehículo.</p>
+        <p>PaparcApp - Developed by Cabrera, Medina & Satori</p>
+        <p>This document serves as proof of vehicle delivery/pickup.</p>
     </div>
 
 </body>
