@@ -25,75 +25,125 @@
 
     <main class="booking-main">
       <div class="booking-card">
-        <!-- Header -->
         <div class="booking-card-header">
           <h1>Book Your Spot</h1>
           <p>Complete the steps to secure your parking</p>
         </div>
 
-        <!-- Steps indicator -->
         <div class="booking-steps">
-          <div class="step active" id="step-ind-1"><span>1</span> Dates</div>
+          <div class="step active" id="step-ind-1"><span>1</span> Dates & Service</div>
           <div class="step-line"></div>
-          <div class="step" id="step-ind-2"><span>2</span> Vehicle</div>
+          <div class="step" id="step-ind-2"><span>2</span> Details</div>
           <div class="step-line"></div>
           <div class="step" id="step-ind-3"><span>3</span> Confirm</div>
         </div>
 
-        <!-- Step 1: Fechas -->
+        <% const cheapestService = [...mainServices].sort((a,b) => a.starting_price - b.starting_price)[0]; %>
+        <input type="hidden" id="cheapest_service_id" value="<%= cheapestService.id_main_service %>">
+        <input type="hidden" id="default_vehicle_type" value="TURISMO">
+
+        <!-- STEP 1: FECHAS Y SERVICIOS -->
         <div class="booking-body" id="booking-step-1">
           <div class="form-row">
             <div class="form-group">
               <label for="book-entrada"><i class="fas fa-plane-departure"></i> Entry Date</label>
-              <input type="datetime-local" id="book-entrada" name="entrada" required />
+              <input type="datetime-local" id="book-entrada" class="dyn-trigger" name="entrada" required />
             </div>
             <div class="form-group">
               <label for="book-salida"><i class="fas fa-plane-arrival"></i> Exit Date</label>
-              <input type="datetime-local" id="book-salida" name="salida" required />
+              <input type="datetime-local" id="book-salida" class="dyn-trigger" name="salida" required />
             </div>
           </div>
-          <div class="booking-price-preview" id="booking-price-preview">
-            <i class="fas fa-tag"></i> <span>Select dates to see the price</span>
+
+          <div class="form-group mt-3">
+            <label><i class="fas fa-gem"></i> Select Service</label>
+            <select id="book-main-service" class="dyn-trigger" name="id_main_service">
+                <option value="" disabled selected>Select a parking service...</option>
+                <% mainServices.forEach(ms => { %>
+                    <option value="<%= ms.id_main_service %>"><%= ms.name %> (<%= ms.tagline %>)</option>
+                <% }) %>
+            </select>
           </div>
-          <div class="booking-actions">
+
+          <div class="form-group mt-3">
+            <label><i class="fas fa-plus-circle"></i> Additional Services</label>
+            <div class="extras-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <% additionalServices.forEach(extra => { %>
+                    <label class="extra-checkbox">
+                        <input type="checkbox" class="dyn-trigger extra-serv" value="<%= extra.id_additional_service %>">
+                        <%= extra.name %> (+<%= extra.price %>€)
+                    </label>
+                <% }) %>
+            </div>
+          </div>
+
+          <div class="booking-price-preview has-price mt-4">
+            <i class="fas fa-tag"></i>
+            <span id="price-display-text">Enter dates to calculate</span>
+            <span id="price-spinner" style="display:none; font-size: 0.8rem; margin-left: 10px;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+          </div>
+
+          <div class="booking-actions mt-3">
             <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Back</a>
             <button type="button" class="btn btn-next" onclick="goToStep(2)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
-
-        <!-- Step 2: Vehículo -->
+        <!-- STEP 2: DATOS DEL CLIENTE Y VEHÍCULO -->
         <div class="booking-body" id="booking-step-2" style="display: none;">
           <div class="form-row">
             <div class="form-group">
               <label for="book-nombre"><i class="fas fa-user"></i> Full Name</label>
-              <input type="text" id="book-nombre" name="nombre" placeholder="Full Name" required />
+              <input type="text" id="book-nombre" class="sum-trigger" placeholder="John Doe" required />
             </div>
             <div class="form-group">
               <label for="book-telefono"><i class="fas fa-phone"></i> Phone</label>
-              <input type="tel" id="book-telefono" name="telefono" placeholder="+34 600 123 456" required />
+              <input type="tel" id="book-telefono" class="sum-trigger" placeholder="+34 600 123 456" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="book-matricula"><i class="fas fa-id-badge"></i> License Plate</label>
-            <input type="text" id="book-matricula" name="matricula" placeholder="0000-XXX" required />
+              <label for="book-email"><i class="fas fa-envelope"></i> Email</label>
+              <input type="email" id="book-email" class="sum-trigger" placeholder="email@example.com"/>
           </div>
+
+          <div class="form-row mt-3">
+            <div class="form-group">
+              <label for="book-matricula"><i class="fas fa-id-badge"></i> License Plate</label>
+              <input type="text" id="book-matricula" class="sum-trigger" placeholder="0000XXX" style="text-transform: uppercase;" required />
+            </div>
+            <div class="form-group">
+              <label for="book-tipo-vehiculo"><i class="fas fa-car-side"></i> Vehicle Type</label>
+              <select id="book-tipo-vehiculo" class="dyn-trigger sum-trigger">
+                  <% vehicleTypes.forEach(v => { %>
+                      <option value="<%= v.type %>" <%= v.type === 'TURISMO' ? 'selected' : '' %>><%= v.type %></option>
+                  <% }) %>
+              </select>
+            </div>
+          </div>
+
           <div class="form-row">
             <div class="form-group">
               <label for="book-marca"><i class="fas fa-car"></i> Brand</label>
-              <input type="text" id="book-marca" name="marca" placeholder="Car Brand" required />
+              <input type="text" id="book-marca" class="sum-trigger" placeholder="Toyota"/>
             </div>
             <div class="form-group">
               <label for="book-modelo"><i class="fas fa-car-side"></i> Model</label>
-              <input type="text" id="book-modelo" name="modelo" placeholder="Car Model" required />
+              <input type="text" id="book-modelo" class="sum-trigger" placeholder="Corolla"/>
             </div>
           </div>
+
+          <div class="booking-price-preview has-price mt-4">
+            <i class="fas fa-tag"></i>
+            <span id="price-display-text-2">Total: 0.00 €</span>
+          </div>
+
           <div class="booking-actions">
             <button type="button" class="btn btn-cancel" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
             <button type="button" class="btn btn-next" onclick="goToStep(3)"><i class="fas fa-arrow-right"></i> Next</button>
           </div>
         </div>
-
-        <!-- Step 3: Confirmación -->
+        <!-- STEP 3: RESUMEN Y CONFIRMACIÓN -->
         <div class="booking-body" id="booking-step-3" style="display: none;">
           <div class="booking-summary">
             <h3><i class="fas fa-clipboard-check"></i> Booking Summary</h3>
@@ -123,44 +173,62 @@
                 <div><strong>Phone</strong><span id="sum-telefono">-</span></div>
               </div>
             </div>
-            <div class="summary-price">
+            <div class="summary-price mt-3">
               <i class="fas fa-euro-sign"></i>
-              <span id="sum-precio">0.00 €</span>
+              <span id="sum-precio-final">0.00 €</span>
             </div>
           </div>
-          <div class="booking-actions">
+          <div class="booking-actions mt-4">
             <button type="button" class="btn btn-cancel" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
-            <button type="button" class="btn btn-confirm" onclick="confirmBooking()"><i class="fas fa-check"></i> Confirm Booking</button>
+            <button type="button" id="btn-final-confirm" class="btn btn-confirm"><i class="fas fa-check"></i> Confirm Booking</button>
+          </div>
+        </div>
+        <!-- STEP 4: PANTALLA DE ÉXITO -->
+        <div class="booking-body" id="booking-step-success" style="display: none; text-align: center;">
+          <div class="success-icon" style="font-size: 4rem; color: #28a745; margin-bottom: 20px;">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2>Booking Confirmed!</h2>
+          <p>Your spot is secured. Please keep this information for your arrival.</p>
+          
+          <div class="booking-summary mt-4" style="text-align: left; background: #f8f9fa; padding: 20px; border-radius: 8px;">
+            <h3 id="codigo-reserva" style="color: #0968ef; text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #ccc; padding-bottom: 10px;">ID: #000</h3>
+            
+            <div class="summary-grid">
+              <div class="summary-item">
+                <i class="fas fa-user"></i>
+                <div><strong>Customer</strong><span id="conf-nombre">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-phone"></i>
+                <div><strong>Phone</strong><span id="conf-telefono">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-id-badge"></i>
+                <div><strong>License Plate</strong><span id="conf-matricula">-</span></div>
+              </div>
+              <div class="summary-item">
+                <i class="fas fa-car"></i>
+                <div><strong>Vehicle</strong><span id="conf-vehiculo">-</span></div>
+              </div>
+            </div>
+            
+            <div class="summary-price mt-3 text-center" style="font-size: 1.5rem; color: #333;">
+                <strong>Total to pay: <span id="conf-precio">0.00 €</span></strong>
+            </div>
+          </div>
+
+          <div class="booking-actions mt-4" style="justify-content: center;">
+            <a href="/" class="btn btn-confirm"><i class="fas fa-home"></i> Back to Home</a>
           </div>
         </div>
 
-        <!-- Step 4: Confirmación exitosa (oculto) -->
-        <div class="booking-body" id="booking-step-success" style="display: none;">
-          <div class="booking-success">
-            <div class="success-icon">
-              <i class="fas fa-check-circle"></i>
-            </div>
-            <h2>Booking Confirmed!</h2>
-            <p>Your booking code is:</p>
-            <div class="codigo-reserva" id="codigo-reserva"></div>
-            <div id="qr-reserva" class="qr-reserva"></div>
-            <div class="success-details">
-              <p><i class="fas fa-user"></i> <span id="conf-nombre"></span></p>
-              <p><i class="fas fa-phone"></i> <span id="conf-telefono"></span></p>
-              <p><i class="fas fa-id-badge"></i> <span id="conf-matricula"></span></p>
-              <p><i class="fas fa-car"></i> <span id="conf-vehiculo"></span></p>
-            </div>
-            <div class="booking-actions">
-              <a href="/" class="btn btn-cancel"><i class="fas fa-home"></i> Home</a>
-              <a href="/users/profile" class="btn btn-next"><i class="fas fa-user"></i> My Profile</a>
-            </div>
-          </div>
-        </div>
       </div>
     </main>
 
     <!-- FOOTER -->
     <%- include("partials/footer") %>
-    <script src="/javascripts/booking.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascripts/public-booking.js"></script>
   </body>
 </html>

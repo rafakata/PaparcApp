@@ -100,6 +100,87 @@ const apiController = {
         }
 
 
+    },
+
+    // Crear reserva pública
+    createPublicReservation: async (req, res) => {
+
+        try {
+
+            const data = req.body;
+
+            // Validaciones mínimas de seguridad
+            if (!data.entry_date || !data.phone || !data.license_plate) {
+                return res.status(400).json({ success: false, message: 'Faltan datos obligatorios.' });
+            }
+
+            //datos del Cliente
+            const customerData = {
+                full_name: data.full_name,
+                phone: data.phone,
+                email: data.email || null,
+                type: 'NO-REGISTRADO' // Etiquetamos al cliente para saber que vino de la web pública sin cuenta
+            };
+
+            //datos del Vehículo
+            const vehicleData = {
+                license_plate: data.license_plate,
+                brand: data.brand || 'Desconocida',
+                model: data.model || 'Desconocido',
+                color: 'No color', 
+                vehicle_type: data.vehicle_type
+            };
+
+            // recalculamos el precio de nuevo en el servidor
+            const pricingService = require('../services/pricingService'); 
+            const totalPrice = pricingService.calculateTotalPrice(
+                new Date(data.entry_date),
+                new Date(data.exit_date),
+                data.vehicle_type,
+                parseInt(data.id_main_service),
+                (data.additional_services || []).map(id => parseInt(id))
+            );
+
+            //datos de la Reserva
+            const reservationData = {
+                entry_date: data.entry_date,
+                exit_date: data.exit_date,
+                total_price: totalPrice,
+                id_main_service: parseInt(data.id_main_service),
+                additional_services: data.additional_services || []
+            };
+
+            // creamos la reserva
+            const newReservationId = await reservationDAO.createReservationTransaction(
+                customerData, 
+                vehicleData, 
+                reservationData
+            );
+
+            //devolvemos los datos al frontend para mostrar un resumen de la reserva al cliente
+            res.status(201).json({
+                success: true,
+                message: 'Reserva creada con éxito',
+                data: {
+                    id_reservation: newReservationId,
+                    customer_name: customerData.full_name,
+                    phone: customerData.phone,
+                    license_plate: vehicleData.license_plate,
+                    brand: vehicleData.brand,
+                    model: vehicleData.model,
+                    total_price: totalPrice
+                }
+            });
+
+        } catch (error) {
+
+            console.error('Error al crear reserva pública:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Error interno del servidor al procesar tu reserva.'
+            });
+
+        }
     }
 
 }
