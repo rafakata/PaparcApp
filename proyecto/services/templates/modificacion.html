@@ -13,7 +13,7 @@
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; padding: 20px;">
         <tr>
             <td align="center">
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-bottom: 8px solid #7DDF8B; border-top: 6px solid #7DDF8B;">
                     <tr>
                         <td align="center" style="background-color: #0968EF; padding: 35px 0;">
                             <h1 class="logo-font" style="margin: 0; color: #7DDF8B; font-size: 28px; font-weight: normal; font-family: 'Zen Dots', sans-serif;">PaparcApp</h1>
@@ -21,31 +21,30 @@
                     </tr>
                     <tr>
                         <td style="padding: 40px; color: #333333; line-height: 1.6; font-family: 'Poppins', sans-serif;">
-                            <h2 style="margin-top: 0; color: #0968EF; font-size: 22px; font-weight: 700;">Tu reserva ha sido modificada</h2>
-                            <p style="font-size: 16px;">Hola <strong>{{ $json.cliente.nombre }}</strong>,</p>
-                            <p>Te confirmamos que hemos actualizado los datos de tu estancia siguiendo tu solicitud. Aquí tienes el nuevo resumen:</p>
-                            
+                            <h2 style="margin-top: 0; color: #0968EF; font-size: 22px; font-weight: 700;">Your reservation has been modified</h2>
+                            <p style="font-size: 16px;">Hello <strong>{{ $json.cliente.nombre }}</strong>,</p>
+                            <p>We confirm that we have updated your stay details as requested. Here is your new summary:</p>
                             <table width="100%" style="border-collapse: collapse; margin: 25px 0; background-color: #f0f7ff; border-radius: 6px;">
                                 <tr>
-                                    <td style="padding: 15px; border-bottom: 1px solid #e1eefb;"><strong>Nueva Entrada:</strong></td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e1eefb;"><strong>New Entry:</strong></td>
                                     <td style="padding: 15px; border-bottom: 1px solid #e1eefb;">{{ $json.reserva.fecha_entrada }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 15px; border-bottom: 1px solid #e1eefb;"><strong>Nueva Salida:</strong></td>
+                                    <td style="padding: 15px; border-bottom: 1px solid #e1eefb;"><strong>New Exit:</strong></td>
                                     <td style="padding: 15px; border-bottom: 1px solid #e1eefb;">{{ $json.reserva.fecha_salida }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="padding: 15px; color: #0968EF;"><strong>Total Actualizado:</strong></td>
+                                    <td style="padding: 15px; color: #0968EF;"><strong>Updated Total:</strong></td>
                                     <td style="padding: 15px; color: #0968EF; font-weight: 700;">{{ $json.reserva.precio_total }}€</td>
                                 </tr>
                             </table>
-
-                            <p style="font-size: 14px; color: #666; font-style: italic;">* Hemos adjuntado el nuevo presupuesto/recibo en formato PDF a este correo.</p>
+                            <p style="font-size: 14px; color: #666; font-style: italic;">* The new quote/receipt in PDF format is attached to this email.</p>
                         </td>
                     </tr>
-                    <tr>
-                        <td style="background-color: #f4f4f4; padding: 20px; text-align: center; color: #999999; font-size: 12px; font-family: 'Poppins', sans-serif;">
-                            <p>© 2026 PaparcApp - Gestión de Parking Profesional</p>
+                   <tr>
+                        <td style="background-color: #f4f4f4; padding: 30px; text-align: center; color: #777777; font-size: 12px; font-family: 'Poppins', sans-serif;">
+                            <p style="margin: 0; font-weight: 600; color: #0968EF;">PaparcApp - Your car, safe.</p>
+                            <p style="margin: 5px 0;">If you have any questions about your invoice, contact us at soporte@paparcapp.com</p>
                         </td>
                     </tr>
                 </table>

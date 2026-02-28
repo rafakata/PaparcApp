@@ -7,24 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Estilos específicos para clientes que aceptan fuentes web */
         @import url('https://fonts.googleapis.com/css2?family=Zen+Dots&family=Poppins:wght@400;700&display=swap');
-
-        .logo-font {
-            font-family: 'Zen Dots', 'Arial Black', sans-serif !important;
-        }
-        .main-font {
-            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif !important;
-        }
+        .logo-font { font-family: 'Zen Dots', 'Arial Black', sans-serif !important; }
+        .main-font { font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif !important; }
     </style>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f9f9f9;" class="main-font">
 
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; padding: 20px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f9f9f9; padding: 20px; ">
         <tr>
             <td align="center">
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-                    
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; border-bottom: 8px solid #7DDF8B; border-top: 6px solid #7DDF8B;">
                     <tr>
                         <td align="center" style="background-color: #0968EF; padding: 40px 0;">
                             <h1 class="logo-font" style="margin: 0; color: #7DDF8B; font-size: 32px; font-weight: normal; font-family: 'Zen Dots', Arial, sans-serif;">
@@ -32,38 +25,32 @@
                             </h1>
                         </td>
                     </tr>
-
                     <tr>
-                        <td style="padding: 40px; color: #333333; line-height: 1.6; font-family: 'Poppins', Arial, sans-serif;">
-                            <h2 style="margin-top: 0; color: #0968EF; font-size: 22px; font-weight: 700;">Confirmación de Reserva</h2>
-                            
-                            <p style="font-size: 16px; font-weight: 400;">Hola, <strong>{{ $json.cliente.nombre }}</strong>:</p>
-                            
-                            <p style="font-size: 15px;">Tu plaza ha sido reservada correctamente siguiendo nuestra línea de estilo oficial.</p>
-                            
-                            <div style="background-color: #f0f7ff; border-left: 4px solid #7DDF8B; padding: 20px; margin: 20px 0;">
-                                <p style="margin: 5px 0;"><strong>Matrícula:</strong> {{ $json.reserva.matricula }}</p>
-                                <p style="margin: 5px 0;"><strong>Entrada:</strong> {{ $json.reserva.fecha_entrada }}</p>
+                        <td style="padding: 40px; color: #333333; line-height: 1.6; font-family: 'Poppins', Arial, sans-serif; text-align: center;">
+                            <h2 style="margin-top: 0; color: #0968EF; font-size: 22px; font-weight: 700;">Booking Confirmation</h2>
+                            <p style="font-size: 16px; font-weight: 400;">Hello, <strong>{{ $json.cliente.nombre }}</strong>:</p>
+                            <p style="font-size: 15px;">Your parking spot has been successfully reserved. Thank you for choosing PaparcApp!</p>
+                            <div style="background-color: #f0f7ff; border-left: 4px solid #7DDF8B; padding: 20px; margin: 20px 0; text-align: left;">
+                                <p style="margin: 5px 0;"><strong>License Plate:</strong> {{ $json.reserva.matricula }}</p>
+                                <p style="margin: 5px 0;"><strong>Entry Date:</strong> {{ $json.reserva.fecha_entrada }}</p>
                             </div>
-
-                            <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 25px;">
+                            <table border="0" cellpadding="0" cellspacing="0" style="margin-top: 25px; margin-left: auto; margin-right: auto;">
                                 <tr>
                                     <td align="center" bgcolor="#7DDF8B" style="border-radius: 4px;">
                                         <a href="https://paparcapp.com" target="_blank" style="padding: 14px 24px; color: #000000; text-decoration: none; font-weight: 600; display: inline-block; font-family: 'Poppins', sans-serif;">
-                                            ACCEDER A MI PANEL
+                                            ACCESS MY DASHBOARD
                                         </a>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-
                     <tr>
-                        <td style="background-color: #f4f4f4; padding: 20px; text-align: center; color: #777777; font-size: 12px; font-family: 'Poppins', sans-serif;">
-                            <p>© 2026 PaparcApp - Tu Parking de Confianza</p>
+                        <td style="background-color: #f4f4f4; padding: 30px; text-align: center; color: #777777; font-size: 12px; font-family: 'Poppins', sans-serif;">
+                            <p style="margin: 0; font-weight: 600; color: #0968EF;">PaparcApp - Your car, safe.</p>
+                            <p style="margin: 5px 0;">If you have any questions about your invoice, contact us at soporte@paparcapp.com</p>
                         </td>
                     </tr>
-
                 </table>
             </td>
         </tr>

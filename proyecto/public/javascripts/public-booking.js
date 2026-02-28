@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. MOTOR DE PRECIO DINÁMICO ---
     async function updateDynamicPrice() {
         if (!entryInput.value || !exitInput.value) {
-            priceText1.textContent = 'Selecciona las fechas para ver el precio';
+            priceText1.textContent = 'Select dates to see the price';
             priceText2.textContent = 'Total: 0.00 €';
             return;
         }
@@ -76,18 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && data.success) {
                 const priceFormatted = parseFloat(data.total_price).toFixed(2);
-                const prefix = isEstimating ? 'Desde ' : 'Total: ';
+                const prefix = isEstimating ? 'From ' : 'Total: ';
                 
                 priceText1.textContent = `${prefix}${priceFormatted} €`;
                 priceText2.textContent = `Total: ${priceFormatted} €`;
                 finalPriceText.textContent = `${priceFormatted} €`;
-                priceText1.style.color = ''; 
+                priceText1.style.color = '';
             } else {
-                priceText1.textContent = 'Error al calcular';
+                priceText1.textContent = 'Error calculating price';
                 priceText1.style.color = '#dc3545';
             }
         } catch (error) {
-            priceText1.textContent = 'Error de conexión';
+            priceText1.textContent = 'Connection error';
             priceText1.style.color = '#dc3545';
         } finally {
             spinner.style.display = 'none';
@@ -138,7 +138,7 @@ function goToStep(step) {
 
         if (!errores && new Date(entry.value) >= new Date(exit.value)) {
             mostrarError(exit);
-            Swal.fire({ icon: 'error', title: 'Fechas Inválidas', text: 'La fecha de salida debe ser posterior a la de entrada.' });
+            Swal.fire({ icon: 'error', title: 'Invalid Dates', text: 'The exit date must be after the entry date.' });
             return;
         }
     }
@@ -161,8 +161,8 @@ function goToStep(step) {
         // Alerta amigable temporal
         Swal.fire({ 
             icon: 'warning', 
-            title: 'Faltan datos', 
-            text: 'Por favor, rellena los campos marcados en rojo.',
+            title: 'Missing data', 
+            text: 'Please fill in the fields marked in red.',
             timer: 2000,
             showConfirmButton: false,
             toast: true,
@@ -246,8 +246,8 @@ async function confirmBooking() {
 
             Swal.fire({
                 icon: 'success',
-                title: '¡Reserva Confirmada!',
-                text: 'Tu plaza está asegurada.',
+                title: 'Booking Confirmed!',
+                text: 'Your spot is secured.',
                 timer: 3000,
                 showConfirmButton: false
             });
@@ -261,7 +261,7 @@ async function confirmBooking() {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: error.message || 'Ocurrió un error de conexión. Por favor, inténtalo de nuevo.'
+            text: error.message || 'A connection error occurred. Please try again.'
         });
     } finally {
         btnConfirm.disabled = false;
