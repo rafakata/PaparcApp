@@ -8,12 +8,14 @@ var router = express.Router();
 const apiController = require('../controllers/apiController');
 const { isAdmin } = require('../middlewares/auth');
 
-router.use(isAdmin);
-
 /* GET API info by date*/
-router.get('/reservations', apiController.getReservationsByDate);
+router.get('/reservations', isAdmin, apiController.getReservationsByDate);
 
-/* POST Calculate dynamic price */
+/* POST Calculate dynamic price, ruta api pública*/
 router.post('/pricing/dynamic', apiController.calculatePriceDynamic);
+
+/* POST Crear reserva desde la web pública (SIN middleware de protección) */
+router.post('/reservations/public-new', apiController.createPublicReservation);
+
 
 module.exports = router;

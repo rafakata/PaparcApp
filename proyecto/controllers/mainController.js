@@ -85,9 +85,31 @@ const mainController = {
         res.render('privacy', { title : 'PaparcApp - Política de privacidad' });
     },
 
-    // GET booking page. Renderiza la página de reserva (frontend) // AUN POR HACER ESTA FUNCIONALIDAD.
-    renderBooking : (req,res) => {
-        res.render('booking', { title : 'PaparcApp - Reserva tu parking' });
+    // GET booking page. Renderiza la página de reserva (frontend)
+    renderBooking : async (req, res, next) => {
+        
+        try {
+            // Traemos los catálogos necesarios de la BD (solo los activos para la web pública)
+            const [vehicleTypes, mainServices, additionalServices] = await Promise.all([
+                serviceCatalogDAO.getVehicleTypes(),
+                serviceCatalogDAO.getMainServices(true), 
+                serviceCatalogDAO.getAllAdditionalServices(true)
+            ]);
+
+            // Pasamos las variables a la vista
+            res.render('booking', { 
+                title : 'PaparcApp - Reserva tu parking',
+                vehicleTypes,
+                mainServices,
+                additionalServices
+            });
+
+        } catch (error) {
+            
+            console.error('Error al renderizar la página de reservas:', error);
+            next(error); // Pasamos el error al manejador global
+
+        }
     }
 
 };
