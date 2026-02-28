@@ -66,7 +66,7 @@ class ReservationDAO {
 
         // esta consulta contiene una subconsulta para contar la cantidad de fotos de evidencia asociadas a la reserva y devuelve la información en forma objeto con clave photo_count
         const sqlReservation = `SELECT
-                                    r.id_reservation, r.reservation_date, r.entry_date, r.exit_date, r.status, r.total_price, r.is_paid, r.payment_method, r.notes, r.cod_parking_spot,
+                                    r.id_reservation, r.reservation_date, r.entry_date, r.exit_date, r.status, r.total_price, r.is_paid, r.payment_method, r.notes, r.cod_parking_spot, r.id_customer,
                                     (SELECT COUNT (*) FROM photo_evidence pe WHERE pe.id_reservation = r.id_reservation) :: int AS photo_count, 
                                     v.license_plate, v.brand, v.model, v.color, v.type,
                                     c.full_name AS customer_name, c.phone, c.email,
@@ -565,6 +565,37 @@ class ReservationDAO {
         }
     }
 
+    /**
+     * Obtenemos el historial de reservas asociadas a un customerId para mostrarlo en el historial de mis reservas
+     * @param {number} customerId - ID del cliente
+     * @returns {Array} - Array de objetos con la información de las reservas del cliente
+     * @throws - Error si ocurre algún problema en la base de datos
+     */
+    async getReservationsByCustomerId(customerId) {
+
+        const sql = `
+            SELECT r.*, v.license_plate, v.brand, v.model, ms.name as main_service_name
+            FROM reservation r
+            LEFT JOIN vehicle v ON r.id_vehicle = v.id_vehicle
+            LEFT JOIN main_service ms ON r.id_main_service = ms.id_main_service
+            WHERE r.id_customer = $1
+            ORDER BY r.entry_date DESC
+        `;
+
+        try {
+
+            const result = await db.query(sql, [customerId]);
+            return result.rows;
+
+        } catch (error) {
+
+            console.error('Error al obtener reservas del cliente:', error);
+            throw new Error('Error al obtener reservas del cliente', { cause: error });
+
+        }
+
+    }
+    
 }
 
 module.exports = new ReservationDAO();

@@ -35,19 +35,22 @@ router.post('/auth/social', authController.socialLogin);
 /** GET logout: cerramos sesión */
 router.get('/logout', authController.logout)
 
+/* -- RUTA PRIVADA (solo usuarios logueados) -- */
 
+/* GET profile page: Muestra el perfil del usuario logueado */
+router.get('/profile', isLoggedIn, authController.renderProfile)
 
-/* -- RUTAS PRIVADAS (solo usuarios logueados) -- */
+/* PUT Actualizar datos del perfil */
+router.put('/profile/update', isLoggedIn, authController.updateProfile);
 
-/*GET profile page: muestra el perfil del usuario logueado MIRAR MAS ADELANTE FUNCIONALIDAD Y LIMPIAR RUTA*/
-// usamos getLoggedIn. Si no está logueado, redirige a login
-router.get('/profile', isLoggedIn, function(req, res, next) {
-  res.render('profile', { 
-    title: 'Perfil de Usuario',
-    reservaActual: null, //aqui se podria mostrar la reserva actual del usuario, pero por ahora lo dejamos en null
-    historial: null //aqui se podria mostrar el historial de reservas del usuario, pero por ahora lo dejamos en null
-  })
-});
+/* PUT Cambiar contraseña */
+router.put('/profile/password', isLoggedIn, authController.updatePassword);
+
+/* PUT Cancelar reserva */
+router.put('/profile/reservations/:id/cancel', isLoggedIn, authController.cancelReservation);
+
+/* PUT Editar reserva */
+router.put('/profile/reservations/:id/edit', isLoggedIn, authController.editReservation);
 
 
 module.exports = router;
