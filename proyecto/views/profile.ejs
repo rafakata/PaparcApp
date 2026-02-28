@@ -38,15 +38,19 @@
           <div class="reserva-actual">
             <h3><i class="fas fa-calendar-check"></i> Current Bookings</h3>
             
-            <div class="historial-lista" style="max-height: 250px;"> <% if (locals.activeReservations && activeReservations.length > 0) { %>
+            <div class="historial-lista" style="max-height: 250px;">
+              <% if (locals.activeReservations && activeReservations.length > 0) { %>
                 <% activeReservations.forEach(function(resActual) { %>
                   <div class="historial-item reserva-clickable" style="cursor: pointer; position: relative;"
                        data-id="<%= resActual.id_reservation %>"
                        data-status="<%= resActual.status %>"
                        data-entry="<%= new Date(resActual.entry_date).toLocaleString('es-ES') %>"
                        data-exit="<%= resActual.exit_date ? new Date(resActual.exit_date).toLocaleString('es-ES') : 'No definida' %>"
+                       data-entry-iso="<%= new Date(resActual.entry_date).toISOString() %>"
+                       data-exit-iso="<%= resActual.exit_date ? new Date(resActual.exit_date).toISOString() : '' %>"
                        data-service="<%= resActual.main_service_name %>"
-                       data-id-service="<%= resActual.id_main_service %>" 
+                       data-id-service="<%= resActual.id_main_service %>"
+                       data-extras='<%= JSON.stringify(resActual.extra_services || []) %>'
                        data-vehicle="<%= resActual.license_plate %> (<%= resActual.brand %>)"
                        data-price="<%= parseFloat(resActual.total_price).toFixed(2) %>">
                     
@@ -58,9 +62,12 @@
                       <i class="fas fa-calendar-day"></i>
                       <span><%= new Date(resActual.entry_date).toLocaleDateString('es-ES') %></span>
                     </div>
-                    <div>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 5px;">
+                      <strong style="font-size: 1.1rem; color: #333;"><%= parseFloat(resActual.total_price).toFixed(2) %> €</strong>
                       <span class="badge badge-<%= resActual.status.toLowerCase() %>"><%= resActual.status %></span>
                     </div>
+
                   </div>
                 <% }) %>
               <% } else { %>
@@ -91,12 +98,24 @@
                      data-status="<%= item.status %>"
                      data-entry="<%= new Date(item.entry_date).toLocaleString('es-ES') %>"
                      data-exit="<%= item.exit_date ? new Date(item.exit_date).toLocaleString('es-ES') : 'No definida' %>"
+                     data-entry-iso="<%= new Date(item.entry_date).toISOString() %>"
+                     data-exit-iso="<%= item.exit_date ? new Date(item.exit_date).toISOString() : '' %>"
                      data-service="<%= item.main_service_name %>"
+                     data-id-service="<%= item.id_main_service %>"
+                     data-extras='<%= JSON.stringify(item.extra_services || []) %>'
                      data-vehicle="<%= item.license_plate %> (<%= item.brand %>)"
                      data-price="<%= parseFloat(item.total_price).toFixed(2) %>">
+                     
                   <div class="historial-fecha">
                     <i class="fas fa-calendar-alt"></i>
                     <span><%= new Date(item.entry_date).toLocaleDateString('es-ES') %></span>
+                  </div>
+                  <div class="historial-servicio">
+                    <i class="fas fa-car"></i>
+                    <span><%= item.license_plate %></span>
+                  </div>
+                  <div class="historial-precio">
+                    <strong><%= parseFloat(item.total_price).toFixed(2) %> €</strong>
                   </div>
                 </div>
               <% }) %>
@@ -113,7 +132,6 @@
 
     <%- include("partials/footer") %>
 
-    <!-- Modal para editar datos del perfil -->
     <div class="modal-overlay" id="editModal">
       <div class="modal-container">
         <div class="modal-header">
@@ -172,7 +190,6 @@
       </div>
     </div>
 
-    <!-- Modal para mostrar los detalles de la reserva -->
     <div class="modal-overlay" id="reservaDetailsModal">
       <div class="modal-container">
         <div class="modal-header">
@@ -204,7 +221,6 @@
       </div>
     </div>
 
-    <!-- Momdal para editar los datos de la reserva -->
     <div class="modal-overlay" id="editReservaModal">
       <div class="modal-container">
         <div class="modal-header">
@@ -229,7 +245,7 @@
 
           <div class="form-group mt-3">
             <label><i class="fas fa-gem"></i> Main Service</label>
-            <select id="edit-res-service" class="dyn-trigger" name="id_main_service" required>
+            <select id="edit-res-service" name="id_main_service" required>
                 <option value="" disabled>Select a parking service...</option>
                 <% if (locals.mainServices) { mainServices.forEach(ms => { %>
                     <option value="<%= ms.id_main_service %>"><%= ms.name %> (<%= ms.tagline %>)</option>
