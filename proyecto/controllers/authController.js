@@ -382,51 +382,49 @@ const authController = {
     editReservation: async (req, res) => {
         try {
             const reservationId = req.params.id;
-            const userId = req.session.user.id;
             const { entry_date, exit_date, id_main_service, additional_services } = req.body;
 
             const reservationDAO = require('../models/reservation-dao');
             const pricingService = require('../services/pricingService');
 
-            // 1. Obtenemos la reserva actual para validar y rescatar datos del vehículo
             const reserva = await reservationDAO.getInfoReservationByIdReservation(reservationId);
 
-            if (!reserva) {
-                return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+            if (!reserva) return res.status(404).json({ success: false, message: 'Reserva no encontrada.' });
+
+            // 1. AHORA PERMITIMOS 'PENDIENTE' Y 'EN CURSO'
+            if (reserva.status !== 'PENDIENTE' && reserva.status !== 'EN CURSO') {
+                return res.status(400).json({ success: false, message: 'Solo se pueden editar reservas PENDIENTES o EN CURSO.' });
             }
 
-           
-            if (reserva.id_customer !== userId) return res.status(403).json({ success: false, message: 'No tienes permiso.' });
+            // 2. BLOQUEO DE SEGURIDAD DE LA FECHA DE ENTRADA
+            // Si está EN CURSO, ignoramos la fecha que manda el Frontend y usamos la real de la BD.
+            const finalEntryDate = (reserva.status === 'EN CURSO') ? reserva.entry_date : new Date(entry_date);
+            const finalExitDate = new Date(exit_date);
 
-            if (reserva.status !== 'PENDIENTE') {
-                return res.status(400).json({ success: false, message: 'Solo se pueden editar reservas PENDIENTES.' });
-            }
-
-            // 2. Calculamos el nuevo precio seguro en el servidor
+            // 3. Calculamos el nuevo precio seguro en el servidor
             const parsedExtras = additional_services ? additional_services.map(id => parseInt(id)) : [];
             const newTotalPrice = pricingService.calculateTotalPrice(
-                new Date(entry_date),
-                new Date(exit_date),
-                reserva.type, // El tipo de vehículo (TURISMO, SUV, etc.) que ya tenía
+                finalEntryDate,
+                finalExitDate,
+                reserva.type, 
                 parseInt(id_main_service),
                 parsedExtras
             );
 
-            // 3. Preparamos el paquete de datos para el DAO de Transacción
+            // 4. Preparamos los datos
             const updateData = {
-                entry_date: entry_date,
-                exit_date: exit_date,
+                entry_date: finalEntryDate,
+                exit_date: finalExitDate,
                 id_main_service: parseInt(id_main_service),
                 total_price: newTotalPrice,
-                cod_parking_spot: reserva.cod_parking_spot, // Mantenemos su plaza si la tuviera
-                brand: reserva.brand,             // Mantenemos la marca
-                model: reserva.model,             // Mantenemos el modelo
-                color: reserva.color,             // Mantenemos el color
-                vehicle_type: reserva.type,       // Mantenemos el tipo
-                additional_services: parsedExtras // Nuevos extras
+                cod_parking_spot: reserva.cod_parking_spot,
+                brand: reserva.brand,             
+                model: reserva.model,             
+                color: reserva.color,             
+                vehicle_type: reserva.type,       
+                additional_services: parsedExtras 
             };
 
-            // 4. Ejecutamos la transacción
             await reservationDAO.updateReservationTransaction(reservationId, updateData);
 
             res.json({ success: true, message: 'Reserva actualizada con éxito.' });

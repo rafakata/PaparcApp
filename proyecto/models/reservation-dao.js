@@ -574,7 +574,10 @@ class ReservationDAO {
     async getReservationsByCustomerId(customerId) {
 
         const sql = `
-            SELECT r.*, v.license_plate, v.brand, v.model, ms.name as main_service_name
+            SELECT r.*, v.license_plate, v.brand, v.model, ms.name as main_service_name,
+                   (SELECT COALESCE(json_agg(ras.id_additional_service), '[]')
+                    FROM reservation_additional_service ras
+                    WHERE ras.id_reservation = r.id_reservation) as extra_services
             FROM reservation r
             LEFT JOIN vehicle v ON r.id_vehicle = v.id_vehicle
             LEFT JOIN main_service ms ON r.id_main_service = ms.id_main_service

@@ -1,21 +1,22 @@
 /**
  * Lógica para la vista de Perfil del Cliente
- * Controla modales, pestañas y envío de formularios.
+ * Controla modales, pestañas, visualización de reservas y actualizaciones (Fetch).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    //modales para editar datos y cambiar contraseña
+    // ==========================================================
+    // 1. CONTROL DEL MODAL DE EDICIÓN DE PERFIL (DATOS/CONTRASEÑA)
+    // ==========================================================
     const editModal = document.querySelector('#editModal');
     const btnOpenModal = document.querySelector('#btn-open-edit-modal');
     const btnCloseModal = document.querySelector('#btn-close-edit-modal');
     const btnCancelMods = document.querySelectorAll('.cancel-edit-btn');
 
-    // logica para controlar la apertura y cierre del modal
     const openModal = () => {
         if(editModal) {
             editModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
         }
     };
 
@@ -30,20 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
     btnCancelMods.forEach(btn => btn.addEventListener('click', closeModal));
 
-    
+    // Cerrar al hacer clic en el fondo o Escape
     if (editModal) {
         editModal.addEventListener('click', (e) => {
             if (e.target === editModal) closeModal();
         });
     }
 
-    // Cerrar con la tecla Escape
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
-
-
-    // lógica para controlar las pestañas dentro del modal
+    // Tabs del perfil
     const tabs = document.querySelectorAll('.modal-tab');
     const forms = {
         'form-datos': document.querySelector('#form-datos'),
@@ -52,28 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            // 1. Quitar 'active' de todos los tabs y ocultar todos los forms
             tabs.forEach(t => t.classList.remove('active'));
             Object.values(forms).forEach(f => { if(f) f.style.display = 'none'; });
 
-            // 2. Activar el tab clicado y mostrar su form correspondiente
             tab.classList.add('active');
             const targetId = tab.getAttribute('data-target');
-            if (forms[targetId]) {
-                forms[targetId].style.display = 'flex';
-            }
+            if (forms[targetId]) forms[targetId].style.display = 'flex';
         });
     });
 
-    // --- ENVÍO DE FORMULARIOS ---
-
-    // actrualizar datos del perfil
+    // Enviar formulario de Datos Personales
     const formDatos = document.querySelector('#form-datos');
     if (formDatos) {
-
         formDatos.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const payload = {
                 nombre: document.querySelector('#edit-nombre').value,
                 email: document.querySelector('#edit-email').value,
@@ -82,54 +69,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const res = await fetch('/users/profile/update', {
-                    method: 'PUT', // PUT, metodo usado para actaulizar recursos existentes
+                    method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                
                 const data = await res.json();
                 
                 if (data.success) {
-
+                    // Actualizamos DOM sin recargar
                     document.querySelector('#display-nombre').textContent = payload.nombre;
                     document.querySelector('#display-email').textContent = payload.email;
                     document.querySelector('#display-telefono').textContent = payload.telefono;
                     
-                    Swal.fire({ 
-                        icon: 'success', 
-                        title: '¡Actualizado!', 
-                        text: data.message, 
-                        timer: 2000, 
-                        showConfirmButton: false 
-                    });
-
-                    closeModal(); // Cerramos el modal de edición
-
+                    Swal.fire({ icon: 'success', title: '¡Actualizado!', text: data.message, timer: 2000, showConfirmButton: false });
+                    closeModal(); 
                 } else {
-
                     Swal.fire({ icon: 'error', title: 'Error', text: data.message });
-
                 }
-
             } catch (error) {
-
-                Swal.fire({ 
-                    icon: 'error', 
-                    title: 'Error de conexión', 
-                    text: 'Inténtalo de nuevo más tarde.' 
-                });
+                Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Inténtalo de nuevo más tarde.' });
             }
-
         });
     }
 
-    // actualizar contraseña
+    // Enviar formulario de Contraseña
     const formPassword = document.querySelector('#form-password');
     if (formPassword) {
-
         formPassword.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const payload = {
                 currentPassword: document.querySelector('#current-password').value,
                 newPassword: document.querySelector('#new-password').value,
@@ -137,54 +104,33 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-
                 const res = await fetch('/users/profile/password', {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                
                 const data = await res.json();
                 
                 if (data.success) {
-
-                    Swal.fire({ icon: 'success', 
-                        title: '¡Contraseña cambiada!', 
-                        text: data.message, 
-                        timer: 2000, 
-                        showConfirmButton: false 
-                    });
-
-                    formPassword.reset();
+                    Swal.fire({ icon: 'success', title: '¡Contraseña cambiada!', text: data.message, timer: 2000, showConfirmButton: false });
+                    formPassword.reset(); 
                     closeModal(); 
-
                 } else {
-
-                    Swal.fire({ 
-                        icon: 'error', 
-                        title: 'Error', 
-                        text: data.message 
-                    });
-
+                    Swal.fire({ icon: 'error', title: 'Error', text: data.message });
                 }
-
             } catch (error) {
-
-                Swal.fire({ icon: 'error', 
-                    title: 'Error de conexión', 
-                    text: 'Inténtalo de nuevo más tarde.' 
-                });
-
+                Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Inténtalo de nuevo más tarde.' });
             }
         });
     }
 
-    // --- 4. GESTIÓN DE DETALLES Y CANCELACIÓN DE RESERVAS ---
+    // ==========================================================
+    // 2. GESTIÓN DE DETALLES Y CANCELACIÓN DE RESERVAS
+    // ==========================================================
     const detailsModal = document.querySelector('#reservaDetailsModal');
     const btnCloseDetails = document.querySelector('#btn-close-details-modal');
     const clickableReservations = document.querySelectorAll('.reserva-clickable');
     
-    // Variables para las acciones
     let currentReservaId = null;
     const btnCancelRes = document.querySelector('#btn-cancel-reservation');
     const btnEditRes = document.querySelector('#btn-edit-reservation');
@@ -199,14 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnCloseDetails) btnCloseDetails.addEventListener('click', closeDetailsModal);
 
-    // Al hacer clic en cualquier reserva (activa o historial)
+    // Abrir detalles de cualquier reserva
     clickableReservations.forEach(card => {
         card.addEventListener('click', function() {
-            // 1. Extraer datos del HTML
             currentReservaId = this.getAttribute('data-id');
             const status = this.getAttribute('data-status');
             
-            // 2. Poblar el modal
+            // Poblar el modal
             document.querySelector('#detail-id').textContent = `ID: #${currentReservaId}`;
             document.querySelector('#detail-entry').textContent = this.getAttribute('data-entry');
             document.querySelector('#detail-exit').textContent = this.getAttribute('data-exit');
@@ -216,9 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const statusBadge = document.querySelector('#detail-status');
             statusBadge.textContent = status;
-            statusBadge.className = `badge badge-${status.toLowerCase()}`; // Para heredar los colores CSS
+            statusBadge.className = `badge badge-${status.toLowerCase()}`; 
 
-            // 3. Mostrar u ocultar botones de acción
+            // Lógica de botones
             if (status === 'PENDIENTE') {
                 actionContainer.style.display = 'flex';
                 btnCancelRes.style.display = 'block';
@@ -226,12 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (status === 'EN CURSO') {
                 actionContainer.style.display = 'flex';
                 btnCancelRes.style.display = 'none'; // No se puede cancelar
-                btnEditRes.style.display = 'block'; // Sí se puede editar
+                btnEditRes.style.display = 'block';  // Sí se puede editar
             } else {
                 actionContainer.style.display = 'none'; // FINALIZADA o CANCELADA
             }
 
-            // 4. Abrir modal
             detailsModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
@@ -240,8 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Acción: CANCELAR RESERVA
     if (btnCancelRes) {
         btnCancelRes.addEventListener('click', async () => {
-
-            closeDetailsModal(); // Cerramos el modal de detalles para evitar conflictos con SweetAlert
+            closeDetailsModal(); // Cerramos modal para evitar problemas de z-index
 
             const result = await Swal.fire({
                 title: '¿Estás seguro?',
@@ -263,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if (data.success) {
                         await Swal.fire('Cancelada', data.message, 'success');
-                        window.location.reload(); // Aquí sí recargamos para actualizar las listas
+                        window.location.reload(); 
                     } else {
                         Swal.fire('Error', data.message, 'error');
                     }
@@ -274,44 +217,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// --- ACCIÓN: ABRIR MODAL PARA EDITAR RESERVA ---
+    // ==========================================================
+    // 3. EDICIÓN COMPLETA DE RESERVAS
+    // ==========================================================
     const editResModal = document.querySelector('#editReservaModal');
-    let currentMainServiceId = null;
     
     const closeEditResModal = () => {
-        if(editResModal) editResModal.classList.remove('active');
+        if(editResModal) {
+            editResModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     };
 
+    document.querySelector('#btn-close-edit-reserva-modal')?.addEventListener('click', closeEditResModal);
+    document.querySelector('#btn-cancel-edit-res')?.addEventListener('click', closeEditResModal);
+
+    // Abrir modal de edición
     if (btnEditRes) {
         btnEditRes.addEventListener('click', () => {
             closeDetailsModal(); // Cerramos el de detalles
             
-            // Poblar el modal de edición
+            const card = document.querySelector(`.reserva-clickable[data-id="${currentReservaId}"]`);
+            if (!card) return;
+
+            // Extraer datos
+            const status = card.getAttribute('data-status');
+            const entryIso = card.getAttribute('data-entry-iso');
+            const exitIso = card.getAttribute('data-exit-iso');
+            const extras = JSON.parse(card.getAttribute('data-extras') || '[]');
+            const mainServiceId = card.getAttribute('data-id-service');
+
+            // Setear ID
             document.querySelector('#edit-res-id').value = currentReservaId;
             
-            // Encontrar el elemento de la tarjeta para sacar el data-id-service
-            const card = document.querySelector(`.reserva-clickable[data-id="${currentReservaId}"]`);
-            if (card) {
-                currentMainServiceId = card.getAttribute('data-id-service');
-                const selectService = document.querySelector('#edit-res-service');
-                if (selectService && currentMainServiceId) {
-                    selectService.value = currentMainServiceId;
-                }
-            }
-            
-            // Limpiamos los checkboxes adicionales para que el usuario los vuelva a elegir
-            document.querySelectorAll('.edit-extra-serv').forEach(cb => cb.checked = false);
+            // Setear Servicio Principal
+            const selectService = document.querySelector('#edit-res-service');
+            if (selectService && mainServiceId) selectService.value = mainServiceId;
 
+            // Setear Extras
+            document.querySelectorAll('.edit-extra-serv').forEach(cb => {
+                cb.checked = extras.includes(parseInt(cb.value));
+            });
+
+            // Setear y formatear fechas
+            const inputEntry = document.querySelector('#edit-res-entrada');
+            const inputExit = document.querySelector('#edit-res-exit');
+
+            const formatLocal = (isoString) => {
+                if (!isoString) return '';
+                const d = new Date(isoString);
+                d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); // Ajuste de zona horaria local
+                return d.toISOString().slice(0, 16);
+            };
+
+            inputEntry.value = formatLocal(entryIso);
+            inputExit.value = formatLocal(exitIso);
+
+            // Bloqueo Inteligente si está EN CURSO
+            if (status === 'EN CURSO') {
+                inputEntry.readOnly = true;
+                inputEntry.style.backgroundColor = '#e9ecef';
+                inputEntry.style.cursor = 'not-allowed';
+                inputEntry.title = "No puedes cambiar la fecha de entrada porque el vehículo ya está en el parking.";
+            } else {
+                inputEntry.readOnly = false;
+                inputEntry.style.backgroundColor = '';
+                inputEntry.style.cursor = '';
+                inputEntry.title = "";
+            }
+
+            // Abrir el nuevo modal
             editResModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
     }
 
-    // Botones para cerrar el modal de edición
-    document.querySelector('#btn-close-edit-reserva-modal')?.addEventListener('click', closeEditResModal);
-    document.querySelector('#btn-cancel-edit-res')?.addEventListener('click', closeEditResModal);
-
-    // Evento Submit de la edición
+    // Evento Submit de la Edición
     document.querySelector('#form-edit-reserva')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -341,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 closeEditResModal();
                 await Swal.fire({ icon: 'success', title: '¡Actualizada!', text: data.message, timer: 2000, showConfirmButton: false });
-                window.location.reload(); // Recargamos para ver las nuevas fechas y precios
+                window.location.reload(); 
             } else {
                 Swal.fire('Error', data.message, 'error');
             }
@@ -353,4 +334,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Cerrar modales con Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+            closeDetailsModal();
+            closeEditResModal();
+        }
+    });
 });
