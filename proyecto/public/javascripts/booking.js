@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // bloqueamos el botón y mostramos un spinner para indicar que se está procesando UX
             btnSubmit.disabled = true;
-            btnSubmit.textContent = ' Procesando...';
+            btnSubmit.textContent = ' Processing...';
 
             const spinner = document.createElement('span');
             spinner.className = 'spinner-border spinner-border-sm me-2';
@@ -124,21 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.status === 201 && result.success) {
 
                     Swal.fire({
-                        title : result.message || 'Reserva creada con éxito',
+                        title : result.message || 'Booking created successfully',
                         icon : 'success',
                         html : `
                             <div class="text-start bg-light p-3 rounded mt-3 border">
                                 <p class="mb-2 fw-bold">Ticket ID: #${result.data.id_reservation}</p>
-                                <p class="mb-2"><b>Cliente:</b> ${result.data.customer_name}</p>
-                                <p class="mb-2"><b>Matrícula:</b> <span class="badge bg-secondary font-monospace fs-6">${result.data.license_plate}</span></p>
-                                <p class="mb-2"><b>Entrada:</b> ${result.data.entry_date}</p>
+                                <p class="mb-2"><b>Customer:</b> ${result.data.customer_name}</p>
+                                <p class="mb-2"><b>License Plate:</b> <span class="badge bg-secondary font-monospace fs-6">${result.data.license_plate}</span></p>
+                                <p class="mb-2"><b>Entry:</b> ${result.data.entry_date}</p>
                                 <hr class="my-2">
                                 <p class="mb-0 fs-5 text-success"><b>Total:</b> ${result.data.total_price} €</p>
                             </div>
                         `,
-                        confirmButtonText: '<i class="bi bi-box-arrow-up-right me-1"></i> Ir a la reserva',
+                        confirmButtonText: '<i class="bi bi-box-arrow-up-right me-1"></i> Go to booking',
                         showCancelButton: true,
-                        cancelButtonText: 'Nueva reserva',
+                        cancelButtonText: 'New booking',
                         confirmButtonColor: '#198754',
                         cancelButtonColor: '#6c757d',
                         allowOutsideClick: false
@@ -164,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
 
                     Swal.fire({
-                        title: 'Atención',
-                        text: result.message || 'Error al procesar la reserva.',
+                        title: 'Attention',
+                        text: result.message || 'Error processing the booking.',
                         icon: 'warning',
                         confirmButtonColor: '#f39c12'
                     });
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error en la solicitud:', error);
                 Swal.fire({
                     title: 'Error',
-                    text: 'Ocurrió un error al procesar la reserva. Por favor, inténtalo de nuevo.',
+                    text: 'An error occurred while processing the booking. Please try again.',
                     icon: 'error',
                     confirmButtonColor: '#e74c3c'
                 });
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } finally {
 
                 btnSubmit.disabled = false;
-                btnSubmit.textContent = ' Confirmar Reserva';
+                btnSubmit.textContent = ' Confirm Booking';
 
                 const icon = document.createElement('i');
                 icon.className = 'bi bi-check-circle-fill me-1';

@@ -81,13 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('#display-email').textContent = payload.email;
                     document.querySelector('#display-telefono').textContent = payload.telefono;
                     
-                    Swal.fire({ icon: 'success', title: '¡Actualizado!', text: data.message, timer: 2000, showConfirmButton: false });
+                    Swal.fire({ icon: 'success', title: 'Updated!', text: data.message, timer: 2000, showConfirmButton: false });
                     closeModal(); 
                 } else {
                     Swal.fire({ icon: 'error', title: 'Error', text: data.message });
                 }
             } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Inténtalo de nuevo más tarde.' });
+                Swal.fire({ icon: 'error', title: 'Connection error', text: 'Please try again later.' });
             }
         });
     }
@@ -112,14 +112,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await res.json();
                 
                 if (data.success) {
-                    Swal.fire({ icon: 'success', title: '¡Contraseña cambiada!', text: data.message, timer: 2000, showConfirmButton: false });
+                    Swal.fire({ icon: 'success', title: 'Password changed!', text: data.message, timer: 2000, showConfirmButton: false });
                     formPassword.reset(); 
                     closeModal(); 
                 } else {
                     Swal.fire({ icon: 'error', title: 'Error', text: data.message });
                 }
             } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Inténtalo de nuevo más tarde.' });
+                Swal.fire({ icon: 'error', title: 'Connection error', text: 'Please try again later.' });
             }
         });
     }
@@ -164,16 +164,16 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.className = `badge badge-${status.toLowerCase()}`; 
 
             // Lógica de botones
-            if (status === 'PENDIENTE') {
+            if (status === 'PENDING') {
                 actionContainer.style.display = 'flex';
                 btnCancelRes.style.display = 'block';
                 btnEditRes.style.display = 'block';
-            } else if (status === 'EN CURSO') {
+            } else if (status === 'IN PROGRESS') {
                 actionContainer.style.display = 'flex';
-                btnCancelRes.style.display = 'none'; // No se puede cancelar
-                btnEditRes.style.display = 'block';  // Sí se puede editar
+                btnCancelRes.style.display = 'none';
+                btnEditRes.style.display = 'block';
             } else {
-                actionContainer.style.display = 'none'; // FINALIZADA o CANCELADA
+                actionContainer.style.display = 'none';
             }
 
             detailsModal.classList.add('active');
@@ -187,13 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
             closeDetailsModal(); // Cerramos modal para evitar problemas de z-index
 
             const result = await Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Vas a cancelar esta reserva. Esta acción no se puede deshacer.",
+                title: 'Are you sure?',
+                text: "You are about to cancel this booking. This action cannot be undone.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#dc3545',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Sí, cancelar reserva'
+                confirmButtonText: 'Yes, cancel booking'
             });
 
             if (result.isConfirmed) {
@@ -205,13 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = await res.json();
                     
                     if (data.success) {
-                        await Swal.fire('Cancelada', data.message, 'success');
+                        await Swal.fire('Cancelled', data.message, 'success');
                         window.location.reload(); 
                     } else {
                         Swal.fire('Error', data.message, 'error');
                     }
                 } catch (error) {
-                    Swal.fire('Error', 'Problema de conexión.', 'error');
+                    Swal.fire('Error', 'Connection problem.', 'error');
                 }
             }
         });
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputEntry.readOnly = true;
                 inputEntry.style.backgroundColor = '#e9ecef';
                 inputEntry.style.cursor = 'not-allowed';
-                inputEntry.title = "No puedes cambiar la fecha de entrada porque el vehículo ya está en el parking.";
+                inputEntry.title = "You cannot change the entry date of a booking that's already in progress.";
             } else {
                 inputEntry.readOnly = false;
                 inputEntry.style.backgroundColor = '';
@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const btnSubmit = e.target.querySelector('button[type="submit"]');
         const originalText = btnSubmit.innerHTML;
-        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
         btnSubmit.disabled = true;
 
         const id = document.querySelector('#edit-res-id').value;
@@ -321,13 +321,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (data.success) {
                 closeEditResModal();
-                await Swal.fire({ icon: 'success', title: '¡Actualizada!', text: data.message, timer: 2000, showConfirmButton: false });
+                await Swal.fire({ icon: 'success', title: 'Updated!', text: data.message, timer: 2000, showConfirmButton: false });
                 window.location.reload(); 
             } else {
                 Swal.fire('Error', data.message, 'error');
             }
         } catch (error) {
-            Swal.fire('Error', 'Problema de conexión.', 'error');
+            Swal.fire('Error', 'Connection problem.', 'error');
         } finally {
             btnSubmit.innerHTML = originalText;
             btnSubmit.disabled = false;

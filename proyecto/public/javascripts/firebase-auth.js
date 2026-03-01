@@ -70,8 +70,8 @@ function handleAuthSuccess(result, provider) {
           toast: true,
           position: 'bottom-end',
           icon: 'success',
-          title: '¡Bienvenido!',
-          text: 'Inicio de sesión exitoso con ' + provider.charAt(0).toUpperCase() + provider.slice(1),
+          title: 'Welcome!',
+          text: 'Successfully signed in with ' + provider.charAt(0).toUpperCase() + provider.slice(1),
           showConfirmButton: false,
           timer: 2000,
           background: '#eafaf1',
@@ -86,7 +86,7 @@ function handleAuthSuccess(result, provider) {
           position: 'bottom-end',
           icon: 'error',
           title: 'Error',
-          text: data.message || 'Error al iniciar sesión',
+          text: data.message || 'Error signing in',
           showConfirmButton: false,
           timer: 4000,
           background: '#fdecea',
@@ -96,7 +96,7 @@ function handleAuthSuccess(result, provider) {
     })
     .catch(error => {
       console.error('Error al comunicarse con el servidor:', error);
-      handleAuthError({ message: 'Error de conexión con el servidor' });
+      handleAuthError({ message: 'Connection error with the server' });
     });
   });
 }
@@ -107,20 +107,20 @@ function handleAuthSuccess(result, provider) {
 function handleAuthError(error) {
   console.error('Error de autenticación:', error);
   
-  let errorMessage = 'Error al iniciar sesión';
+  let errorMessage = 'Error signing in';
   
   switch (error.code) {
     case 'auth/popup-closed-by-user':
-      errorMessage = 'Ventana cerrada antes de completar el inicio de sesión';
+      errorMessage = 'Popup closed before completing sign in';
       break;
     case 'auth/popup-blocked':
-      errorMessage = 'La ventana emergente fue bloqueada por el navegador';
+      errorMessage = 'Popup was blocked by the browser';
       break;
     case 'auth/account-exists-with-different-credential':
-      errorMessage = 'Ya existe una cuenta con este correo usando otro método de inicio de sesión';
+      errorMessage = 'An account already exists with this email using another sign-in method';
       break;
     case 'auth/network-request-failed':
-      errorMessage = 'Error de red. Verifica tu conexión a internet';
+      errorMessage = 'Network error. Please check your internet connection';
       break;
     case 'auth/cancelled-popup-request':
       return; // No mostrar error si el usuario cancela
@@ -146,8 +146,8 @@ function handleAuthError(error) {
  */
 function logoutFirebase() {
   auth.signOut().then(() => {
-    console.log('Sesión de Firebase cerrada');
+    console.log('Firebase session closed');
   }).catch((error) => {
-    console.error('Error al cerrar sesión:', error);
+    console.error('Error signing out:', error);
   });
 }
