@@ -196,8 +196,8 @@ async function confirmBooking() {
         email: document.querySelector('#book-email') ? document.querySelector('#book-email').value : null,
         license_plate: document.querySelector('#book-matricula').value.toUpperCase(),
         vehicle_type: document.querySelector('#book-tipo-vehiculo').value,
-        brand: document.querySelector('#book-marca').value || 'Desconocida',
-        model: document.querySelector('#book-modelo').value || 'Desconocido',
+        brand: document.querySelector('#book-marca').value || 'Unknown',
+        model: document.querySelector('#book-modelo').value || 'Unknown',
         entry_date: document.querySelector('#book-entrada').value,
         exit_date: document.querySelector('#book-salida').value,
         id_main_service: parseInt(document.querySelector('#book-main-service').value),
@@ -207,7 +207,7 @@ async function confirmBooking() {
     // 2. UX: Estado de "Procesando"
     const originalText = btnConfirm.innerHTML;
     btnConfirm.disabled = true;
-    btnConfirm.innerHTML = '<span class="fas fa-spinner fa-spin me-2"></span>Procesando...';
+    btnConfirm.innerHTML = '<span class="fas fa-spinner fa-spin me-2"></span>Processing...';
 
     try {
         // 3. Enviar datos al servidor (Ruta pública que vamos a crear)
@@ -253,7 +253,7 @@ async function confirmBooking() {
             });
 
         } else {
-            throw new Error(result.message || 'Error al guardar la reserva');
+            throw new Error(result.message || 'Error saving the booking');
         }
 
     } catch (error) {

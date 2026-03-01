@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             // si la respuesta no es ok o el servidor devuelve un error, lanzamos una excepción para mostrar un mensaje de error al usuario
-            if (!response.ok || !data.success) throw new Error(data.message || 'Error devuelto por el servidor.');
+            if (!response.ok || !data.success) throw new Error(data.message || 'Server error.');
 
             dynamicPriceDisplay.textContent = parseFloat(data.total_price).toFixed(2);
             

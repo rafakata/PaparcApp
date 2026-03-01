@@ -21,16 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const reservationId = btnDelete.getAttribute('data-id');
 
             Swal.fire({
-
-                title: '¿Estás seguro de cancelar esta reserva?',
-                text: "Esta reservara pasara a estado 'CANCELADA' y no se podrá revertir esta acción.",
+                title: 'Are you sure you want to cancel this booking?',
+                text: "This booking will be set to 'CANCELLED' and this action cannot be undone.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, cancelar reserva',
-                cancelButtonText: 'No, mantener reserva'
-
+                confirmButtonText: 'Yes, cancel booking',
+                cancelButtonText: 'No, keep booking'
             }) .then(async (result) => {
 
                 if (result.isConfirmed) {
@@ -57,10 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             showInteractiveAlert(
                                 'success',
-                                'Reserva cancelada',
-                                'La reserva ha sido cancelada exitosamente.',
-                                'Volver al panel'
-
+                                'Booking cancelled',
+                                'The booking has been successfully cancelled.',
+                                'Back to dashboard'
                             ) .then ((alertResult) => {
 
                                 if (alertResult.isConfirmed) {
@@ -76,9 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             showInteractiveAlert(
                                 'error',
-                                'Error al cancelar reserva',
-                                data.message || 'Ocurrió un error al intentar cancelar la reserva. Por favor, inténtalo de nuevo.',
-                                'Volver'
+                                'Error cancelling booking',
+                                data.message || 'An error occurred while trying to cancel the booking. Please try again.',
+                                'Back'
                             );
                         }
 
@@ -86,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Error en la solicitud:', error);
                         showInteractiveAlert(
                             'error',
-                            'Error de red',
-                            'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
-                            'Volver'
+                            'Network error',
+                            'Could not connect to the server. Please check your internet connection and try again.',
+                            'Back'
                         );
 
                     } finally {
@@ -116,15 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!fileUrl) {
                 showInteractiveAlert(
                     'error',
-                    'URL vacía',
-                    'Por favor, ingresa la URL de la foto que deseas subir.',
-                    'Entendido'
+                    'Empty URL',
+                    'Please enter the URL of the photo you want to upload.',
+                    'OK'
                 );
                 return;
             }
 
             const originalNodes = Array.from(btnUploadPhoto.childNodes); // guardamos los nodos originales para restaurarlos luego
-            btnUploadPhoto.textContent = 'Subiendo...';
+            btnUploadPhoto.textContent = 'Uploading...';
             btnUploadPhoto.disabled = true;
 
             const spinner = document.createElement('span');
@@ -151,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     showInteractiveAlert(
                         'error',
-                        'Error al subir foto',
-                        data.message || 'Ocurrió un error al intentar subir la foto. Por favor, inténtalo de nuevo.',
-                        'Volver'
+                        'Error uploading photo',
+                        data.message || 'An error occurred while trying to upload the photo. Please try again.',
+                        'Back'
                     );
 
                     btnUploadPhoto.textContent = '';
@@ -166,9 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error al subir foto:', error);
                 showInteractiveAlert(
                     'error',
-                    'Error de red',
-                    'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
-                    'Volver'
+                    'Network error',
+                    'Could not connect to the server. Please check your internet connection and try again.',
+                    'Back'
                 );
 
                 btnUploadPhoto.textContent = '';
@@ -188,27 +185,27 @@ document.addEventListener('DOMContentLoaded', () => {
             if (photoCount < 5) {
                 showInteractiveAlert(
                     'error',
-                    'Faltan Evidencias',
-                    `Necesitas subir al menos 5 fotos del vehículo antes de recepcionarlo. Actualmente hay ${photoCount}.`,
-                    'Entendido'
+                    'Missing evidence',
+                    `You need to upload at least 5 photos of the vehicle before checking it in. Currently there are ${photoCount}.`,
+                    'OK'
                 );
                 return; // Cortamos la ejecución aquí
             }
 
             Swal.fire({
-                title: 'Va a recepcionar esta reserva',
+                title: 'You are about to check in this booking',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#198754',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Sí, recepcionar',
-                cancelButtonText: 'Cancelar'
+                confirmButtonText: 'Yes, check in',
+                cancelButtonText: 'Cancel'
             }).then(async (result) => {
 
                 if (result.isConfirmed) {
                     
                     const originalText = btnStart.textContent;
-                    btnStart.textContent = 'Procesando...';
+                    btnStart.textContent = 'Processing...';
                     btnStart.disabled = true;
 
                     try {
@@ -226,18 +223,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             showInteractiveAlert(
                                 'success',
-                                'El vehículo ha sido recepcionado',
-                                'La reserva ha cambiado a estado "EN CURSO".',
-                                'Continuar'
-                            ) .then (() =>  window.location.reload()); // recarga la pagina para mostrar el nuevo estado
+                                'Vehicle checked in',
+                                'The booking status has changed to "IN PROGRESS".',
+                                'Continue'
+                            ) .then (() =>  window.location.reload());
 
                         } else {
 
                             showInteractiveAlert(
                                 'error',
-                                'Error al recepcionar',
-                                data.message || 'Ocurrió un error al intentar recepcionar la reserva. Por favor, inténtalo de nuevo.',
-                                'Volver'
+                                'Error checking in',
+                                data.message || 'An error occurred while trying to check in the booking. Please try again.',
+                                'Back'
                             );
                         }
 
@@ -245,9 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Error en la solicitud:', error);
                         showInteractiveAlert(
                             'error',
-                            'Error de red',
-                            'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
-                            'Volver'
+                            'Network error',
+                            'Could not connect to the server. Please check your internet connection and try again.',
+                            'Back'
                         );
 
                     } finally {
@@ -266,25 +263,25 @@ document.addEventListener('DOMContentLoaded', () => {
             // REGLA DE NEGOCIO: Cobrar antes de salir
             // En lugar de una simple alerta, lanzamos un modal interactivo para cobrar
             Swal.fire({
-                title: 'Finalizar Estancia',
+                title: 'Finalize Stay',
                 html: `
-                    <p class="text-muted mb-3">Confirma el método de pago para dar salida al vehículo.</p>
+                    <p class="text-muted mb-3">Confirm the payment method to check out the vehicle.</p>
                     <select id="swal-payment-method" class="form-select form-select-lg mb-3">
-                        <option value="" disabled selected>Selecciona método de pago...</option>
-                        <option value="TARJETA">Tarjeta de Crédito/Débito</option>
-                        <option value="EFECTIVO">Efectivo</option>
+                        <option value="" disabled selected>Select payment method...</option>
+                        <option value="TARJETA">Credit/Debit Card</option>
+                        <option value="EFECTIVO">Cash</option>
                     </select>
                 `,
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#0d6efd',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Confirmar Pago y Salida',
-                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Confirm Payment and Checkout',
+                cancelButtonText: 'Cancel',
                 preConfirm: () => {
                     const method = document.querySelector('#swal-payment-method').value;
                     if (!method) {
-                        Swal.showValidationMessage('Debes seleccionar un método de pago');
+                        Swal.showValidationMessage('You must select a payment method');
                     }
                     return { paymentMethod: method };
                 }
@@ -294,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const paymentMethod = result.value.paymentMethod;
                     const originalText = btnFinalize.textContent;
-                    btnFinalize.textContent = 'Finalizando...';
+                    btnFinalize.textContent = 'Finalizing...';
                     btnFinalize.disabled = true;
 
                     try {
@@ -313,18 +310,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                             showInteractiveAlert(
                                 'success',
-                                'Reserva Finalizada',
-                                `La reserva ha sido finalizada exitosamente. Método de pago: ${paymentMethod}.`,
-                                'Volver al panel'
-                            ) .then (() =>  window.location.reload()); // recarga la pagina para mostrar el nuevo estado
+                                'Booking finalized',
+                                `The booking has been successfully finalized. Payment method: ${paymentMethod}.`,
+                                'Back to dashboard'
+                            ) .then (() =>  window.location.reload());
 
                         } else {
 
                             showInteractiveAlert(
                                 'error',
-                                'Error al finalizar',
-                                data.message || 'Ocurrió un error al intentar finalizar la reserva. Por favor, inténtalo de nuevo.',
-                                'Volver'
+                                'Error finalizing',
+                                data.message || 'An error occurred while trying to finalize the booking. Please try again.',
+                                'Back'
                             );
                         }
 
@@ -333,9 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Error en la solicitud:', error);
                         showInteractiveAlert(
                             'error',
-                            'Error de red',
-                            'No se pudo conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.',
-                            'Volver'
+                            'Network error',
+                            'Could not connect to the server. Please check your internet connection and try again.',
+                            'Back'
                         );
 
                     } finally {
@@ -366,8 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         showInteractiveAlert(
             'success',
-            '¡Reserva actualizada con éxito!',
-            'Los cambios se han guardado correctamente.',
+            'Booking successfully updated!',
+            'The changes have been saved successfully.',
             'OK'
         ) .then ((result) => {
             if (result.isConfirmed) {
@@ -386,9 +383,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         showInteractiveAlert(
             'error',
-            'No se pudieron guardar los cambios',
+            'Could not save changes',
             errorMessage,
-            'Revisar'
+            'Review'
         );
 
         // Limpiamos la URL para que la alerta no vuelva a saltar si el usuario recarga la página
