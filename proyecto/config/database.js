@@ -17,12 +17,23 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 // Instanciamos el pool de conexiones con la configuración necesaria dada por las variables de entorno (.env)
-const pool = new Pool({
+/*const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT
+});*/
+/**
+ * Configuramos el pool usando la DATABASE_URL de las variables de entorno.
+ * ssl: rejectUnauthorized: false es OBLIGATORIO para conectar con proveedores 
+ * de bases de datos en la nube como Neon o Render.
+ */
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 // -- DEPURACIÓN Y MONITOREO -- 
