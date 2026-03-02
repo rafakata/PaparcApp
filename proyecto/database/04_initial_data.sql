@@ -1,5 +1,5 @@
 -- ==========================================================
--- 05_INITIAL_DATA.SQL - ESCENARIO DE CARGA (REF: 28/02/2026)
+-- 04_INITIAL_DATA.SQL - ESCENARIO DE CARGA (REF: 06/03/2026)
 -- ==========================================================
 
 -- 1. LIMPIEZA TOTAL Y REINICIO DE CONTADORES
@@ -109,7 +109,7 @@ INSERT INTO customer_vehicle (id_customer, id_vehicle) VALUES
 (6, 7),                -- David
 (7, 8),                -- Juan
 (8, 9), (8, 10),       -- Pedro tiene un Audi y la VW California
-(9, 10),               -- ¡MIRA ESTO! Sofia también tiene registrada la VW California en su perfil (Pareja)
+(9, 10),               -- Sofia también tiene registrada la VW California en su perfil (Pareja)
 (10, 11), (10, 12),    -- Miguel
 (11, 13), (11, 14);    -- Laura
 
@@ -121,44 +121,44 @@ INSERT INTO contract (start_date, end_date, is_active, id_customer, id_vehicle, 
 ('2026-01-29 00:00:00', '2026-04-29 00:00:00', TRUE, 5, 6, 1); -- Lucia, Mercedes Viano
 
 -- ----------------------------------------------------------
--- 8. RESERVAS (FECHA REFERENCIA: 28/02/2026 - SÁBADO)
+-- 8. RESERVAS (FECHA REFERENCIA: 06/03/2026 - VIERNES)
 -- ----------------------------------------------------------
 
 -- 8.1 HISTÓRICO
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-06 10:00:00', '2026-02-11 10:00:00', 'FINALIZADA', 50.00, TRUE, 'TARJETA', 2, 1, 1, 'A-001'); -- Carlos (Toyota)
+VALUES ('2026-02-12 10:00:00', '2026-02-17 10:00:00', 'FINALIZADA', 50.00, TRUE, 'TARJETA', 2, 1, 1, 'A-001'); -- Carlos (Toyota)
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-19 08:00:00', '2026-02-23 20:00:00', 'FINALIZADA', 45.00, TRUE, 'EFECTIVO', 3, 3, 2, 'A-002'); -- Marta (Ford)
+VALUES ('2026-02-23 08:00:00', '2026-02-27 20:00:00', 'FINALIZADA', 45.00, TRUE, 'EFECTIVO', 3, 3, 2, 'A-002'); -- Marta (Ford)
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-23 12:00:00', '2026-02-28 12:00:00', 'CANCELADA', 0.00, FALSE, NULL, 7, 8, 1, NULL); -- Juan (Seat)
+VALUES ('2026-02-28 12:00:00', '2026-03-05 12:00:00', 'CANCELADA', 0.00, FALSE, NULL, 7, 8, 1, NULL); -- Juan (Seat)
 
--- 8.2 MOVIMIENTOS DE HOY (28/02/2026)
+-- 8.2 MOVIMIENTOS DE HOY (06/03/2026)
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-28 08:00:00', '2026-03-05 08:00:00', 'EN CURSO', 60.00, FALSE, NULL, 4, 4, 3, 'B-001'); -- Eneko (Tesla) - Entró hoy
-
-INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-28 20:00:00', '2026-03-02 10:00:00', 'PENDIENTE', 30.00, TRUE, 'TARJETA', 4, 5, 1, NULL); -- Eneko (Vespa) - Entrará esta noche
+VALUES ('2026-03-06 08:00:00', '2026-03-12 08:00:00', 'EN CURSO', 60.00, FALSE, NULL, 4, 4, 3, 'B-001'); -- Eneko (Tesla) - Entró hoy
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-19 09:00:00', '2026-02-28 09:00:00', 'FINALIZADA', 120.00, TRUE, 'TARJETA', 5, 6, 2, 'C-001'); -- Lucia (Mercedes) - Salió hoy
+VALUES ('2026-03-06 20:00:00', '2026-03-08 10:00:00', 'PENDIENTE', 30.00, TRUE, 'TARJETA', 4, 5, 1, NULL); -- Eneko (Vespa) - Entrará esta noche
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-23 18:00:00', '2026-02-28 18:00:00', 'EN CURSO', 75.00, FALSE, NULL, 6, 7, 2, 'C-002'); -- David (BMW) - Sale esta tarde
+VALUES ('2026-02-25 09:00:00', '2026-03-06 09:00:00', 'FINALIZADA', 120.00, TRUE, 'TARJETA', 5, 6, 2, 'C-001'); -- Lucia (Mercedes) - Salió hoy
+
+INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
+VALUES ('2026-03-01 18:00:00', '2026-03-06 18:00:00', 'EN CURSO', 75.00, FALSE, NULL, 6, 7, 2, 'C-002'); -- David (BMW) - Sale esta tarde
 
 -- 8.3 ESTANCIAS LARGAS Y FUTURO
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-26 15:00:00', '2026-03-10 15:00:00', 'EN CURSO', 150.00, TRUE, 'TARJETA', 8, 9, 3, 'D-005'); -- Pedro (Audi)
+VALUES ('2026-03-04 15:00:00', '2026-03-15 15:00:00', 'EN CURSO', 150.00, TRUE, 'TARJETA', 8, 9, 3, 'D-005'); -- Pedro (Audi)
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-02-27 10:00:00', NULL, 'EN CURSO', 0.00, FALSE, NULL, 5, 15, 1, 'E-001'); -- Lucia (Land Rover) sin fecha salida
+VALUES ('2026-03-05 10:00:00', NULL, 'EN CURSO', 0.00, FALSE, NULL, 5, 15, 1, 'E-001'); -- Lucia (Land Rover) sin fecha salida
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-03-15 09:00:00', '2026-03-19 09:00:00', 'PENDIENTE', 55.00, TRUE, 'TARJETA', 9, 10, 2, NULL); -- ¡MIRA! Sofia viaja con la furgo compartida (VW)
+VALUES ('2026-03-18 09:00:00', '2026-03-22 09:00:00', 'PENDIENTE', 55.00, TRUE, 'TARJETA', 9, 10, 2, NULL); -- Sofia viaja con la furgo compartida (VW)
 
 INSERT INTO reservation (entry_date, exit_date, status, total_price, is_paid, payment_method, id_customer, id_vehicle, id_main_service, cod_parking_spot) 
-VALUES ('2026-03-15 10:00:00', '2026-03-23 10:00:00', 'PENDIENTE', 80.00, FALSE, NULL, 10, 11, 1, NULL); -- Miguel (Porsche)
+VALUES ('2026-03-22 10:00:00', '2026-03-30 10:00:00', 'PENDIENTE', 80.00, FALSE, NULL, 10, 11, 1, NULL); -- Miguel (Porsche)
 
 -- ----------------------------------------------------------
 -- 9. SERVICIOS ADICIONALES
@@ -166,9 +166,6 @@ VALUES ('2026-03-15 10:00:00', '2026-03-23 10:00:00', 'PENDIENTE', 80.00, FALSE,
 INSERT INTO reservation_additional_service (id_reservation, id_additional_service) VALUES 
 (4, 8), (6, 3), (7, 6), (7, 1), (8, 4);
 
--- ----------------------------------------------------------
--- 10. FOTOS DE EVIDENCIA
--- ----------------------------------------------------------
 -- ----------------------------------------------------------
 -- 10. FOTOS DE EVIDENCIA (Mínimo 5 por coche recepcionado)
 -- ----------------------------------------------------------
@@ -189,26 +186,26 @@ INSERT INTO photo_evidence (file_path, description, id_reservation) VALUES
 ('/uploads/9/front.jpg', 'Frontal', 9), ('/uploads/9/back.jpg', 'Trasera', 9), ('/uploads/9/left.jpg', 'Lateral Izquierdo', 9), ('/uploads/9/right.jpg', 'Lateral Derecho', 9), ('/uploads/9/dash.jpg', 'Salpicadero', 9);
 
 -- ----------------------------------------------------------
--- 11. NOTIFICACIONES (Adaptadas a la nueva restricción de 4 tipos)
+-- 11. NOTIFICACIONES
 -- ----------------------------------------------------------
 INSERT INTO notification (type, subject, message, sent_at, id_reservation) VALUES
 -- Reserva 1 (FINALIZADA) - Completó todo el ciclo
-('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-01 10:00:00', 1),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su coche ya se encuentra en las instalaciones del parking.', '2026-02-06 10:15:00', 1),
-('RECIBO_PAGO', 'Factura de Estancia', 'Adjuntamos su factura final tras la recogida de su vehículo.', '2026-02-11 10:05:00', 1),
+('TICKET_RESERVA', 'Reserva Confirmada #1', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-05 10:00:00', 1),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su coche ya se encuentra en las instalaciones del parking.', '2026-02-12 10:15:00', 1),
+('RECIBO_PAGO', 'Factura de Estancia', 'Adjuntamos su factura final tras la recogida de su vehículo.', '2026-02-17 10:05:00', 1),
 
--- Reserva 4 (EN CURSO) - Ha sido editada antes de entrar
-('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-19 09:00:00', 4),
-('ACTUALIZACION_RESERVA', 'Cambios en su reserva', 'Se han modificado los extras de su reserva. Adjuntamos factura actualizada.', '2026-02-22 11:30:00', 4),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Tesla Model Y ya está seguro con nosotros.', '2026-02-28 08:15:00', 4),
+-- Reserva 4 (EN CURSO) - Ha sido editada antes de entrar (Entró HOY 06/03)
+('TICKET_RESERVA', 'Reserva Confirmada #4', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-03-01 09:00:00', 4),
+('ACTUALIZACION_RESERVA', 'Cambios en su reserva', 'Se han modificado los extras de su reserva. Adjuntamos factura actualizada.', '2026-03-04 11:30:00', 4),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Tesla Model Y ya está seguro con nosotros.', '2026-03-06 08:15:00', 4),
 
--- Reserva 5 (ENTRADA CONFIRMADA) - Aún no ha llegado físicamente al parking
-('TICKET_RESERVA', 'Reserva Confirmada #5', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-25 10:00:00', 5),
+-- Reserva 5 (PENDIENTE) - Entra esta noche (06/03)
+('TICKET_RESERVA', 'Reserva Confirmada #5', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-03-03 10:00:00', 5),
 
--- Reserva 6 (FINALIZADA) - Salió hoy
-('TICKET_RESERVA', 'Reserva Confirmada #6', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-10 10:00:00', 6),
-('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Mercedes está en buenas manos.', '2026-02-19 09:10:00', 6),
-('RECIBO_PAGO', 'Pago Realizado con Éxito', 'Adjunto recibo de los servicios adicionales...', '2026-02-28 09:15:00', 6),
+-- Reserva 6 (FINALIZADA) - Salió hoy (06/03)
+('TICKET_RESERVA', 'Reserva Confirmada #6', 'Su reserva ha sido creada. Adjuntamos factura inicial en PDF.', '2026-02-20 10:00:00', 6),
+('ENTRADA_CONFIRMADA', 'Vehículo Recepcionado', 'Su Mercedes está en buenas manos.', '2026-02-25 09:10:00', 6),
+('RECIBO_PAGO', 'Pago Realizado con Éxito', 'Adjunto recibo de los servicios adicionales...', '2026-03-06 09:15:00', 6),
 
--- Reserva 11 (PENDIENTE) - Entra el mes que viene
-('TICKET_RESERVA', 'Reserva Confirmada #11', 'Su reserva ha sido procesada. Adjuntamos factura inicial en PDF.', '2026-02-28 12:00:00', 11);
+-- Reserva 11 (PENDIENTE) - Entra en un par de semanas
+('TICKET_RESERVA', 'Reserva Confirmada #11', 'Su reserva ha sido procesada. Adjuntamos factura inicial en PDF.', '2026-03-06 12:00:00', 11);
