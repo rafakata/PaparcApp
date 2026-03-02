@@ -43,6 +43,10 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Estos datos se guardan en req.session y persisten entre peticiones.
  * La sesión se identifica mediante una cookie que se envía al cliente (nuestro frontend).
  */
+// Le decimos a Express que confíe en el balanceador de carga de Render.
+// Esto permite que la cookie "secure" funcione correctamente aunque 
+// el proxy de Render haga de intermediario con el HTTPS.
+app.set('trust proxy', 1);
 app.use(session({ 
   secret: process.env.SESSION_SECRET || 'clave_secreta', // clave secreta para firmar la cookie de sesión
   resave: false, // no guardar la sesión si no se ha modificado
@@ -52,7 +56,6 @@ app.use(session({
     secure: process.env.NODE_ENV === 'production' // solo true si estamos en producción y usamos HTTPS
   } 
 }));
-
 // -- MIDDLEWARES PERSONALIZADOS --
 // si el usuario está autenticado, prepara las variables globales para las vistas
 app.use(authLocalsMiddleware); 
