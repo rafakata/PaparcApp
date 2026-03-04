@@ -164,11 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
             statusBadge.className = `badge badge-${status.toLowerCase()}`; 
 
             // Lógica de botones
-            if (status === 'PENDING') {
+            if (status === 'PENDIENTE') {
                 actionContainer.style.display = 'flex';
                 btnCancelRes.style.display = 'block';
                 btnEditRes.style.display = 'block';
-            } else if (status === 'IN PROGRESS') {
+            } else if (status === 'EN CURSO') {
                 actionContainer.style.display = 'flex';
                 btnCancelRes.style.display = 'none';
                 btnEditRes.style.display = 'block';
