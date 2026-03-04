@@ -471,9 +471,9 @@ El motor de precios (`pricingService.js`) es un **Singleton con caché en RAM** 
 
 ### Fórmula de Cálculo
 
-$$
-\text{Precio Total} = (\text{tarifa\_diaria} \times \text{días} \times \text{coeficiente\_vehículo}) + \sum \text{precio\_extras}
-$$
+```
+Precio Total = (tarifa diaria × días × coeficiente vehículo) + Σ precio extras
+```
 
 ### Lógica de Cálculo
 
