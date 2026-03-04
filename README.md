@@ -6,6 +6,12 @@
   <img src="https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" />
 </p>
 
+<p align="center">
+  <a href="README.en.md"><img src="https://img.shields.io/badge/🌐%20Read%20in-English-1D6FA4?style=for-the-badge" alt="Read in English" /></a>
+  &nbsp;
+  <a href="https://rafakata-paparcapp.mintlify.app/"><img src="https://img.shields.io/badge/📚%20Documentación-Oficial-FF6B35?style=for-the-badge&logo=gitbook&logoColor=white" alt="Documentación Oficial" /></a>
+</p>
+
 # 🅿️ PaparcApp — Sistema de Gestión de Parking de Aeropuerto
 
 **PaparcApp** es una aplicación web full-stack desarrollada como **Trabajo de Fin de Grado (TFG)** del ciclo formativo de **Desarrollo de Aplicaciones Web (DAW)** que permite la gestión integral de un parking de aeropuerto: reservas online, panel de administración, cálculo dinámico de precios, notificaciones por email y gestión completa del ciclo de vida de cada estancia.
@@ -24,6 +30,7 @@
 
 ## 📋 Tabla de Contenidos
 
+- [Documentación Oficial](#-documentación-oficial)
 - [Características Principales](#-características-principales)
 - [Arquitectura de la Aplicación](#-arquitectura-de-la-aplicación)
 - [Stack Tecnológico](#-stack-tecnológico)
@@ -39,6 +46,20 @@
 - [Variables de Entorno](#-variables-de-entorno)
 - [Despliegue](#-despliegue)
 - [Licencia](#-licencia)
+
+---
+
+## 📚 Documentación Oficial
+
+La documentación completa del proyecto — guías de uso, referencia de la API, configuración del entorno y más — está disponible en nuestra página de documentación oficial:
+
+<p align="center">
+  <a href="https://rafakata-paparcapp.mintlify.app/">
+    <img src="https://img.shields.io/badge/📚%20Abrir%20Documentación%20Oficial-PaparcApp-FF6B35?style=for-the-badge&logo=gitbook&logoColor=white" alt="Documentación Oficial PaparcApp" />
+  </a>
+</p>
+
+> 🔗 **[https://rafakata-paparcapp.mintlify.app/](https://rafakata-paparcapp.mintlify.app/)**
 
 ---
 
